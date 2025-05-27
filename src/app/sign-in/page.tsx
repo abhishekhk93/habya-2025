@@ -137,6 +137,17 @@ export default function SignIn() {
 
       await confirmationResultRef.current.confirm(joined);
       dispatch(setOtpError(""));
+      // Call backend API to get/set JWT cookie
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+
+      if (!res.ok) {
+        // handle error if needed
+        return;
+      }
       router.push("/profile-setup"); // REDIRECT after success
     } catch (err: any) {
       dispatch(setOtpError(mapFirebaseError(err)));
