@@ -1,30 +1,45 @@
 "use client";
 
-import { Provider } from "react-redux";
+import { useEffect, ReactNode } from "react";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "@/store/store";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setPhone, setAuthenticated } from "@/store/slices/authSlice";
+import { setUser } from "@/store/slices/userSlice";
+import { setAuthenticated } from "@/store/slices/authSlice";
 
-// A wrapper component that restores auth state and provides Redux store
-function AuthRestorer({ children }: { children: React.ReactNode }) {
+// Internal component to handle loading user data
+function InternalProvider({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const phone = localStorage.getItem("habyaphone");
-    if (phone) {
-      dispatch(setPhone(phone));
-      dispatch(setAuthenticated(true));
+    async function loadUser() {
+      try {
+        const res = await fetch("/api/auth/verify-token", { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          dispatch(setUser(data.user));
+          dispatch(setAuthenticated(true));
+        } else {
+          dispatch(setUser(null));
+          dispatch(setAuthenticated(false));
+        }
+      } catch (error) {
+        console.error("Failed to load user", error);
+        dispatch(setUser(null));
+        dispatch(setAuthenticated(false));
+      }
     }
+
+    loadUser();
   }, [dispatch]);
 
   return <>{children}</>;
 }
 
-export function Providers({ children }: { children: React.ReactNode }) {
+// Main Providers wrapper that exposes Redux store and triggers auth check
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
-      <AuthRestorer>{children}</AuthRestorer>
+      <InternalProvider>{children}</InternalProvider>
     </Provider>
   );
 }

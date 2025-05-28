@@ -23,8 +23,10 @@ import {
   setResendingOtp,
   setTimer,
   decrementTimer,
+  setAuthenticated,
 } from "@/store/slices/authSlice";
 import type { RootState } from "@/store/store";
+import { setUser } from "@/store/slices/userSlice";
 
 export default function SignIn() {
   const router = useRouter();
@@ -91,7 +93,6 @@ export default function SignIn() {
       );
       return;
     }
-    localStorage.setItem("habyaphone", phone);
     dispatch(setLoading(true));
     dispatch(setPhoneError(""));
 
@@ -137,18 +138,24 @@ export default function SignIn() {
 
       await confirmationResultRef.current.confirm(joined);
       dispatch(setOtpError(""));
-      // Call backend API to get/set JWT cookie
+      // Call backend API to set JWT cookie
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone }),
+        credentials: "include",
       });
 
-      if (!res.ok) {
-        // handle error if needed
-        return;
+      // TO-DO: handle !res case
+      const data = await res.json();
+
+      if (data.status === "logged-in") {
+        dispatch(setUser(data.user));
+        dispatch(setAuthenticated(true));
+        router.push("/");
+      } else if (data.status === "new-user") {
+        router.push("/profile-setup");
       }
-      router.push("/profile-setup"); // REDIRECT after success
     } catch (err: any) {
       dispatch(setOtpError(mapFirebaseError(err)));
     } finally {

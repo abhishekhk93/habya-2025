@@ -1,10 +1,29 @@
+"use client";
+
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 import Navbar from "../components/navbar/Navbar";
 
 export default function Home() {
+  const user = useSelector((state: RootState) => state.user.user);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-teal-100 to-blue-200 text-gray-800">
       <Navbar />
       <div className="flex flex-col justify-center items-center h-screen px-6 sm:px-12 md:px-16 lg:px-24">
+        {isAuthenticated && user?.name ? (
+          <>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
+              Hello {user.name}
+            </h2>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
+              Your player ID is: {user.id}
+            </p>
+          </>
+        ) : null}
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
           Welcome to Habya!
         </h1>

@@ -1,25 +1,53 @@
-import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma/prisma";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_here";
+// TO-DO: move secrets to secure place
+const JWT_SECRET = "habya2025";
 
-export async function POST(request: Request) {
-  const { phone } = await request.json();
+export async function POST(req: NextRequest) {
+  const body = await req.json();
 
-  // TODO: check if user exists in DB or create user if new
+  const { phone } = body;
 
-  const token = jwt.sign({ phone }, JWT_SECRET, { expiresIn: "7d" });
+  if (!phone) {
+    return NextResponse.json(
+      { error: "Phone number is required" },
+      { status: 400 }
+    );
+  }
 
-  const response = NextResponse.json({ message: "Login success" });
-  response.cookies.set({
-    name: "token",
-    value: token,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    path: "/",
-    sameSite: "lax",
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { phone },
+    });
 
-  return response;
+    if (user) {
+      const token = jwt.sign({ id: user.id, phone: user.phone }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
+      const response = NextResponse.json({ status: "logged-in", user });
+      response.headers.set(
+        "Set-Cookie",
+        serialize("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7,
+        })
+      );
+
+      return response;
+    } else {
+      return NextResponse.json({ status: "new-user" });
+    }
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

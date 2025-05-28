@@ -20,12 +20,14 @@ import {
 } from "@/components/profile-setup/utils/utils";
 import { useEffect, useState } from "react";
 import { setAuthenticated, setProfileCreated } from "@/store/slices/authSlice";
+import { setUser } from "@/store/slices/userSlice";
 
 export default function ProfileForm() {
   const { name, gender, errors, submitting, profileSaved } = useSelector(
     (state: RootState) => state.profile
   );
   const dobString = useSelector((state: RootState) => state.profile.dob);
+  const phone = useSelector((state: RootState) => state.auth.phone);
   const dob = dobString ? new Date(dobString) : null;
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,23 +47,26 @@ export default function ProfileForm() {
     dispatch(setSubmitting(true));
 
     try {
-      const phone = localStorage.getItem("habyaphone");
+      const res = await fetch("/api/auth/create-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, name, gender, dob }),
+        credentials: "include",
+      });
 
-      if (!phone) {
-        throw new Error("Phone number not found in localStorage");
-      }
-      dispatch(setProfileSaved(true));
-      dispatch(setProfileCreated(true));
+      if (!res.ok) throw new Error("Failed to create user");
+
+      const data = await res.json();
+      dispatch(setUser(data.user));
       dispatch(setAuthenticated(true));
-
-      // Persist phone in localStorage
-      localStorage.setItem("habyaphone", phone);
-
-      // Redirect to homepage
-      console.log("DB Creation successful. Redirecting to Home page as signed-in user");
+      dispatch(setProfileCreated(true));
+      dispatch(setProfileSaved(true));
       router.push("/");
     } catch (err) {
-      console.error("Profile save failed, There was an error saving your profile", err);
+      console.error(
+        "Profile save failed, There was an error saving your profile",
+        err
+      );
       router.push("/sign-in");
     } finally {
       dispatch(setSubmitting(false));

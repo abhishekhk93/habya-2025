@@ -1,3 +1,8 @@
+// Reading of profileSlice is limited to only during profile creation
+// For form related activities like, show spinner on submit etc
+
+// For other purposes, fetch profile details from userSlice which is set after login
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProfileState {

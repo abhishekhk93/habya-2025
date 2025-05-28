@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
+// TO-DO: move secrets to secure place
 const JWT_SECRET = "habya2025";
 
 export function middleware(req: NextRequest) {
