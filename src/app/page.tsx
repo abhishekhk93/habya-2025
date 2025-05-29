@@ -16,17 +16,27 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center h-screen px-6 sm:px-12 md:px-16 lg:px-24">
         {isAuthenticated && user?.name ? (
           <>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
-              Hello {user.name}
-            </h2>
-            <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
+            <h1
+              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              style={{ fontFamily: "'Ephesis', cursive" }}
+            >
+              Dear {user.name.split(" ")[0]}, Welcome to Habya!
+            </h1>
+            <p
+              className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
               Your player ID is: {user.id}
             </p>
           </>
-        ) : null}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s">
-          Welcome to Habya!
-        </h1>
+        ) : (
+          <h1
+            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+            style={{ fontFamily: "'Ephesis', cursive" }}
+          >
+            Welcome to Habya!
+          </h1>
+        )}
 
         <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
           With 8 editions of fierce competition and unforgettable moments behind

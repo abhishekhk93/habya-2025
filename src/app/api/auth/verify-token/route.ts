@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
-
+    // TO-DO: Check what happens if token fails. What happens to 'decoded'
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: {
