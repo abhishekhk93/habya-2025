@@ -93,6 +93,16 @@ const HamburgerMenu = () => {
                   </Link>
                 </li>
                 <li className="py-3">
+                  <Link href="/menu/sponsor" onClick={() => setOpen(false)}>
+                    <span
+                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                    >
+                      Sponsor
+                    </span>
+                  </Link>
+                </li>
+                <li className="py-3">
                   <Link href="/menu/my-registrations" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}

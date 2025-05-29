@@ -26,7 +26,7 @@ export default function Home() {
               className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
-              Your player ID is: {user.id}
+              Your profile ID is: {user.id}
             </p>
           </>
         ) : (
