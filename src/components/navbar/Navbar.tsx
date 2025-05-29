@@ -9,10 +9,7 @@ import HamburgerMenu from "./HamburgerMenu";
 
 const Navbar = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth); // Assuming isAuthenticated in auth state
-  const user = useSelector((state: RootState) => state.user);
-  const router = useRouter();
 
-  console.log("Navbar: user and auth: ", user, isAuthenticated);
   return (
     <nav
       className="w-full border-b-2 border-gray-300 pb-2 px-2 py-4"
@@ -24,7 +21,7 @@ const Navbar = () => {
           className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
         >
           <h2
-              className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               Habya 2025
