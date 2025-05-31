@@ -24,9 +24,19 @@ export async function POST(req: NextRequest) {
     });
 
     if (user) {
-      const token = jwt.sign({ id: user.id, phone: user.phone }, JWT_SECRET, {
-        expiresIn: "7d",
-      });
+      const token = jwt.sign(
+        {
+          id: user.id,
+          name: user.name,
+          phone: user.phone,
+          dob: user.dob,
+          gender: user.gender,
+        },
+        JWT_SECRET,
+        {
+          expiresIn: "7d",
+        }
+      );
 
       const response = NextResponse.json({ status: "logged-in", user });
       response.headers.set(
@@ -46,7 +56,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (err) {
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error - Login failed" },
       { status: 500 }
     );
   }

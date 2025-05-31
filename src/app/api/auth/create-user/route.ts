@@ -27,9 +27,19 @@ export async function POST(req: NextRequest) {
       data: { phone, name, gender, dob: new Date(dob) },
     });
 
-    const token = jwt.sign({ id: user.id, phone: user.phone }, JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        phone: user.phone,
+        dob: user.dob,
+        gender: user.gender,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     const response = NextResponse.json({
       status: "created",
@@ -37,6 +47,8 @@ export async function POST(req: NextRequest) {
         id: user.id,
         name: user.name,
         phone: user.phone,
+        dob: user.dob,
+        gender: user.gender,
       },
     });
 
@@ -53,6 +65,6 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (err) {
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal error - user creation failed" }, { status: 500 });
   }
 }
