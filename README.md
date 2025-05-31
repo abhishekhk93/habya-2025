@@ -41,3 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 1. Additional calls happening in Home page due to useEffect in providers - triggering /sign-in followed by /api/verify-token
 
 2. Reaching profile-setup after logging in or even edit profile enablement
+
+3. After clearing cookie or logout, we need to set the redux state to null as well. It is easily done in client side. Do it in server side as well. Otherwise, upon redirection, it directly goes to OTP input page. 

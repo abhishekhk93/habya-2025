@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose"; // ✅ Edge-compatible
+
+const JWT_SECRET = process.env.JWT_SECRET!;
+const encoder = new TextEncoder();
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -15,13 +19,14 @@ export async function middleware(req: NextRequest) {
     "/api/auth/login",
     "/api/auth/create-user",
     "/api/auth/verify-token",
+    "/api/user/events-eligible",
     "/redirect",
   ];
 
   const isPublic =
     pathname === "/" ||
     publicPaths
-      .filter((p) => p !== "/") // Skip exact `/` from startsWith
+      .filter((p) => p !== "/")
       .some((path) => pathname.startsWith(path)) ||
     pathname.startsWith("/_next/");
 
@@ -37,31 +42,40 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/redirect?to=sign-in", req.url));
   }
 
-  // 🔄 Use the verify-token API route to check validity
   try {
-    const response = await fetch(`${req.nextUrl.origin}/api/auth/verify-token`, {
-      method: "GET",
-      headers: {
-        cookie: `token=${token}`,
+    const { payload } = await jwtVerify(token, encoder.encode(JWT_SECRET));
+    console.log("✅ Token verified in middleware:", payload);
+
+    const requestHeaders = new Headers(req.headers);
+    requestHeaders.set("x-user-id", String(payload.id));
+    requestHeaders.set("x-user-phone", String(payload.phone));
+    requestHeaders.set("x-user-name", String(payload.name));
+    requestHeaders.set("x-user-gender", String(payload.gender));
+    requestHeaders.set("x-user-dob", String(payload.dob));
+
+    const response = NextResponse.next({
+      request: {
+        headers: requestHeaders,
       },
     });
 
-    if (!response.ok) {
-      console.warn("🔐 Token invalid per API, redirecting to sign-in");
-      return NextResponse.redirect(new URL("/sign-in", req.url));
-    }
+    return response;
+  } catch (error) {
+    console.log("❌ Invalid token: caught in middleware", error);
+    const response = NextResponse.redirect(new URL("/redirect?to=sign-in", req.url));
 
-    console.log("✅ Token verified via API");
-    return NextResponse.next();
-  } catch (err) {
-    console.error("❌ Error calling verify-token API:", err);
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    console.log("🧹 Clearing token cookie");
+    response.cookies.set("token", "", {
+      maxAge: 0,
+      path: "/",
+    });
+
+    return response;
   }
 }
 
 export const config = {
   matcher: [
-    // Match everything except /api routes, Next.js internals, and static files
     "/((?!api|_next/static|.well-known|_next/image|profile-setup|favicon.ico).*)",
   ],
 };
