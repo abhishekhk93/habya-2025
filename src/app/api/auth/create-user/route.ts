@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const existing = await prisma.user.findUnique({ where: { phone } });
+    const existing = await prisma.users.findFirst({ where: { phone } });
     if (existing) {
       return NextResponse.json(
         { error: "User already exists" },
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
       data: { phone, name, gender, dob: new Date(dob) },
     });
 
