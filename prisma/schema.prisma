@@ -7,11 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  @@map("users")
-  id     Int     @id @default(autoincrement())
-  phone  String  @unique
-  name   String
-  gender String
-  dob    DateTime
+model coupons {
+  id          Int          @id @default(autoincrement())
+  meal        coupons_meal
+  day         coupons_day
+  assigned_to Int
+  type        coupons_type
+  users       users        @relation(fields: [assigned_to], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coupons_ibfk_1")
+
+  @@index([assigned_to], map: "assigned_to")
+}
+
+model events {
+  id            Int             @id
+  name          String          @db.VarChar(100)
+  registrations registrations[]
+}
+
+model registrations {
+  id                                    Int    @id @default(autoincrement())
+  event_id                              Int
+  player1_id                            Int
+  player2_id                            Int?
+  events                                events @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registrations_ibfk_1")
+  users_registrations_player1_idTousers users  @relation("registrations_player1_idTousers", fields: [player1_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registrations_ibfk_2")
+  users_registrations_player2_idTousers users? @relation("registrations_player2_idTousers", fields: [player2_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registrations_ibfk_3")
+
+  @@index([event_id], map: "event_id")
+  @@index([player1_id], map: "player1_id")
+  @@index([player2_id], map: "player2_id")
+}
+
+model users {
+  id                                            Int             @id @default(autoincrement())
+  name                                          String          @db.VarChar(50)
+  dob                                           DateTime        @db.Date
+  gender                                        users_gender
+  phone                                         String          @db.VarChar(15)
+  coupons                                       coupons[]
+  registrations_registrations_player1_idTousers registrations[] @relation("registrations_player1_idTousers")
+  registrations_registrations_player2_idTousers registrations[] @relation("registrations_player2_idTousers")
+}
+
+enum coupons_meal {
+  snack
+  lunch
+}
+
+enum coupons_day {
+  DAY1
+  DAY2
+}
+
+enum users_gender {
+  Male
+  Female
+}
+
+enum coupons_type {
+  default
+  bought
 }
