@@ -1,7 +1,7 @@
 import { EventRule, Gender } from "./eventRules/types";
 import { calculateAgeOn } from "./ageUtils";
 
-interface Player {
+export interface Player {
   id: number;
   gender: Gender;
   dob: Date;
@@ -64,3 +64,4 @@ export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolea
 
   return true;
 }
+
