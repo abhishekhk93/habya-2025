@@ -2,35 +2,52 @@
 
 import { useEffect, ReactNode } from "react";
 import { Provider, useDispatch } from "react-redux";
+import { usePathname, useRouter } from "next/navigation";
 import { store } from "@/store/store";
 import { setUser } from "@/store/slices/userSlice";
 import { setAuthenticated } from "@/store/slices/authSlice";
+import { setStep } from "@/store/slices/authSlice"; // assuming you have this
 
 // Internal component to handle loading user data
 function InternalProvider({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     async function loadUser() {
       try {
+        console.log("Auth verify token from providers");
         const res = await fetch("/api/auth/verify-token", { credentials: "include" });
+
         if (res.ok) {
           const data = await res.json();
           dispatch(setUser(data.user));
           dispatch(setAuthenticated(true));
         } else {
+          // Token invalid: reset and redirect
           dispatch(setUser(null));
           dispatch(setAuthenticated(false));
+          dispatch(setStep("phone"));
+          // Only redirect if not already on home
+          if (pathname !== "/") {
+            router.replace("/redirect?to=sign-in");
+          }
         }
       } catch (error) {
-        console.error("Failed to load user", error);
+        console.error("❌ Failed to load user", error);
         dispatch(setUser(null));
         dispatch(setAuthenticated(false));
+        dispatch(setStep("phone"));
+        // Only redirect if not already on home
+        if (pathname !== "/") {
+          router.replace("/redirect?to=sign-in");
+        }
       }
     }
 
     loadUser();
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   return <>{children}</>;
 }
