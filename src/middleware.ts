@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "habya2025";
-
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;
 
@@ -19,7 +16,6 @@ export function middleware(req: NextRequest) {
     "/api/auth/create-user",
     "/api/auth/verify-token",
     "/redirect",
-    "",
   ];
 
   const isPublic =
@@ -41,12 +37,24 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/redirect?to=sign-in", req.url));
   }
 
+  // 🔄 Use the verify-token API route to check validity
   try {
-    jwt.verify(token, JWT_SECRET);
-    console.log("✅ Token verified successfully");
+    const response = await fetch(`${req.nextUrl.origin}/api/auth/verify-token`, {
+      method: "GET",
+      headers: {
+        cookie: `token=${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.warn("🔐 Token invalid per API, redirecting to sign-in");
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+
+    console.log("✅ Token verified via API");
     return NextResponse.next();
   } catch (err) {
-    console.error("❌ JWT verification failed in middleware:", err);
+    console.error("❌ Error calling verify-token API:", err);
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 }
