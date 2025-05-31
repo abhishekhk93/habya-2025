@@ -1,0 +1,106 @@
+A schema doc for future references if tables need to be recreated. 
+
+Users Table:
+
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  dob DATE NOT NULL,
+  gender ENUM('Male', 'Female') NOT NULL,
+  phone VARCHAR(15) NOT NULL
+) AUTO_INCREMENT=1000;
+
+INSERT INTO users (name, dob, gender, phone) VALUES
+('Player 1', DATE_SUB(CURDATE(), INTERVAL 15 YEAR), 'Male', '9876543210'),
+('Player 2', DATE_SUB(CURDATE(), INTERVAL 15 YEAR), 'Female', '9876543211'),
+('Player 3', DATE_SUB(CURDATE(), INTERVAL 32 YEAR), 'Male', '9876543212'),
+('Player 4', DATE_SUB(CURDATE(), INTERVAL 32 YEAR), 'Female', '9876543213'),
+('Player 5', DATE_SUB(CURDATE(), INTERVAL 43 YEAR), 'Male', '9876543214'),
+('Player 6', DATE_SUB(CURDATE(), INTERVAL 43 YEAR), 'Female', '9876543215'),
+('Player 7', DATE_SUB(CURDATE(), INTERVAL 54 YEAR), 'Male', '9876543216'),
+('Player 8', DATE_SUB(CURDATE(), INTERVAL 54 YEAR), 'Female', '9876543217'),
+('Player 9', DATE_SUB(CURDATE(), INTERVAL 62 YEAR), 'Male', '9876543218'),
+('Player 10', DATE_SUB(CURDATE(), INTERVAL 61 YEAR), 'Female', '9876543219');
+
+
+Events Table:
+
+CREATE TABLE events (
+  id INT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO events (id, name) VALUES
+(1, 'Under 16 Boy\'s Singles'),
+(2, 'Under 16 Girl\'s Singles'),
+(3, 'Under 16 Mixed Doubles'),
+(4, 'Open Men\'s Singles'),
+(5, 'Open Women\'s Singles'),
+(6, 'Open Men\'s Doubles'),
+(7, 'Open Women\'s Doubles'),
+(8, '35+ Men\'s Singles'),
+(9, '35+ Women\'s Singles'),
+(10, '35+ Men\'s Doubles'),
+(11, '35+ Women\'s Doubles'),
+(12, '50+ Men\'s Singles'),
+(13, '50+ Women\'s Singles'),
+(14, '50+ Men\'s Doubles'),
+(15, '50+ Women\'s Doubles'),
+(16, '60+ Men\'s Singles'),
+(17, '60+ Women\'s Singles'),
+(18, '60+ Men\'s Doubles'),
+(19, '60+ Women\'s Doubles'),
+(20, 'Mixed Age Men\'s Doubles'),
+(21, 'Mixed Age Mixed Doubles');
+
+Registrations Table:
+
+CREATE TABLE registrations (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  event_id INT NOT NULL,
+  player1_id INT NOT NULL,
+  player2_id INT,
+  FOREIGN KEY (event_id) REFERENCES events(id),
+  FOREIGN KEY (player1_id) REFERENCES users(id),
+  FOREIGN KEY (player2_id) REFERENCES users(id)
+);
+
+-- Singles
+INSERT INTO registrations (event_id, player1_id) VALUES
+(1, 1000),  -- Player 1 in U16 Boys Singles
+(2, 1001),  -- Player 2 in U16 Girls Singles
+(4, 1002),  -- Player 3 in Open Men's Singles
+(5, 1003);  -- Player 4 in Open Women's Singles
+
+-- Doubles
+INSERT INTO registrations (event_id, player1_id, player2_id) VALUES
+(3, 1000, 1001), -- Mixed Doubles U16
+(6, 1002, 1004), -- Open Men's Doubles
+(7, 1003, 1005), -- Open Women's Doubles
+(14, 1006, 1008), -- 50+ Men's Doubles
+(19, 1007, 1009), -- 60+ Women's Doubles
+(21, 1002, 1003); -- Mixed Age Mixed Doubles
+
+Coupons table:
+
+CREATE TABLE coupons (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  meal ENUM('snack', 'lunch') NOT NULL,
+  day ENUM('DAY1', 'DAY2') NOT NULL,
+  assigned_to INT NOT NULL,
+  type ENUM('default', 'bought') NOT NULL,
+  FOREIGN KEY (assigned_to) REFERENCES users(id)
+);
+
+INSERT INTO coupons (meal, day, assigned_to, type) VALUES
+('lunch', 'DAY1', 1000, 'default'),
+('snack', 'DAY1', 1001, 'default'),
+('lunch', 'DAY1', 1002, 'default'),
+('snack', 'DAY1', 1003, 'default'),
+('lunch', 'DAY2', 1004, 'default'),
+('snack', 'DAY2', 1005, 'default'),
+('lunch', 'DAY1', 1006, 'bought'),
+('snack', 'DAY2', 1007, 'bought'),
+('lunch', 'DAY2', 1008, 'bought'),
+('snack', 'DAY1', 1009, 'bought');
+
