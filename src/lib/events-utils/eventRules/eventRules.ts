@@ -15,6 +15,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     maxAge: below16OnDay2,
+    price: 500,
   },
   // Under 16 kids - Girls singles
   {
@@ -23,6 +24,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     maxAge: below16OnDay2,
+    price: 500,
   },
   // Under 16 kids - Mixed Doubles
   {
@@ -34,6 +36,7 @@ export const eventRules: EventRule[] = [
     partnerRule: {
       requireOneFemale: true,
     },
+    price: 1000,
   },
   // Open Men's singles
   {
@@ -41,6 +44,7 @@ export const eventRules: EventRule[] = [
     name: "Open Men's Singles",
     type: "singles",
     allowedGenders: ["male"],
+    price: 500,
   },
   // Open Women's singles
   {
@@ -48,6 +52,7 @@ export const eventRules: EventRule[] = [
     name: "Open Women's Singles",
     type: "singles",
     allowedGenders: ["female"],
+    price: 500,
   },
   // Open Men's doubles
   {
@@ -55,6 +60,7 @@ export const eventRules: EventRule[] = [
     name: "Open Men's Doubles",
     type: "doubles",
     allowedGenders: ["male", "male"],
+    price: 1000,
   },
   // Open Women's doubles
   {
@@ -62,6 +68,7 @@ export const eventRules: EventRule[] = [
     name: "Open Women's Doubles",
     type: "doubles",
     allowedGenders: ["female", "female"],
+    price: 1000,
   },
   // 35+ Men's singles
   {
@@ -70,6 +77,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     minAge: atLeast35OnDay1,
+    price: 500,
   },
   // 35+ Women's singles
   {
@@ -78,6 +86,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     minAge: atLeast35OnDay1,
+    price: 500,
   },
   // 35+ Men's doubles
   {
@@ -86,6 +95,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["male", "male"],
     minAge: atLeast35OnDay1,
+    price: 1000,
   },
   // 35+ Women's doubles
   {
@@ -94,6 +104,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["female", "female"],
     minAge: atLeast35OnDay1,
+    price: 1000,
   },
   // 50+ Men's singles
   {
@@ -102,6 +113,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     minAge: atLeast50OnDay1,
+    price: 500,
   },
   // 50+ Women's singles
   {
@@ -110,6 +122,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     minAge: atLeast50OnDay1,
+    price: 500,
   },
   // 50+ Men's doubles
   {
@@ -118,6 +131,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["male", "male"],
     minAge: atLeast50OnDay1,
+    price: 1000,
   },
   // 50+ Women's doubles
   {
@@ -126,6 +140,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["female", "female"],
     minAge: atLeast50OnDay1,
+    price: 1000,
   },
   // 60+ Men's singles
   {
@@ -134,6 +149,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     minAge: atLeast60OnDay1,
+    price: 500,
   },
   // 60+ Women's singles
   {
@@ -142,6 +158,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     minAge: atLeast60OnDay1,
+    price: 500,
   },
   // 60+ Men's doubles
   {
@@ -150,6 +167,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["male", "male"],
     minAge: atLeast60OnDay1,
+    price: 1000,
   },
   // 60+ Women's doubles
   {
@@ -158,6 +176,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["female", "female"],
     minAge: atLeast60OnDay1,
+    price: 1000,
   },
   // Mixed Age Men's doubles (at least one player 40+)
   {
@@ -168,6 +187,7 @@ export const eventRules: EventRule[] = [
     partnerRule: {
       requireOneAboveAge: atLeast40OnDay1,
     },
+    price: 1000,
   },
   // Mixed Age Mixed doubles (at least one player 40+)
   {
@@ -179,5 +199,6 @@ export const eventRules: EventRule[] = [
       requireOneFemale: true,
       requireOneAboveAge: atLeast40OnDay1,
     },
+    price: 1000,
   },
 ];

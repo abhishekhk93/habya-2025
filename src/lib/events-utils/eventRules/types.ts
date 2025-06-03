@@ -20,4 +20,5 @@ export interface EventRule {
   minAge?: AgeLimit;
   maxAge?: AgeLimit;
   partnerRule?: PartnerRule;
+  price: number;
 }
