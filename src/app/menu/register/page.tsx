@@ -87,62 +87,69 @@ export default function EventsPage() {
 
         {!loading && events && events.length > 0 && (
           <div className="space-y-4">
-            {events.map((event) => (
-              <EventToggleCard
-                key={event.id}
-                name={event.name}
-                selected={event.isRegistered}
-                isRegistered={event.isRegistered}
-                onToggle={(checked) => {
-                  const eventDetails = eventRules.find(
-                    (e) => e.id === Number(event.id)
-                  );
-                  const price = eventDetails?.price;
+            {events.map((event) => {
+              const isSelectedInCart = isItemExistsInCart(
+                cartItems,
+                String(event.id)
+              );
 
-                  if (!eventDetails) {
-                    console.warn(`Unknown event type: ${event.name}`);
-                    return;
-                  }
+              return (
+                <EventToggleCard
+                  key={event.id}
+                  name={event.name}
+                  selected={event.isRegistered || isSelectedInCart}
+                  isRegistered={event.isRegistered}
+                  onToggle={(checked) => {
+                    const eventDetails = eventRules.find(
+                      (e) => e.id === Number(event.id)
+                    );
+                    const price = eventDetails?.price ?? 0;
 
-                  const cartItem = {
-                    id: String(event.id), // Use string ID for consistency
-                    name: event.name, // Use actual event name from backend
-                    type: "registration" as const,
-                    price: eventDetails.price,
-                    quantity: 1,
-                    userId: "debug-user-id-123",
-                  };
-
-                  const alreadyInCart = isItemExistsInCart(
-                    cartItems,
-                    cartItem.id
-                  );
-
-                  if (checked) {
-                    if (alreadyInCart) {
-                      console.log("Item already in cart.");
+                    if (!eventDetails) {
+                      console.warn(`Unknown event type: ${event.name}`);
                       return;
                     }
 
-                    if (!canAddRegistrationItem(cartItems)) {
-                      alert("You can register for up to 3 events only.");
-                      return;
-                    }
+                    const cartItem = {
+                      id: String(event.id),
+                      name: event.name,
+                      type: "registration" as const,
+                      price,
+                      quantity: 1,
+                      userId: "debug-user-id-123",
+                    };
 
-                    dispatch(addItem(cartItem));
-                    console.log(`Added to cart: ${cartItem.name}`);
-                  } else {
-                    if (!alreadyInCart) {
-                      console.log("Item not in cart to remove.");
-                      return;
-                    }
+                    const alreadyInCart = isItemExistsInCart(
+                      cartItems,
+                      cartItem.id
+                    );
 
-                    dispatch(removeItem(cartItem.id));
-                    console.log(`Removed from cart: ${cartItem.name}`);
-                  }
-                }}
-              />
-            ))}
+                    if (checked) {
+                      if (alreadyInCart) {
+                        console.log("Item already in cart.");
+                        return;
+                      }
+
+                      if (!canAddRegistrationItem(cartItems)) {
+                        console.log("You can register for up to 3 events only.");
+                        return;
+                      }
+
+                      dispatch(addItem(cartItem));
+                      console.log(`Added to cart: ${cartItem.name}`);
+                    } else {
+                      if (!alreadyInCart) {
+                        console.log("Item not in cart to remove.");
+                        return;
+                      }
+
+                      dispatch(removeItem(cartItem.id));
+                      console.log(`Removed from cart: ${cartItem.name}`);
+                    }
+                  }}
+                />
+              );
+            })}
           </div>
         )}
       </div>
