@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EventToggleCard from "@/components/register/EventCard";
+import EventToggleCard from "@/components/menu/register/EventCard";
 import Navbar from "@/components/navbar/Navbar";
 
 type Event = {
