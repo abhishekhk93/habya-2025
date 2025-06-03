@@ -1,8 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EventToggleCard from "@/components/register/EventCard";
+import EventToggleCard from "@/components/menu/register/EventCard";
 import Navbar from "@/components/navbar/Navbar";
+import {
+  canAddRegistrationItem,
+  isItemExistsInCart,
+} from "@/lib/cart-utils/cartHelpers";
+import { addItem, removeItem } from "@/store/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { eventRules } from "@/lib/events-utils/eventRules";
 
 type Event = {
   id: string;
@@ -11,6 +19,8 @@ type Event = {
 };
 
 export default function EventsPage() {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const [events, setEvents] = useState<Event[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -77,22 +87,69 @@ export default function EventsPage() {
 
         {!loading && events && events.length > 0 && (
           <div className="space-y-4">
-            {events.map((event) => (
-              <EventToggleCard
-                key={event.id}
-                name={event.name}
-                selected={event.isRegistered}
-                isRegistered={event.isRegistered}
-                onToggle={(checked) => {
-                  console.log(
-                    `${checked ? "Added" : "Removed"}: ${event.name} (${
-                      event.id
-                    })`
-                  );
-                  // You can later add API call to register/unregister here
-                }}
-              />
-            ))}
+            {events.map((event) => {
+              const isSelectedInCart = isItemExistsInCart(
+                cartItems,
+                String(event.id)
+              );
+
+              return (
+                <EventToggleCard
+                  key={event.id}
+                  name={event.name}
+                  selected={event.isRegistered || isSelectedInCart}
+                  isRegistered={event.isRegistered}
+                  onToggle={(checked) => {
+                    const eventDetails = eventRules.find(
+                      (e) => e.id === Number(event.id)
+                    );
+                    const price = eventDetails?.price ?? 0;
+
+                    if (!eventDetails) {
+                      console.warn(`Unknown event type: ${event.name}`);
+                      return;
+                    }
+
+                    const cartItem = {
+                      id: String(event.id),
+                      name: event.name,
+                      type: "registration" as const,
+                      price,
+                      quantity: 1,
+                      userId: "debug-user-id-123",
+                    };
+
+                    const alreadyInCart = isItemExistsInCart(
+                      cartItems,
+                      cartItem.id
+                    );
+
+                    if (checked) {
+                      if (alreadyInCart) {
+                        console.log("Item already in cart.");
+                        return;
+                      }
+
+                      if (!canAddRegistrationItem(cartItems)) {
+                        console.log("You can register for up to 3 events only.");
+                        return;
+                      }
+
+                      dispatch(addItem(cartItem));
+                      console.log(`Added to cart: ${cartItem.name}`);
+                    } else {
+                      if (!alreadyInCart) {
+                        console.log("Item not in cart to remove.");
+                        return;
+                      }
+
+                      dispatch(removeItem(cartItem.id));
+                      console.log(`Removed from cart: ${cartItem.name}`);
+                    }
+                  }}
+                />
+              );
+            })}
           </div>
         )}
       </div>

@@ -2,6 +2,11 @@
 
 import { CartItem } from '@/store/slices/cartSlice'; // Adjust based on your structure
 
+export function canAddRegistrationItem(cartItems: CartItem[]): boolean {
+  const registrationCount = cartItems.filter((item) => item.type === "registration").length;
+  return registrationCount < 3;
+}
+
 export const isItemExistsInCart = (cartItems: CartItem[], id: string) => {
   return cartItems.some(item => item.id === id);
 };
