@@ -6,8 +6,14 @@ export function parseEnvDate(key: string): Date {
     return new Date(value);
   }
   
-  export const TOURNAMENT_DAY1 = parseEnvDate('TOURNAMENT_DAY1');
-  export const TOURNAMENT_DAY2 = parseEnvDate('TOURNAMENT_DAY2');
+  export const TOURNAMENT_DAY1 = new Date(
+    process.env.NEXT_PUBLIC_TOURNAMENT_DAY1!
+  );
+  
+  export const TOURNAMENT_DAY2 = new Date(
+    process.env.NEXT_PUBLIC_TOURNAMENT_DAY2!
+  );
+  
   
   /**
    * Returns age in years on a specific date.
