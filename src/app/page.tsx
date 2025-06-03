@@ -11,19 +11,20 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-100 to-blue-200 text-gray-800">
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white transition-all duration-1000 ease-in-out">
       <Navbar />
       <div className="flex flex-col justify-center items-center h-screen px-6 sm:px-12 md:px-16 lg:px-24">
         {isAuthenticated && user?.name ? (
           <>
             <h1
-              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
               style={{ fontFamily: "'Ephesis', cursive" }}
             >
-              Dear {user.name.split(" ")[0]}, Welcome to Habya!
+              Dear {user.name}, <br /> Welcome to Habya!
             </h1>
+
             <p
-              className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               Your profile ID is: {user.id}
@@ -31,22 +32,22 @@ export default function Home() {
           </>
         ) : (
           <h1
-            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
             style={{ fontFamily: "'Ephesis', cursive" }}
           >
             Welcome to Habya!
           </h1>
         )}
 
-        <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
+        <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
           With 8 editions of fierce competition and unforgettable moments behind
           us, this year's tournament is set to get even better! Are you ready to
           join the action?
         </p>
 
-        {/* Interactive Get Started Button */}
+        {/* Updated Button for Dark Theme */}
         <div className="mt-8 flex justify-center sm:justify-start animate__animated animate__fadeIn animate__delay-2s">
-          <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-8 rounded-full shadow-xl transition-transform duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-teal-300">
+          <button className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 hover:brightness-125 text-white font-semibold py-3 px-8 rounded-full shadow-2xl transition-transform duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-pink-300">
             Get Started
           </button>
         </div>
