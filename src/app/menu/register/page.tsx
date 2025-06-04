@@ -53,8 +53,8 @@ export default function EventsPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-12">
         <h1
-          className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mb-10 leading-tight"
-          style={{ fontFamily: "'Noto Serif', serif" }}
+          className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Events you are eligible for:
         </h1>

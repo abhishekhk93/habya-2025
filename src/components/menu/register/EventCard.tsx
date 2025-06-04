@@ -30,6 +30,7 @@ export default function EventToggleCard({
         >
           {name}
         </span>
+
         <Switch
           checked={selected}
           onCheckedChange={onToggle}
