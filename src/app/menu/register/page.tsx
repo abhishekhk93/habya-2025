@@ -29,19 +29,11 @@ export default function EventsPage() {
     async function fetchEvents() {
       setLoading(true);
       try {
-        console.log("Calling events-eligible API");
         const res = await fetch("/api/user/events-eligible");
-
         if (!res.ok) throw new Error("Failed to fetch events");
 
         const data = await res.json();
-
-        if (data?.eligibleEvents?.length === 0) {
-          setEvents([]);
-        } else {
-          setEvents(data.eligibleEvents);
-        }
-
+        setEvents(data?.eligibleEvents || []);
         setError(false);
       } catch (e) {
         console.error("Error fetching events:", e);
@@ -56,31 +48,31 @@ export default function EventsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-100 to-blue-200 text-gray-800">
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white transition-all duration-1000 ease-in-out">
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-12">
         <h1
-          className="text-3xl sm:text-4xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
-          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mb-10 leading-tight"
+          style={{ fontFamily: "'Noto Serif', serif" }}
         >
           Events you are eligible for:
         </h1>
 
         {loading && (
-          <p className="text-center text-lg italic animate-pulse">
+          <p className="text-center text-lg italic text-gray-300 animate-pulse">
             Loading events...
           </p>
         )}
 
         {error && (
-          <p className="text-center text-red-600 text-lg">
+          <p className="text-center text-red-400 text-lg">
             Something went wrong while fetching events. Please try again later.
           </p>
         )}
 
         {!loading && events && events.length === 0 && (
-          <p className="text-center text-gray-600 text-lg italic">
+          <p className="text-center text-gray-400 text-lg italic">
             🎉 You are not eligible for any events at the moment. Stay tuned!
           </p>
         )}
@@ -125,26 +117,13 @@ export default function EventsPage() {
                     );
 
                     if (checked) {
-                      if (alreadyInCart) {
-                        console.log("Item already in cart.");
-                        return;
-                      }
-
-                      if (!canAddRegistrationItem(cartItems)) {
-                        console.log("You can register for up to 3 events only.");
-                        return;
-                      }
+                      if (alreadyInCart) return;
+                      if (!canAddRegistrationItem(cartItems)) return;
 
                       dispatch(addItem(cartItem));
-                      console.log(`Added to cart: ${cartItem.name}`);
                     } else {
-                      if (!alreadyInCart) {
-                        console.log("Item not in cart to remove.");
-                        return;
-                      }
-
+                      if (!alreadyInCart) return;
                       dispatch(removeItem(cartItem.id));
-                      console.log(`Removed from cart: ${cartItem.name}`);
                     }
                   }}
                 />
