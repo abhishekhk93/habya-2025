@@ -7,20 +7,22 @@ export type CartItem = {
   price: number;
   quantity: number;
   metadata?: object;
-  partnerId?: number;
+  partner?: {
+    id: string;
+    name: string;
+  };
 };
 
 type CartState = {
-  userId: string;
   items: CartItem[];
 };
 
 const loadCartFromLocalStorage = (): CartState => {
   try {
     const stored = localStorage.getItem('cart');
-    return stored ? JSON.parse(stored) : { userId: '', items: [] };
+    return stored ? JSON.parse(stored) : { items: [] };
   } catch {
-    return { userId: '', items: [] };
+    return { items: [] };
   }
 };
 
@@ -36,10 +38,6 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setUserId: (state, action: PayloadAction<string>) => {
-      state.userId = action.payload;
-      saveCartToLocalStorage(state);
-    },
     addItem: (state, action: PayloadAction<CartItem>) => {
       const index = state.items.findIndex(i => i.id === action.payload.id);
       if (index > -1) {
@@ -67,5 +65,5 @@ const cartSlice = createSlice({
   }
 });
 
-export const { addItem, updateItemQuantity, removeItem, clearCart, setUserId } = cartSlice.actions;
+export const { addItem, updateItemQuantity, removeItem, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

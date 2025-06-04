@@ -1,56 +1,90 @@
 import { EventRule, Gender } from "./eventRules/types";
 import { calculateAgeOn } from "./ageUtils";
-
-export interface Player {
-  id: number;
-  gender: Gender;
-  dob: Date;
-}
+import { User } from "@/store/slices/userSlice";
 
 //Check if a single player is eligible for the event (singles or doubles)
- 
-export function isPlayerEligible(player: Player, event: EventRule): boolean {
-  if (!event.allowedGenders.includes(player.gender)) return false;
+
+/*
+isPlayerEligible returns null if player is eligible, which is semantically incorrect. 
+It is done to display correct messages.
+TO-DO: Fix it with meaningful return value.
+*/
+
+export function isPlayerEligible(
+  player: User,
+  event: EventRule
+): string | null {
+  if (!event.allowedGenders.includes(player.gender.toLowerCase() as Gender)) {
+    return `${player.name} is not eligible: ${player.gender} not allowed for this event.`;
+  }
 
   if (event.minAge) {
     const age = calculateAgeOn(player.dob, event.minAge.onDate);
-    if (age < event.minAge.value) return false;
+    const formattedDate = new Date(event.minAge.onDate).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+    if (age < event.minAge.value) {
+      return `${player.name} is not eligible: must be at least ${event.minAge.value} years old as on ${formattedDate}.`;
+    }
   }
 
   if (event.maxAge) {
     const age = calculateAgeOn(player.dob, event.maxAge.onDate);
-    if (age >= event.maxAge.value) return false;
+    const formattedDate = new Date(event.maxAge.onDate).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+    if (age >= event.maxAge.value) {
+      return `${player.name} is not eligible: must be younger than ${event.maxAge.value} years on ${formattedDate}.`;
+    }
   }
 
-  return true;
+  return null;
 }
 
 //Check if a team of two players is eligible for the event (doubles or mixed doubles)
 
-export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolean {
+/*
+isTeamEligible returns null if team is eligible, which is semantically incorrect. 
+It is done to display correct messages.
+TO-DO: Fix it with meaningful return value.
+*/
+
+export function isTeamEligible(
+  p1: User,
+  p2: User,
+  event: EventRule
+): string | null {
   if (event.type === "singles") {
-    return false;
+    return "This event is not for teams.";
   }
 
-  // Check allowed genders order-insensitive
-  const teamGenders = [p1.gender, p2.gender].sort();
+  const teamGenders = [p1.gender, p2.gender].map((g) => g.toLowerCase()).sort();
   const allowed = [...event.allowedGenders].sort();
 
-  // Quick fail if genders do not match
-  if (teamGenders.length !== allowed.length) return false;
-  for (let i = 0; i < allowed.length; i++) {
-    if (teamGenders[i] !== allowed[i]) return false;
+  if (
+    teamGenders.length !== allowed.length ||
+    teamGenders.some((g, i) => g !== allowed[i])
+  ) {
+    return `Team gender combination does not match allowed genders for this event`;
   }
 
-  // Check individual eligibility
-  if (!isPlayerEligible(p1, event) || !isPlayerEligible(p2, event)) return false;
+  const p1Eligibility = isPlayerEligible(p1, event);
+  const p2Eligibility = isPlayerEligible(p2, event);
 
-  // Partner rules
+  if (p1Eligibility)
+    return `${p1Eligibility}`;
+  if (p2Eligibility)
+    return `${p2Eligibility}`;
+
   if (event.partnerRule) {
     const { requireOneFemale, requireOneAboveAge } = event.partnerRule;
 
-    if (requireOneFemale) {
-      if (p1.gender !== "female" && p2.gender !== "female") return false;
+    if (requireOneFemale && p1.gender !== "female" && p2.gender !== "female") {
+      return "At least one player must be female.";
     }
 
     if (requireOneAboveAge) {
@@ -58,10 +92,16 @@ export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolea
       const p1Age = calculateAgeOn(p1.dob, onDate);
       const p2Age = calculateAgeOn(p2.dob, onDate);
 
-      if (p1Age < value && p2Age < value) return false;
+      if (p1Age < value && p2Age < value) {
+        const formattedDate = new Date(onDate).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        return `At least one player must be above ${value} years as on ${formattedDate}.`;
+      }
     }
   }
 
-  return true;
+  return null;
 }
-

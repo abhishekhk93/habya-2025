@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma/prisma';
-import { isPlayerEligible, type Player } from '@/lib/events-utils/eligibilityUtils';
+import { isPlayerEligible } from '@/lib/events-utils/eligibilityUtils';
+import { User } from "@/store/slices/userSlice";
 import { type Gender } from '@/lib/events-utils/eventRules/types';
 import { eventRules } from '@/lib/events-utils/eventRules';
 import { jwtVerify } from 'jose';
@@ -27,18 +28,22 @@ export async function GET(req: NextRequest) {
     const { payload } = await jwtVerify(token, encoder.encode(JWT_SECRET))  as { payload: TokenPayload };
     console.log("✅ Token verified in API route:", payload);
 
-    const userId = Number(payload.id);
+    const userId = payload.id;
     const dob = new Date(payload.dob);
     const gender = String(payload.gender).toLowerCase();
+    const phone = String(payload.phone);
+    const name = String(payload.name);
 
     if (isNaN(userId) || isNaN(dob.getTime()) || !['male', 'female'].includes(gender)) {
       return NextResponse.json({ error: 'Invalid user info in token' }, { status: 400 });
     }
 
-    const player: Player = {
-      id: userId,
+    const player: User = {
+      id: String(userId),
       dob,
+      name,
       gender: gender as Gender,
+      phone 
     };
 
     // --- Get all events from DB ---
@@ -63,7 +68,8 @@ export async function GET(req: NextRequest) {
       name: event.name,
       isRegistered: registeredEventIds.has(event.id),
       type: eventRules[event.id - 1].type,
-      eligible: isPlayerEligible(player, eventRules[event.id - 1]),
+      eligible: isPlayerEligible(player, eventRules[event.id - 1]) === null,
+
     })).filter((e) => e.eligible);
 
     return NextResponse.json({ eligibleEvents });
