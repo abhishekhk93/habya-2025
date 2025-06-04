@@ -1,16 +1,12 @@
 import { EventRule, Gender } from "./eventRules/types";
 import { calculateAgeOn } from "./ageUtils";
-
-export interface Player {
-  id: number;
-  gender: Gender;
-  dob: Date;
-}
+import { User } from "@/store/slices/userSlice";
 
 //Check if a single player is eligible for the event (singles or doubles)
- 
-export function isPlayerEligible(player: Player, event: EventRule): boolean {
-  if (!event.allowedGenders.includes(player.gender)) return false;
+
+export function isPlayerEligible(player: User, event: EventRule): boolean {
+  if (!event.allowedGenders.includes(player.gender.toLowerCase() as Gender))
+    return false;
 
   if (event.minAge) {
     const age = calculateAgeOn(player.dob, event.minAge.onDate);
@@ -27,13 +23,12 @@ export function isPlayerEligible(player: Player, event: EventRule): boolean {
 
 //Check if a team of two players is eligible for the event (doubles or mixed doubles)
 
-export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolean {
+export function isTeamEligible(p1: User, p2: User, event: EventRule): boolean {
   if (event.type === "singles") {
     return false;
   }
 
-  // Check allowed genders order-insensitive
-  const teamGenders = [p1.gender, p2.gender].sort();
+  const teamGenders = [p1.gender, p2.gender].map((g) => g.toLowerCase()).sort();
   const allowed = [...event.allowedGenders].sort();
 
   // Quick fail if genders do not match
@@ -43,7 +38,8 @@ export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolea
   }
 
   // Check individual eligibility
-  if (!isPlayerEligible(p1, event) || !isPlayerEligible(p2, event)) return false;
+  if (!isPlayerEligible(p1, event) || !isPlayerEligible(p2, event))
+    return false;
 
   // Partner rules
   if (event.partnerRule) {
@@ -64,4 +60,3 @@ export function isTeamEligible(p1: Player, p2: Player, event: EventRule): boolea
 
   return true;
 }
-
