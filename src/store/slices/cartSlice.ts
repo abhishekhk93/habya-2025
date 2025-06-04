@@ -7,6 +7,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   metadata?: object;
+  partnerId?: number;
 };
 
 type CartState = {

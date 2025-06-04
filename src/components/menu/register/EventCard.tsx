@@ -30,6 +30,7 @@ export default function EventToggleCard({
         >
           {name}
         </span>
+
         <Switch
           checked={selected}
           onCheckedChange={onToggle}
@@ -41,7 +42,7 @@ export default function EventToggleCard({
           className="text-xl text-muted-foreground mt-1"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          ✅ You have already registered for this event.
+          You have already registered for this event.
         </p>
       )}
     </div>

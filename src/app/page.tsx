@@ -44,13 +44,6 @@ export default function Home() {
           us, this year's tournament is set to get even better! Are you ready to
           join the action?
         </p>
-
-        {/* Updated Button for Dark Theme */}
-        <div className="mt-8 flex justify-center sm:justify-start animate__animated animate__fadeIn animate__delay-2s">
-          <button className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 hover:brightness-125 text-white font-semibold py-3 px-8 rounded-full shadow-2xl transition-transform duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-pink-300">
-            Get Started
-          </button>
-        </div>
       </div>
     </div>
   );
