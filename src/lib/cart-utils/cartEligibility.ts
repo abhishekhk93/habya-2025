@@ -13,12 +13,14 @@ export function validateTeamEligibility(
   event: EventRule,
   cartItems: CartItem[]
 ): string | null {
-  if (!isPlayerEligible(partner, event)) {
-    return "Partner is not eligible individually for the event.";
+  const partnerEligibility = isPlayerEligible(partner, event);
+  if (partnerEligibility) {
+    return partnerEligibility;
   }
 
-  if (!isTeamEligible(user, partner, event)) {
-    return "You and your partner are not eligible as a team.";
+  const teamEligibility = isTeamEligible(user, partner, event);
+  if (teamEligibility) {
+    return teamEligibility;
   }
 
   const totalPartnerEvents = new Set([
@@ -29,7 +31,7 @@ export function validateTeamEligibility(
   ]).size;
 
   if (totalPartnerEvents >= 3) {
-    return "Partner is already registered for 3 events.";
+    return `${partner.name} has already registered for 3 events.`;
   }
 
   return null;

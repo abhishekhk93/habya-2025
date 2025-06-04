@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Gender } from "@/lib/events-utils/eventRules";
 
 export interface User {
   id: string;
   name: string;
   phone: string;
-  gender: string;
-  dob: string | null;
+  gender: Gender;
+  dob: Date;
 }
 
 interface UserState {
