@@ -11,6 +11,8 @@ import { addItem, removeItem } from "@/store/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { eventRules } from "@/lib/events-utils/eventRules";
+import { validateTeamEligibility } from "@/lib/cart-utils/cartEligibility";
+import { fetchPartnerDetails } from "./utils/fetchPartner";
 
 type Event = {
   id: string;
@@ -21,6 +23,8 @@ type Event = {
 export default function EventsPage() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const user = useSelector((state: RootState) => state.user.user);
+
   const [events, setEvents] = useState<Event[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -172,13 +176,13 @@ export default function EventsPage() {
             }}
           >
             <h2
-              className="text-xl font-semibold mb-4 text-transparent bg-clip-text"
+              className="text-xl font-semibold mb-4 text-transparent bg-clip-text text-center"
               style={{
                 fontFamily: "'Alumni Sans Pinstripe', cursive",
                 backgroundImage: "linear-gradient(to right, #14b8a6, #3b82f6)",
               }}
             >
-              Enter the profile ID of your partner for {modalEvent.name}
+              Profile ID of your partner for {modalEvent.name}
             </h2>
             <div className="flex justify-center gap-2 mb-2">
               {[0, 1, 2, 3].map((index) => (
@@ -241,7 +245,7 @@ export default function EventsPage() {
             </div>
 
             {/* Fixed-height feedback message */}
-            <div className="h-5 mb-2 flex items-center justify-center text-sm">
+            <div className="transition-all duration-300 ease-in-out min-h-[2.5rem] mb-2 flex items-center justify-center text-sm text-center px-2">
               {validating ? (
                 <div className="flex items-center space-x-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
                   <svg
@@ -296,20 +300,52 @@ export default function EventsPage() {
                 }}
                 onClick={async () => {
                   setValidating(true);
-                  const isValid = await validatePartnerId(partnerId);
-                  setValidating(false);
+                  setPartnerIdError("");
 
+                  const isValid = await validatePartnerId(partnerId);
                   if (!isValid) {
-                    setPartnerIdError("Invalid partner ID. Please try again.");
+                    setValidating(false);
+                    setPartnerIdError("Please enter 4 digits profile ID");
                     return;
                   }
 
-                  if (!modalEvent) return;
+                  const partner = await fetchPartnerDetails(partnerId);
+                  if (!partner) {
+                    setValidating(false);
+                    setPartnerIdError("Partner details could not be fetched.");
+                    return;
+                  }
 
                   const eventDetails = eventRules.find(
-                    (e) => e.id === Number(modalEvent.id)
+                    (e) => e.id === Number(modalEvent?.id)
                   );
-                  const price = eventDetails?.price ?? 0;
+                  if (!modalEvent || !eventDetails) {
+                    setValidating(false);
+                    return;
+                  }
+                  // You need to fetch or inject logged-in user details
+                  const partnerPlayer = {
+                    id: partner.id,
+                    dob: partner.dob,
+                    gender: partner.gender,
+                    phone: partner.phone,
+                    name: partner.name,
+                  };
+
+                  const errorMsg = validateTeamEligibility(
+                    user!,
+                    partnerPlayer,
+                    partner.registrations,
+                    eventDetails,
+                    cartItems
+                  );
+                  if (errorMsg) {
+                    setValidating(false);
+                    setPartnerIdError(errorMsg);
+                    return;
+                  }
+
+                  const price = eventDetails.price ?? 0;
 
                   const cartItem = {
                     id: String(modalEvent.id),
@@ -318,8 +354,8 @@ export default function EventsPage() {
                     price,
                     quantity: 1,
                     partner: {
-                      id: Number(partnerId),
-                      name: "",
+                      id: partner.id,
+                      name: partner.name,
                     },
                   };
 
@@ -328,6 +364,7 @@ export default function EventsPage() {
                   setPartnerId("");
                   setPartnerIdError("");
                   setModalEvent(null);
+                  setValidating(false);
                 }}
               >
                 Submit
@@ -341,9 +378,5 @@ export default function EventsPage() {
 }
 
 async function validatePartnerId(id: string): Promise<boolean> {
-  // Simulate API delay
-  await new Promise((r) => setTimeout(r, 1500));
-
-  // Simple validation: ID must be non-empty and start with 'user-' (example)
-  return id.trim().length > 0 && id.startsWith("75");
+  return /^\d{4}$/.test(id.trim());
 }
