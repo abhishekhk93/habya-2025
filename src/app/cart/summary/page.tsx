@@ -52,7 +52,7 @@ export default function CartPage() {
 
         {cartItems.length === 0 ? (
           <p className="text-center text-gray-400 text-lg italic">
-            🛒 Your cart is empty. Add some events to proceed!
+            🛒 Your cart is empty. Add items to proceed!
           </p>
         ) : (
           <>
