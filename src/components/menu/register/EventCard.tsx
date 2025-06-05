@@ -14,12 +14,10 @@ export default function EventToggleCard({
   onToggle,
 }: Props) {
   return (
-    <div
-      className="flex flex-col"
-    >
+    <div className="flex flex-col">
       <div className="flex justify-between items-center">
         <span
-          className="text-2xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
+          className="text-3xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           {name}
@@ -33,7 +31,7 @@ export default function EventToggleCard({
       </div>
       {isRegistered && (
         <p
-          className="text-xl text-muted-foreground mt-1"
+          className="text-xl text-white mt-1"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           You have already registered for this event.

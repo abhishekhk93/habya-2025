@@ -44,7 +44,7 @@ const HamburgerMenu = () => {
             <motion.div
               key="overlay"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
+              animate={{ opacity: 0.8 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 bg-black z-40"
@@ -58,13 +58,13 @@ const HamburgerMenu = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-72 bg-gradient-to-r from-teal-100 to-blue-200 shadow-xl z-50 p-6 flex flex-col text-gray-800"
+              className="fixed top-0 right-0 h-full w-72 bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-xl z-50 p-6 flex flex-col text-white"
             >
               {/* Close icon */}
               <div className="flex justify-end mb-4">
                 <button
                   onClick={() => setOpen(false)}
-                  className="text-gray-700 hover:text-teal-600"
+                  className="text-white"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -72,11 +72,11 @@ const HamburgerMenu = () => {
 
               {/* Menu items */}
               <ul className="flex flex-col divide-y divide-teal-300 text-base font-medium">
-              <li className="py-3">
+                <li className="py-3">
                   <Link href="/" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Home
                     </span>
@@ -86,7 +86,7 @@ const HamburgerMenu = () => {
                   <Link href="/menu/register" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Register
                     </span>
@@ -96,17 +96,20 @@ const HamburgerMenu = () => {
                   <Link href="/menu/sponsor" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Sponsor
                     </span>
                   </Link>
                 </li>
                 <li className="py-3">
-                  <Link href="/menu/my-registrations" onClick={() => setOpen(false)}>
+                  <Link
+                    href="/menu/my-registrations"
+                    onClick={() => setOpen(false)}
+                  >
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       My Registrations
                     </span>
@@ -116,7 +119,7 @@ const HamburgerMenu = () => {
                   <Link href="/menu/buy-food" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Buy Food Coupons
                     </span>
@@ -126,7 +129,7 @@ const HamburgerMenu = () => {
                   <Link href="/menu/buy-shirt" onClick={() => setOpen(false)}>
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Buy Shirt
                     </span>
@@ -142,7 +145,7 @@ const HamburgerMenu = () => {
                   >
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-800 to-blue-900"
+                      className="text-2xl"
                     >
                       Logout
                     </span>

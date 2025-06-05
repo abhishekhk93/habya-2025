@@ -39,7 +39,7 @@ export default function CartPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white transition-all duration-1000 ease-in-out">
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white transition-all duration-1000 ease-in-out">
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-12">
@@ -66,12 +66,12 @@ export default function CartPage() {
                     borderBottomStyle: "solid",
                     borderImageSlice: 1,
                     borderImageSource:
-                      "linear-gradient(to right, #14b8a6, #3b82f6)", // teal-500 to blue-600
+                      "linear-gradient(to right, #14b8a6, #3b82f6)",
                   }}
                 >
                   <div>
                     <h2
-                      className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
+                      className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                     >
                       {item.name}
@@ -79,7 +79,7 @@ export default function CartPage() {
 
                     {item.partner && (
                       <p
-                        className="text-sm italic text-gray-300 mt-1"
+                        className="text-2xl text-white mt-2"
                         style={{
                           fontFamily: "'Alumni Sans Pinstripe', cursive",
                         }}
@@ -89,7 +89,7 @@ export default function CartPage() {
                     )}
 
                     <p
-                      className="text-sm text-gray-400 mt-1"
+                      className="text-lg text-white mt-1"
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                     >
                       ₹{item.price}
@@ -98,7 +98,7 @@ export default function CartPage() {
 
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="text-sm text-red-400 hover:text-red-200 transition"
+                    className="text-2xl text-red-400 hover:text-red-200 transition"
                     style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                   >
                     Remove
@@ -108,12 +108,12 @@ export default function CartPage() {
             </div>
 
             {/* Total */}
-            <div className="mt-10 text-right">
-              <p className="text-xl text-gray-200">
-                Total:{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 font-bold">
-                  ₹{total}
-                </span>
+            <div className="mt-10 text-center">
+              <p
+                className="text-2xl font-bold text-white"
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+              >
+                Total: ₹{total}
               </p>
             </div>
 
@@ -121,11 +121,18 @@ export default function CartPage() {
             <div className="mt-6 text-center">
               <button
                 onClick={() => router.push("/payment")}
-                className="relative inline-block px-6 py-2 rounded-md text-lg font-semibold transition-all duration-300 hover:scale-105"
-                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                style={{
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                }}
               >
-                <span className="absolute inset-0 rounded-md p-[2px] bg-gradient-to-r from-teal-500 to-blue-600"></span>
-                <span className="relative block bg-gray-900 rounded-md text-white">
+                <span
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-2xl sm:text-3xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
                   Proceed to Payment
                 </span>
               </button>
