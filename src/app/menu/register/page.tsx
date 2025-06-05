@@ -7,7 +7,13 @@ import {
   hasLessThanThreeTotalEventsRegistered,
   isItemExistsInCart,
 } from "@/lib/cart-utils/cartHelpers";
-import { addItem, removeItem } from "@/store/slices/cartSlice";
+import {
+  addItem,
+  removeItem,
+  setCart,
+  saveCartToLocalStorage,
+  loadCartFromLocalStorage,
+} from "@/store/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { eventRules } from "@/lib/events-utils/eventRules";
@@ -35,6 +41,15 @@ export default function EventsPage() {
   const [partnerIdError, setPartnerIdError] = useState("");
   const [validating, setValidating] = useState(false);
 
+  // Load cart from storage after user is available
+  useEffect(() => {
+    if (user?.id) {
+      const restoredCart = loadCartFromLocalStorage(user.id);
+      dispatch(setCart(restoredCart));
+    }
+  }, [user?.id, dispatch]);
+
+  // Fetch eligible events
   useEffect(() => {
     async function fetchEvents() {
       setLoading(true);
@@ -56,6 +71,20 @@ export default function EventsPage() {
 
     fetchEvents();
   }, []);
+
+  const handleAddToCart = (item: any) => {
+    dispatch(addItem(item));
+    if (user?.id)
+      saveCartToLocalStorage(user.id, { items: [...cartItems, item] });
+  };
+
+  const handleRemoveFromCart = (id: string) => {
+    dispatch(removeItem(id));
+    if (user?.id) {
+      const updatedItems = cartItems.filter((i) => i.id !== id);
+      saveCartToLocalStorage(user.id, { items: updatedItems });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white transition-all duration-1000 ease-in-out">
@@ -90,77 +119,103 @@ export default function EventsPage() {
         {!loading && events && events.length > 0 && (
           <div className="space-y-4">
             {events.map((event) => {
-              const isSelectedInCart = isItemExistsInCart(
-                cartItems,
-                String(event.id)
+              const cartItem = cartItems.find(
+                (item) => item.id === String(event.id)
               );
+              const isSelectedInCart = !!cartItem;
+              const partnerName = cartItem?.partner?.name;
 
               return (
-                <EventToggleCard
+                <div
                   key={event.id}
-                  name={event.name}
-                  selected={event.isRegistered || isSelectedInCart}
-                  isRegistered={event.isRegistered}
-                  onToggle={async (checked) => {
-                    const eventDetails = eventRules.find(
-                      (e) => e.id === Number(event.id)
-                    );
-                    const price = eventDetails?.price ?? 0;
+                  className="px-2 py-4"
+                  style={{
+                    borderBottomWidth: "2px",
+                    borderBottomStyle: "solid",
+                    borderImageSlice: 1,
+                    borderImageSource:
+                      "linear-gradient(to right, #14b8a6, #3b82f6)", // teal-500 to blue-600
+                  }}
+                >
+                  <EventToggleCard
+                    key={event.id}
+                    name={event.name}
+                    selected={event.isRegistered || isSelectedInCart}
+                    isRegistered={event.isRegistered}
+                    onToggle={async (checked) => {
+                      const eventDetails = eventRules.find(
+                        (e) => e.id === Number(event.id)
+                      );
+                      const price = eventDetails?.price ?? 0;
 
-                    if (!eventDetails) {
-                      console.warn(`Unknown event type: ${event.name}`);
-                      return;
-                    }
-
-                    const cartItem = {
-                      id: String(event.id),
-                      name: event.name,
-                      type: "registration" as const,
-                      price,
-                      quantity: 1,
-                    };
-
-                    const alreadyInCart = isItemExistsInCart(
-                      cartItems,
-                      cartItem.id
-                    );
-
-                    if (checked) {
-                      if (alreadyInCart) return;
-                      if (
-                        !hasLessThanThreeTotalEventsRegistered(
-                          cartItems,
-                          events
-                        )
-                      )
-                        return;
-
-                      // Check if doubles event needs partner ID
-                      if (
-                        eventDetails.type === "doubles" ||
-                        eventDetails.type === "mixed_doubles"
-                      ) {
-                        setModalEvent(event);
-                        setShowPartnerModal(true);
-                        setPartnerId("");
-                        setPartnerIdError("");
+                      if (!eventDetails) {
+                        console.warn(`Unknown event type: ${event.name}`);
                         return;
                       }
 
-                      // For singles events - add immediately
-                      dispatch(addItem(cartItem));
-                    } else {
-                      if (!alreadyInCart) return;
-                      dispatch(removeItem(cartItem.id));
-                    }
-                  }}
-                />
+                      const cartItem = {
+                        id: String(event.id),
+                        name: event.name,
+                        type: "registration" as const,
+                        price,
+                        quantity: 1,
+                      };
+
+                      const alreadyInCart = isItemExistsInCart(
+                        cartItems,
+                        cartItem.id
+                      );
+
+                      if (checked) {
+                        if (alreadyInCart) return;
+                        if (
+                          !hasLessThanThreeTotalEventsRegistered(
+                            cartItems,
+                            events
+                          )
+                        )
+                          return;
+
+                        if (
+                          eventDetails.type === "doubles" ||
+                          eventDetails.type === "mixed_doubles"
+                        ) {
+                          setModalEvent(event);
+                          setShowPartnerModal(true);
+                          setPartnerId("");
+                          setPartnerIdError("");
+                          return;
+                        }
+
+                        handleAddToCart(cartItem);
+                      } else {
+                        if (!alreadyInCart) return;
+                        handleRemoveFromCart(cartItem.id);
+                      }
+                    }}
+                  />
+                  <p
+                    className={`text-xl text-muted-foreground mt-1 transition-all duration-700 ease-in-out`}
+                    style={{
+                      fontFamily: "'Alumni Sans Pinstripe', cursive",
+                      opacity: isSelectedInCart ? 1 : 0,
+                      maxHeight: isSelectedInCart ? "100px" : "0px",
+                      overflow: "hidden",
+                      pointerEvents: isSelectedInCart ? "auto" : "none",
+                    }}
+                  >
+                    {partnerName
+                      ? `Event added to cart with partner: ${partnerName}`
+                      : "Event added to cart"}
+                  </p>
+                </div>
               );
             })}
           </div>
         )}
       </div>
 
+      {/* Modal remains unchanged */}
       {showPartnerModal && modalEvent && (
         <div
           className="fixed inset-0 flex items-center justify-center z-50 transition-all duration-1000 ease-in-out"
@@ -245,9 +300,16 @@ export default function EventsPage() {
             </div>
 
             {/* Fixed-height feedback message */}
-            <div className="transition-all duration-300 ease-in-out min-h-[2.5rem] mb-2 flex items-center justify-center text-sm text-center px-2">
+            <div className="transition-all duration-300 ease-in-out min-h-[3.5rem] mb-2 flex items-center justify-center text-xl text-center px-2">
               {validating ? (
-                <div className="flex items-center space-x-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
+                <div
+                  className="flex items-center space-x-2 text-transparent bg-clip-text"
+                  style={{
+                    fontFamily: "'Alumni Sans Pinstripe', cursive",
+                    backgroundImage:
+                      "linear-gradient(to right, #14b8a6, #3b82f6)",
+                  }}
+                >
                   <svg
                     className="animate-spin h-4 w-4"
                     xmlns="http://www.w3.org/2000/svg"
@@ -271,11 +333,19 @@ export default function EventsPage() {
                   <span>Validating...</span>
                 </div>
               ) : partnerIdError ? (
-                <p className="text-red-500">{partnerIdError}</p>
+                <p
+                  className="text-red-500 text-xl text-center"
+                  style={{
+                    fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  }}
+                >
+                  {partnerIdError}
+                </p>
               ) : (
                 <span className="invisible">placeholder</span>
               )}
             </div>
+
             <div className="flex justify-center space-x-3 mt-4">
               <button
                 className="px-4 py-2 rounded text-white transition"
@@ -359,7 +429,7 @@ export default function EventsPage() {
                     },
                   };
 
-                  dispatch(addItem(cartItem));
+                  handleAddToCart(cartItem);
                   setShowPartnerModal(false);
                   setPartnerId("");
                   setPartnerIdError("");

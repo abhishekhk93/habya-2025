@@ -15,13 +15,7 @@ export default function EventToggleCard({
 }: Props) {
   return (
     <div
-      className="py-4 px-2 flex flex-col"
-      style={{
-        borderBottomWidth: "2px",
-        borderBottomStyle: "solid",
-        borderImageSlice: 1,
-        borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)", // teal-500 to blue-600
-      }}
+      className="flex flex-col"
     >
       <div className="flex justify-between items-center">
         <span
