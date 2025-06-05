@@ -9,6 +9,23 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setStep } from "@/store/slices/authSlice";
 import { setUser } from "@/store/slices/userSlice";
 
+const BORDER_GRADIENT_STYLE = {
+  borderBottomWidth: "2px",
+  borderBottomStyle: "solid",
+  borderImageSlice: 1,
+  borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+};
+
+const menuItems = [
+  { label: "Home", href: "/" },
+  { label: "Register", href: "/menu/register" },
+  { label: "Sponsor", href: "/menu/sponsor" },
+  { label: "My Registrations", href: "/menu/my-registrations" },
+  { label: "Buy Food Coupons", href: "/menu/buy-food" },
+  { label: "Buy Shirt", href: "/menu/buy-shirt" },
+  { label: "My Cart", href: "/cart/summary" },
+];
+
 const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -62,86 +79,64 @@ const HamburgerMenu = () => {
             >
               {/* Close icon */}
               <div className="flex justify-end mb-4">
-                <button
-                  onClick={() => setOpen(false)}
-                  className="text-white"
-                >
+                <button onClick={() => setOpen(false)} className="text-white">
                   <X className="w-6 h-6" />
                 </button>
               </div>
 
               {/* Menu items */}
-              <ul className="flex flex-col divide-y divide-teal-300 text-base font-medium">
-                <li className="py-3">
-                  <Link href="/" onClick={() => setOpen(false)}>
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
+              <ul className="flex flex-col text-base font-medium">
+                {menuItems.map(({ label, href }, idx) => {
+                  // Add gradient border to all but last item
+                  const style = BORDER_GRADIENT_STYLE;
+
+                  return (
+                    <li
+                      key={label}
+                      className="py-3"
+                      style={
+                        {
+                          borderBottomWidth: "2px",
+                          borderBottomStyle: "solid",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(to right, #14b8a6, #3b82f6)",
+                        } as React.CSSProperties
+                      }
                     >
-                      Home
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
-                  <Link href="/menu/register" onClick={() => setOpen(false)}>
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      Register
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
-                  <Link href="/menu/sponsor" onClick={() => setOpen(false)}>
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      Sponsor
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
-                  <Link
-                    href="/menu/my-registrations"
-                    onClick={() => setOpen(false)}
-                  >
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      My Registrations
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
-                  <Link href="/menu/buy-food" onClick={() => setOpen(false)}>
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      Buy Food Coupons
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
-                  <Link href="/menu/buy-shirt" onClick={() => setOpen(false)}>
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      Buy Shirt
-                    </span>
-                  </Link>
-                </li>
-                <li className="py-3">
+                      <Link href={href} onClick={() => setOpen(false)}>
+                        <span
+                          style={{
+                            fontFamily: "'Alumni Sans Pinstripe', cursive",
+                          }}
+                          className="text-2xl"
+                        >
+                          {label}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+
+                {/* Logout button */}
+                <li
+                  className="py-3"
+                  style={
+                    {
+                      borderBottomWidth: "2px",
+                      borderBottomStyle: "solid",
+                      borderImageSlice: 1,
+                      borderImageSource:
+                        "linear-gradient(to right, #14b8a6, #3b82f6)",
+                    } as React.CSSProperties
+                  }
+                >
                   <button
                     onClick={() => {
                       handleLogout();
                       setOpen(false);
                     }}
-                    className="text-left text-red-600 hover:underline w-full"
+                    className="text-left text-red-400 hover:underline w-full"
                   >
                     <span
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
