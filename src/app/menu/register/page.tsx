@@ -19,6 +19,7 @@ import { RootState } from "@/store/store";
 import { eventRules } from "@/lib/events-utils/eventRules";
 import { validateTeamEligibility } from "@/lib/cart-utils/cartEligibility";
 import { fetchPartnerDetails } from "./utils/fetchPartner";
+import { useRouter } from "next/navigation";
 
 type Event = {
   id: string;
@@ -28,12 +29,14 @@ type Event = {
 
 export default function EventsPage() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const user = useSelector((state: RootState) => state.user.user);
 
   const [events, setEvents] = useState<Event[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [showCartEmptyModal, setShowCartEmptyModal] = useState(false);
 
   const [showPartnerModal, setShowPartnerModal] = useState(false);
   const [modalEvent, setModalEvent] = useState<Event | null>(null);
@@ -87,7 +90,7 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-800 text-white transition-all duration-1000 ease-in-out">
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white transition-all duration-1000 ease-in-out">
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-12">
@@ -195,7 +198,7 @@ export default function EventsPage() {
                     }}
                   />
                   <p
-                    className={`text-xl text-muted-foreground mt-1 transition-all duration-700 ease-in-out`}
+                    className={`text-xl text-white mt-1 transition-all duration-700 ease-in-out`}
                     style={{
                       fontFamily: "'Alumni Sans Pinstripe', cursive",
                       opacity: isSelectedInCart ? 1 : 0,
@@ -211,31 +214,96 @@ export default function EventsPage() {
                 </div>
               );
             })}
+            <div className="mt-12 text-center">
+              <button
+                onClick={() => {
+                  if (cartItems.length === 0) {
+                    setShowCartEmptyModal(true);
+                    return;
+                  }
+                  router.push("/cart/summary");
+                }}
+                className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                style={{
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                }}
+              >
+                <span
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-2xl sm:text-3xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  Proceed to Cart
+                </span>
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      {/* Modal remains unchanged */}
-      {showPartnerModal && modalEvent && (
-        <div
-          className="fixed inset-0 flex items-center justify-center z-50 transition-all duration-1000 ease-in-out"
-          style={{
-            background: "linear-gradient(to right, #1f2937, #000000, #1f2937)",
-          }}
-        >
+      {showCartEmptyModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 transition-all duration-1000 ease-in-out bg-gradient-to-r from-gray-900 via-black to-gray-900">
           <div
-            className="rounded-lg p-6 max-w-sm w-full shadow-lg border border-gray-700"
+            className="rounded-lg p-6 max-w-sm w-full mx-4 shadow-lg bg-gradient-to-r from-gray-900 via-black to-gray-900"
             style={{
-              background:
-                "linear-gradient(to right, #1f2937, #000000, #1f2937)",
+              borderWidth: "2px",
+              borderStyle: "solid",
+              borderImageSlice: 1,
+              borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)", // teal to blue gradient
             }}
           >
             <h2
-              className="text-xl font-semibold mb-4 text-transparent bg-clip-text text-center"
-              style={{
-                fontFamily: "'Alumni Sans Pinstripe', cursive",
-                backgroundImage: "linear-gradient(to right, #14b8a6, #3b82f6)",
-              }}
+              className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-3xl sm:text-3xl font-extrabold text-center mb-4"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              Please select at least one event
+            </h2>
+
+            <p
+              className="text-2xl text-center text-gray-300 mb-4"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              Your cart is currently empty. Add an event to continue.
+            </p>
+
+            <div className="flex justify-center">
+              <button
+                onClick={() => setShowCartEmptyModal(false)}
+                className="relative inline-flex items-center justify-center px-4 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                style={{
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                }}
+              >
+                <span
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-xl sm:text-2xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  OK
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal remains unchanged */}
+      {showPartnerModal && modalEvent && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white transition-all duration-1000 ease-in-out">
+          <div
+            className="rounded-lg p-6 max-w-sm w-full mx-4 shadow-lg border-2 border-transparent bg-gradient-to-r from-gray-900 via-black to-gray-900"
+            style={{
+              borderImageSlice: 1,
+              borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+            }}
+          >
+            <h2
+              className="text-2xl font-semibold mb-4 text-center text-white"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               Profile ID of your partner for {modalEvent.name}
             </h2>
@@ -348,26 +416,37 @@ export default function EventsPage() {
 
             <div className="flex justify-center space-x-3 mt-4">
               <button
-                className="px-4 py-2 rounded text-white transition"
-                style={{ backgroundColor: "rgba(75, 85, 99, 0.8)" }}
                 onClick={() => {
                   setShowPartnerModal(false);
                   setPartnerId("");
                   setPartnerIdError("");
                   setModalEvent(null);
                 }}
+                className="relative inline-flex items-center justify-center px-4 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                style={{
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                }}
               >
-                Cancel
+                <span
+                  className="text-white text-2xl sm:text-3xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  Cancel
+                </span>
               </button>
 
               <button
-                className="px-4 py-2 rounded text-white transition disabled:opacity-50 active:scale-95"
-                disabled={!partnerId.trim() || validating}
+                className="relative inline-flex items-center justify-center px-4 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105 disabled:opacity-50 active:scale-95"
                 style={{
-                  backgroundImage:
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
                     "linear-gradient(to right, #14b8a6, #3b82f6)",
-                  border: "none",
                 }}
+                disabled={!partnerId.trim() || validating}
                 onClick={async () => {
                   setValidating(true);
                   setPartnerIdError("");
@@ -437,7 +516,12 @@ export default function EventsPage() {
                   setValidating(false);
                 }}
               >
-                Submit
+                <span
+                  className="text-white text-2xl sm:text-3xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  Submit
+                </span>
               </button>
             </div>
           </div>

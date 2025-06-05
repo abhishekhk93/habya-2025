@@ -62,6 +62,10 @@ export function isTeamEligible(
     return "This event is not for teams.";
   }
 
+  if(Number(p1.id) === Number(p2.id)){
+    return `Come on! You can not partner with yourself! Enter a correct profile ID`;
+  }
+
   const teamGenders = [p1.gender, p2.gender].map((g) => g.toLowerCase()).sort();
   const allowed = [...event.allowedGenders].sort();
 
