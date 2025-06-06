@@ -20,9 +20,9 @@ const menuItems = [
   { label: "Home", href: "/" },
   { label: "Register", href: "/menu/register" },
   { label: "Sponsor", href: "/menu/sponsor" },
-  { label: "My Registrations", href: "/menu/my-registrations" },
   { label: "Buy Food Coupons", href: "/menu/buy-food" },
   { label: "Buy Shirt", href: "/menu/buy-shirt" },
+  { label: "My orders", href: "/menu/orders" },
   { label: "My Cart", href: "/cart/summary" },
 ];
 
