@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addItem,
+  loadCartFromLocalStorage,
   saveCartToLocalStorage,
   setCart,
 } from "@/store/slices/cartSlice";
 import { RootState } from "@/store/store";
 import SponsorSelectCard from "@/components/menu/sponsor/SponsorSelectCard";
+import Link from "next/link";
 
 const SPONSOR_OPTIONS = [
   { label: "Diamond", price: 15000 },
@@ -24,22 +26,48 @@ export default function SponsorPage() {
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  const [selectedTier, setSelectedTier] = useState("Diamond");
+  const [selectedTier, setSelectedTier] = useState("");
   const [customAmount, setCustomAmount] = useState("");
 
-  const getSelectedPrice = () => {
-    if (selectedTier === "Custom") {
+  useEffect(() => {
+    if (user?.id) {
+      const restoredCart = loadCartFromLocalStorage(user.id);
+      dispatch(setCart(restoredCart));
+    }
+  }, [user?.id, dispatch]);
+
+  useEffect(() => {
+    const sponsorItem = cartItems.find((item) => item.id === "22");
+    if (sponsorItem) {
+      // Try to find which tier this matches (either predefined or custom)
+      const matchedTier = SPONSOR_OPTIONS.find(
+        (opt) => opt.price === sponsorItem.price
+      )?.label;
+  
+      if (matchedTier) {
+        setSelectedTier(matchedTier);
+      } else {
+        setSelectedTier("Custom");
+        setCustomAmount(sponsorItem.price.toString());
+      }
+    } else {
+      setSelectedTier("");
+      setCustomAmount("");
+    }
+  }, [cartItems]);
+  
+
+  const getSelectedPrice = (tier: string): number => {
+    if (tier === "Custom") {
       const num = Number(customAmount);
       return isNaN(num) || num <= 0 ? 0 : num;
     }
-    return (
-      SPONSOR_OPTIONS.find((opt) => opt.label === selectedTier)?.price || 0
-    );
+    return SPONSOR_OPTIONS.find((opt) => opt.label === tier)?.price || 0;
   };
 
-  const handleAddToCart = () => {
-    const price = getSelectedPrice();
-    if (price <= 0) return alert("Enter a valid amount");
+  const addSponsorToCart = (tier: string) => {
+    const price = getSelectedPrice(tier);
+    if (price <= 0) return;
 
     const item = {
       id: "22",
@@ -48,16 +76,16 @@ export default function SponsorPage() {
       price,
       quantity: 1,
     };
-    // Remove any existing sponsor item (id = "22")
-    const updatedCart = cartItems.filter((item) => item.id !== "22");
 
-    // Add the new sponsor item
-    const newCart = [...updatedCart, item];
+    const updatedCart = [...cartItems.filter((i) => i.id !== "22"), item];
+    dispatch(setCart({ items: updatedCart }));
+    if (user?.id) saveCartToLocalStorage(user.id, { items: updatedCart });
+  };
 
-    dispatch(setCart({ items: newCart }));
-    if (user?.id) {
-      saveCartToLocalStorage(user.id, { items: newCart });
-    }
+  const removeSponsorFromCart = () => {
+    const updatedCart = cartItems.filter((i) => i.id !== "22");
+    dispatch(setCart({ items: updatedCart }));
+    if (user?.id) saveCartToLocalStorage(user.id, { items: updatedCart });
   };
 
   return (
@@ -96,8 +124,10 @@ export default function SponsorPage() {
                 onToggle={(checked: boolean) => {
                   if (checked) {
                     setSelectedTier(option.label);
+                    addSponsorToCart(option.label);
                   } else {
-                    setSelectedTier(""); // unselect if toggled off
+                    setSelectedTier("");
+                    removeSponsorFromCart();
                   }
                 }}
               />
@@ -106,8 +136,8 @@ export default function SponsorPage() {
         </div>
 
         <div className="text-center mt-12">
-          <button
-            onClick={handleAddToCart}
+          <Link
+            href="/cart/summary"
             className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
             style={{
               fontFamily: "'Alumni Sans Pinstripe', cursive",
@@ -119,9 +149,9 @@ export default function SponsorPage() {
               className="text-white text-2xl sm:text-3xl font-extrabold"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
-              Add to Cart
+              Proceed to Cart
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
