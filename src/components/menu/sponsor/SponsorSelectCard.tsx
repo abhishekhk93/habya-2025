@@ -21,7 +21,7 @@ export default function SponsorSelectCard({
 }: Props) {
   return (
     <div
-      className="px-2 py-4 transition-transform duration-200 hover:scale-105"
+      className="px-2 py-4 transition-transform duration-200"
       style={{
         borderBottomWidth: "2px",
         borderBottomStyle: "solid",

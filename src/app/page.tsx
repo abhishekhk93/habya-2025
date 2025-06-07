@@ -17,14 +17,14 @@ export default function Home() {
         {isAuthenticated && user?.name ? (
           <>
             <h1
-              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
               style={{ fontFamily: "'Ephesis', cursive" }}
             >
               Dear {user.name}, <br /> Welcome to Habya!
             </h1>
 
             <p
-              className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+              className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               Your profile ID is: {user.id}
@@ -32,7 +32,7 @@ export default function Home() {
           </>
         ) : (
           <h1
-            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s"
+            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
             style={{ fontFamily: "'Ephesis', cursive" }}
           >
             Welcome to Habya!

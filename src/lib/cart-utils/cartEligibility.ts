@@ -29,7 +29,7 @@ export function validateTeamEligibility(
   const dbRegisteredEventIds = new Set(partnerRegistrations);
 
   if (dbRegisteredEventIds.has(eventId)) {
-    return `Sorry, ${partner.name} is already booked for this event. You'll have to crash another party!`;
+    return `${partner.name} has already registered for this event with another parnter. Try a different partner`;
   }
 
   const cartEventIds = new Set(

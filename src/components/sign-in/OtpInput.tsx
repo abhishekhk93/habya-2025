@@ -19,13 +19,18 @@ export default function OtpInput({
   onVerifyOtp,
   onResendOtp,
   verifyingOtp,
-  resendingOtp
+  resendingOtp,
 }: OtpInputProps) {
   return (
     <>
-      <p className="text-center text-gray-700">Enter OTP sent to your phone</p>
+      <span
+        className="py-4 bg-clip-text text-white text-2xl font-extrabold"
+        style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+      >
+        Enter OTP sent to your phone
+      </span>
 
-      <div className="flex justify-between space-x-2">
+      <div className="flex justify-between space-x-2 pt-4">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -41,38 +46,48 @@ export default function OtpInput({
 
       <div className="h-5">
         {otpError && (
-          <p className="text-red-600 text-sm text-center">{otpError}</p>
+          <p className="text-red-400 text-sm text-center">{otpError}</p>
         )}
       </div>
 
       <button
         onClick={onVerifyOtp}
-        className="w-full relative inline-flex justify-center items-center px-5 py-2.5 overflow-hidden font-medium text-teal-800 transition duration-300 ease-out border border-teal-300 rounded-full shadow-md group hover:shadow-lg hover:bg-teal-50"
+        className="relative inline-flex items-center justify-center w-full px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
+        style={{
+          fontFamily: "'Alumni Sans Pinstripe', cursive",
+          borderWidth: "2px",
+          borderStyle: "solid",
+          borderImageSlice: 1,
+          borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+          color: "white",
+        }}
       >
-        <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-100 to-white opacity-50 group-hover:opacity-80 rounded-full blur-sm"></span>
         {verifyingOtp ? (
-          <div className="relative z-10 flex items-center space-x-2">
-            {/* Fixed text "Verifying OTP" */}
+          <div className="relative z-10 flex items-center space-x-2 text-white text-2xl sm:text-3xl font-extrabold">
             <span>Verifying OTP</span>
 
-            {/* Dots animation */}
             <div className="flex space-x-1">
               <span
-                className="block w-2 h-2 bg-teal-800 rounded-full animate-bounce"
+                className="block w-2 h-2 bg-white rounded-full animate-bounce"
                 style={{ animationDelay: "0s" }}
               />
               <span
-                className="block w-2 h-2 bg-teal-800 rounded-full animate-bounce"
+                className="block w-2 h-2 bg-white rounded-full animate-bounce"
                 style={{ animationDelay: "0.2s" }}
               />
               <span
-                className="block w-2 h-2 bg-teal-800 rounded-full animate-bounce"
+                className="block w-2 h-2 bg-white rounded-full animate-bounce"
                 style={{ animationDelay: "0.4s" }}
               />
             </div>
           </div>
         ) : (
-          <span className="relative z-10">Verify OTP</span>
+          <span
+            className="relative z-10 text-white text-2xl sm:text-3xl font-extrabold"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            Verify OTP
+          </span>
         )}
       </button>
 

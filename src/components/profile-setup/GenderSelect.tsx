@@ -14,7 +14,7 @@ export default function GenderSelect({ value, onChange, error }: GenderSelectPro
       <div className="flex justify-between items-center mb-1">
         <label className="text-gray-700 font-medium">Gender</label>
         {error && (
-          <span className="text-red-600 text-sm">
+          <span className="text-red-400 text-sm">
             {error}
           </span>
         )}
@@ -28,7 +28,7 @@ export default function GenderSelect({ value, onChange, error }: GenderSelectPro
             value="male"
             checked={value === "male"}
             onChange={() => onChange("male")}
-            className={`mr-2 ${error ? "border-red-600" : "border-gray-300"}`}
+            className={`mr-2 ${error ? "border-red-400" : "border-gray-300"}`}
           />
           Male
         </label>
@@ -38,7 +38,7 @@ export default function GenderSelect({ value, onChange, error }: GenderSelectPro
             value="female"
             checked={value === "female"}
             onChange={() => onChange("female")}
-            className={`mr-2 ${error ? "border-red-600" : "border-gray-300"}`}
+            className={`mr-2 ${error ? "border-red-400" : "border-gray-300"}`}
           />
           Female
         </label>
