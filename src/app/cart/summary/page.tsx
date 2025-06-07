@@ -97,6 +97,23 @@ export default function CartPage() {
                         </p>
                       )}
 
+                      {/* New: Show shirt details if present */}
+                      {item.shirtData && item.shirtData.length > 0 && (
+                        <div
+                          className="text-white mt-2"
+                          style={{
+                            fontFamily: "'Alumni Sans Pinstripe', cursive",
+                          }}
+                        >
+                          {item.shirtData.map((shirt, idx) => (
+                            <p key={idx} className="text-lg">
+                              {shirt.name ? `Name: ${shirt.name}, ` : ""}
+                              Size: {shirt.size}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+
                       <p
                         className="text-lg text-white mt-1"
                         style={{
