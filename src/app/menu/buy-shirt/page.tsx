@@ -16,6 +16,7 @@ import ImageCarousel from "@/components/menu/buy-shirt/ImageCarousel";
 import ShirtSelectCard from "@/components/menu/buy-shirt/ShirtSelectCard";
 import ShirtModal from "@/components/menu/buy-shirt/ShirtModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 
 const shirtImages = ["/shirts/shirt1-bg.png", "/shirts/shirt2-bg.png"];
@@ -30,28 +31,15 @@ export default function BuyShirtPage() {
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  // Local state to track shirts for toggles
-  // Initialized from cart on load
-  const [shirts, setShirts] = useState<ShirtInfo[]>([]);
-
   // Modal control: index of toggle that triggered modal (null means closed)
-  // If index === shirts.length, means "new shirt" toggle
   const [modalIndex, setModalIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  // Load cart and populate shirts array on user load or cartItems change
+  // Load cart from localStorage on user.id load
   useEffect(() => {
     if (user?.id) {
       const restoredCart = loadCartFromLocalStorage(user.id);
       dispatch(setCart(restoredCart));
-
-      const shirtItem = restoredCart.items.find((item) => item.id === "23");
-      if (shirtItem?.shirtData && shirtItem.shirtData.length > 0) {
-        setShirts(shirtItem.shirtData);
-      } else {
-        // If no shirts, start with empty array
-        setShirts([]);
-      }
     }
   }, [user?.id, dispatch]);
 
@@ -62,68 +50,41 @@ export default function BuyShirtPage() {
     }
   }, [cartItems, user?.id]);
 
-  // When shirts array changes, update the cart slice accordingly
-  useEffect(() => {
-    if (shirts.length === 0) {
-      dispatch(removeItem("23"));
-    } else {
-      // Always remove before add to avoid duplicates
-      dispatch(removeItem("23"));
-      dispatch(
-        addItem({
-          id: "23",
-          type: "shirt",
-          name: "Shirt",
-          price: 500,
-          quantity: shirts.length,
-          shirtData: shirts,
-        })
-      );
-    }
-  }, [shirts, dispatch]);
+  // Filter all shirt items from cart
+  const shirtCartItems = cartItems.filter((item) => item.type === "shirt");
 
   // Called when toggling any switch on page
   // If toggling ON => open modal to add info for that toggle index
-  // If toggling OFF => remove that shirt from shirts array
+  // If toggling OFF => remove that shirt from cart by UUID
   const handleToggle = (index: number, checked: boolean) => {
     if (checked) {
-      // Open modal for this toggle index (could be new shirt toggle)
-      setModalIndex(index);
+      setModalIndex(index); // for modal context (existing or new)
       setShowModal(true);
     } else {
-      // Remove shirt at index from array (only if index < shirts.length)
-      if (index < shirts.length) {
-        const newShirts = [...shirts];
-        newShirts.splice(index, 1); // remove one shirt
-        setShirts(newShirts);
+      // Remove corresponding shirt item by UUID
+      const shirtToRemove = shirtCartItems[index];
+      if (shirtToRemove) {
+        dispatch(removeItem(shirtToRemove.id));
       }
     }
   };
 
-  // Modal submit: update shirts array either replacing or adding item at modalIndex
+  // Modal submit: add a new shirt item with UUID to cart
   const handleModalSubmit = (data: {
     name?: string;
     number?: string;
     size: string;
   }) => {
-    const newShirt: ShirtInfo = { name: data.name, size: data.size };
+    const newShirtItem: CartItem = {
+      id: uuidv4(),
+      type: "shirt",
+      name: "Shirt",
+      price: 500,
+      quantity: 1,
+      shirtData: [{ name: data.name, size: data.size }],
+    };
 
-    if (modalIndex === null) {
-      // Defensive: no modal open
-      setShowModal(false);
-      return;
-    }
-
-    if (modalIndex < shirts.length) {
-      // Editing existing shirt toggle (replace shirt info)
-      const newShirts = [...shirts];
-      newShirts[modalIndex] = newShirt;
-      setShirts(newShirts);
-    } else if (modalIndex === shirts.length) {
-      // Adding new shirt toggle (append)
-      setShirts([...shirts, newShirt]);
-    }
-
+    dispatch(addItem(newShirtItem));
     setShowModal(false);
     setModalIndex(null);
   };
@@ -166,9 +127,9 @@ export default function BuyShirtPage() {
 
         {/* Render one ShirtSelectCard per existing shirt (toggled ON) */}
         <AnimatePresence>
-          {shirts.map((shirt, index) => (
+          {shirtCartItems.map((item, index) => (
             <motion.div
-              key={`shirt-toggle-${index}`}
+              key={item.id}
               layout
               initial={{ opacity: 0, scale: 0.95, height: 0 }}
               animate={{ opacity: 1, scale: 1, height: "auto" }}
@@ -202,8 +163,10 @@ export default function BuyShirtPage() {
                 className="text-lg text-white mx-2"
                 style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
-                {shirt.name ? `Name: ${shirt.name}, ` : ""}
-                Size: {shirt.size}
+                {item.shirtData?.[0]?.name
+                  ? `Name: ${item.shirtData[0].name}, `
+                  : ""}
+                Size: {item.shirtData?.[0]?.size}
               </p>
             </motion.div>
           ))}
@@ -213,7 +176,7 @@ export default function BuyShirtPage() {
         <div className="mb-2">
           <ShirtSelectCard
             selected={false}
-            onToggle={(checked) => handleToggle(shirts.length, checked)}
+            onToggle={(checked) => handleToggle(shirtCartItems.length, checked)}
           />
           <p
             className="text-lg text-white mx-2"
@@ -225,10 +188,7 @@ export default function BuyShirtPage() {
 
         {/* Modal for adding/editing shirt */}
         {showModal && (
-          <ShirtModal
-            onCancel={handleModalCancel}
-            onSubmit={handleModalSubmit}
-          />
+          <ShirtModal onCancel={handleModalCancel} onSubmit={handleModalSubmit} />
         )}
         <div className="text-center mt-12">
           <Link
