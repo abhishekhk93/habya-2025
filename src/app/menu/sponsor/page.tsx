@@ -43,7 +43,7 @@ export default function SponsorPage() {
       const matchedTier = SPONSOR_OPTIONS.find(
         (opt) => opt.price === sponsorItem.price
       )?.label;
-  
+
       if (matchedTier) {
         setSelectedTier(matchedTier);
       } else {
@@ -55,7 +55,6 @@ export default function SponsorPage() {
       setCustomAmount("");
     }
   }, [cartItems]);
-  
 
   const getSelectedPrice = (tier: string): number => {
     if (tier === "Custom") {
@@ -104,10 +103,10 @@ export default function SponsorPage() {
           className="text-center text-2xl text-gray-300 mb-10"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          We’ve been building this tournament for 9 years with passion and
-          community love. Your sponsorship helps us bring together talent,
-          opportunity, and celebration. Choose a sponsorship tier or contribute
-          a custom amount. Every bit of support makes a difference!
+          Habya is now in its 9th edition — a tournament built on passion,
+          tradition, and community spirit. Your sponsorship helps us bring
+          together talent, opportunity, and celebration. Choose a sponsorship
+          tier to contribute. Every bit of support makes a difference!
         </p>
 
         <div className="overflow-x-auto">

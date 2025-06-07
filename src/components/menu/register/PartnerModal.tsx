@@ -131,7 +131,7 @@ export default function PartnerModal({
             </div>
           ) : partnerIdError ? (
             <p
-              className="text-red-500 text-xl text-center"
+              className="text-red-400 text-xl text-center"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               {partnerIdError}

@@ -10,6 +10,7 @@ import {
   setCart,
 } from "@/store/slices/cartSlice";
 import Navbar from "@/components/navbar/Navbar";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export default function CartPage() {
@@ -57,54 +58,65 @@ export default function CartPage() {
         ) : (
           <>
             <div className="space-y-6">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="px-2 py-4 flex justify-between items-start"
-                  style={{
-                    borderBottomWidth: "2px",
-                    borderBottomStyle: "solid",
-                    borderImageSlice: 1,
-                    borderImageSource:
-                      "linear-gradient(to right, #14b8a6, #3b82f6)",
-                  }}
-                >
-                  <div>
-                    <h2
-                      className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                    >
-                      {item.name}
-                    </h2>
-
-                    {item.partner && (
-                      <p
-                        className="text-2xl text-white mt-2"
+              <AnimatePresence>
+                {cartItems.map((item) => (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, maxHeight: 0 }}
+                    animate={{ opacity: 1, maxHeight: 200 }} // Adjust maxHeight based on your content
+                    exit={{ opacity: 0, maxHeight: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="px-2 py-4 flex justify-between items-start overflow-hidden"
+                    style={{
+                      borderBottomWidth: "2px",
+                      borderBottomStyle: "solid",
+                      borderImageSlice: 1,
+                      borderImageSource:
+                        "linear-gradient(to right, #14b8a6, #3b82f6)",
+                    }}
+                  >
+                    <div>
+                      <h2
+                        className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-400"
                         style={{
                           fontFamily: "'Alumni Sans Pinstripe', cursive",
                         }}
                       >
-                        Partner: {item.partner.name}
-                      </p>
-                    )}
+                        {item.name}
+                      </h2>
 
-                    <p
-                      className="text-lg text-white mt-1"
+                      {item.partner && (
+                        <p
+                          className="text-2xl text-white mt-2"
+                          style={{
+                            fontFamily: "'Alumni Sans Pinstripe', cursive",
+                          }}
+                        >
+                          Partner: {item.partner.name}
+                        </p>
+                      )}
+
+                      <p
+                        className="text-lg text-white mt-1"
+                        style={{
+                          fontFamily: "'Alumni Sans Pinstripe', cursive",
+                        }}
+                      >
+                        ₹{item.price}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => handleRemove(item.id)}
+                      className="text-2xl text-red-400 hover:text-red-200 transition"
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                     >
-                      ₹{item.price}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => handleRemove(item.id)}
-                    className="text-2xl text-red-400 hover:text-red-200 transition"
-                    style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
+                      Remove
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* Total */}

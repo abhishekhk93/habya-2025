@@ -73,7 +73,7 @@ export function isTeamEligible(
     teamGenders.length !== allowed.length ||
     teamGenders.some((g, i) => g !== allowed[i])
   ) {
-    return `Team gender combination does not match allowed genders for this event`;
+    return `Partnering with ${p2.name}: Team gender combination does not match allowed genders for this event. Find a suitable partner.`;
   }
 
   const p1Eligibility = isPlayerEligible(p1, event);

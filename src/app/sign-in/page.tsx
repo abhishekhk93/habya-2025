@@ -189,7 +189,7 @@ export default function SignIn() {
         <title>Sign In | Habya 2025</title>
       </Head>
 
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-100 to-blue-200 px-4 py-10">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br  from-gray-900 via-black to-gray-900 text-white px-4 py-10">
         <div
           className="max-w-md w-full rounded-full p-8 space-y-6"
           style={{
@@ -200,8 +200,11 @@ export default function SignIn() {
             borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)", // teal to blue gradient
           }}
         >
-          <h1 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
-            Sign Up
+          <h1
+            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            Sign up
           </h1>
 
           <div id="recaptcha-container"></div>
