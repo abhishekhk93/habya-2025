@@ -28,7 +28,7 @@ export default function ImageCarousel({ images }: Props) {
   }, []);
 
   return (
-    <div className="w-[400px] mx-auto">
+    <div className="w-full max-w-md mx-auto px-2">
       <div
         className="p-1 rounded-xl mb-4"
         style={{
@@ -55,7 +55,7 @@ export default function ImageCarousel({ images }: Props) {
                 alt={`Shirt ${index + 1}`}
                 width={250}
                 height={250}
-                className="rounded-lg"
+                className="rounded-lg object-contain"
               />
             </div>
           ))}

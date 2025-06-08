@@ -63,14 +63,14 @@ export async function GET(req: NextRequest) {
     );
 
     // --- Filter eligible events ---
-    const eligibleEvents = allEvents.map((event) => ({
+    const eligibleEvents = allEvents.map((event: EligibleEvent) => ({
       id: event.id,
       name: event.name,
       isRegistered: registeredEventIds.has(event.id),
       type: eventRules[event.id - 1].type,
       eligible: isPlayerEligible(player, eventRules[event.id - 1]) === null,
 
-    })).filter((e) => e.eligible);
+    })).filter((e: EligibleEvent) => e.eligible);
 
     return NextResponse.json({ eligibleEvents });
   } catch (error) {
