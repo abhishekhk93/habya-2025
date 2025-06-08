@@ -8,14 +8,15 @@ datasource db {
 }
 
 model coupons {
-  id          Int          @id @default(autoincrement())
+  coupon_code Int            @id @default(autoincrement())
+  user_id     Int
   meal        coupons_meal
-  day         coupons_day
-  assigned_to Int
-  type        coupons_type
-  users       users        @relation(fields: [assigned_to], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coupons_ibfk_1")
+  type        coupons_type   @default(default)
+  status      coupons_status @default(active)
+  redeemed_at DateTime?      @db.Timestamp(0)
+  users       users          @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "coupons_ibfk_1")
 
-  @@index([assigned_to], map: "assigned_to")
+  @@index([user_id], map: "user_id")
 }
 
 model events {
@@ -47,16 +48,27 @@ model users {
   coupons                                       coupons[]
   registrations_registrations_player1_idTousers registrations[] @relation("registrations_player1_idTousers")
   registrations_registrations_player2_idTousers registrations[] @relation("registrations_player2_idTousers")
+  shirts                                        shirts[]
+  sponsorship                                   sponsorship[]
 }
 
-enum coupons_meal {
-  snack
-  lunch
+model shirts {
+  id      Int          @id @default(autoincrement())
+  user_id Int
+  name    String?      @db.VarChar(20)
+  size    shirts_size?
+  users   users        @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "shirts_ibfk_1")
+
+  @@index([user_id], map: "user_id")
 }
 
-enum coupons_day {
-  DAY1
-  DAY2
+model sponsorship {
+  id      Int   @id @default(autoincrement())
+  user_id Int
+  amount  Int
+  users   users @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "sponsorship_ibfk_1")
+
+  @@index([user_id], map: "user_id")
 }
 
 enum users_gender {
@@ -67,4 +79,23 @@ enum users_gender {
 enum coupons_type {
   default
   bought
+}
+
+enum coupons_meal {
+  lunch
+  snack
+}
+
+enum shirts_size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum coupons_status {
+  active
+  redeemed
 }

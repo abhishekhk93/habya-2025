@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/store/store";
 import {
@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export default function CartPage() {
+  const [isProcessing, setIsProcessing] = useState(false);
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
@@ -31,6 +32,70 @@ export default function CartPage() {
     if (user?.id) {
       const updatedItems = cartItems.filter((i) => i.id !== id);
       saveCartToLocalStorage(user.id, { items: updatedItems });
+    }
+  };
+
+  const handlePayment = async () => {
+    if (isProcessing) return;
+
+    try {
+      setIsProcessing(true);
+
+      const res = await fetch("/api/payment/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: total }),
+      });
+
+      const data = await res.json();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Habya Registration",
+        description: "Event Registration",
+        order_id: data.id,
+        handler: async function (response: any) {
+          const verifyRes = await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...response, order_id: data.id }),
+          });
+
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.success) {
+            alert("✅ Payment successful");
+          } else {
+            alert("❌ Payment verification failed");
+          }
+          setIsProcessing(false); // ✅ Reset after success/failure
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false); // ✅ Reset after cancel
+          },
+        },
+        theme: { color: "#14b8a6" },
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+        },
+      };
+
+      const razor = new (window as any).Razorpay(options);
+      razor.open();
+
+      razor.on("payment.failed", () => {
+        setIsProcessing(false);
+      });
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Something went wrong with payment.");
+      setIsProcessing(false);
     }
   };
 
@@ -106,7 +171,7 @@ export default function CartPage() {
                           }}
                         >
                           {item.shirtData.map((shirt, idx) => (
-                            <p key={idx} className="text-lg">
+                            <p key={idx} className="text-2xl">
                               {shirt.name ? `Name: ${shirt.name}, ` : ""}
                               Size: {shirt.size}
                             </p>
@@ -149,20 +214,30 @@ export default function CartPage() {
             {/* Proceed to Payment */}
             <div className="mt-6 text-center">
               <button
-                onClick={() => router.push("/payment")}
-                className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                onClick={handlePayment}
+                disabled={isProcessing}
+                className={`relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 transform ${
+                  isProcessing
+                    ? "scale-95 cursor-not-allowed"
+                    : "hover:scale-105"
+                }`}
                 style={{
                   fontFamily: "'Alumni Sans Pinstripe', cursive",
                   borderImageSlice: 1,
-                  borderImageSource:
-                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                  borderImageSource: isProcessing
+                    ? "linear-gradient(to right, #ea580c, #f97316, #fb923c)"
+                    : "linear-gradient(to right, #14b8a6, #3b82f6)",
                 }}
               >
                 <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-2xl sm:text-3xl font-extrabold"
+                  className={`text-2xl sm:text-3xl font-extrabold bg-clip-text text-transparent ${
+                    isProcessing
+                      ? "bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400"
+                      : "bg-gradient-to-r from-teal-500 to-blue-600"
+                  }`}
                   style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                 >
-                  Proceed to Payment
+                  {isProcessing ? "Processing..." : "Proceed to Payment"}
                 </span>
               </button>
             </div>
