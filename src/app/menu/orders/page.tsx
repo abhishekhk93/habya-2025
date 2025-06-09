@@ -20,7 +20,7 @@ export default function MyOrdersPage() {
   useEffect(() => {
     async function fetchOrders() {
       try {
-        const res = await fetch("/api/orders");
+        const res = await fetch("/api/my-orders");
         const result = await res.json();
         setData(result);
       } catch (err) {
