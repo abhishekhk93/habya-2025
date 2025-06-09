@@ -43,3 +43,22 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 2. Reaching profile-setup after logging in or even edit profile enablement
 
 3. After clearing cookie or logout, we need to set the redux state to null as well. It is easily done in client side. Do it in server side as well. Otherwise, upon redirection, it directly goes to OTP input page. 
+
+
+
+
+1. Log payment
+2. Webhooks
+3. Login re-implement
+4. Dashboard
+5. Buy coupons // Done
+6. Insert to DB - including handling all cases // Done
+   6.a. - Test each DB query rigorously - very important. both when data exists, and doesn't
+7. Deploy and test
+8. Payment calculation verification in backend
+9. Enable limit to the event restrictions
+10. Redeem coupons
+11. Clear cart after payment // Done
+12. Use phone number to fetch coupons of a user
+13. Custom amount for sponsorship
+14. Add size chart for shirt

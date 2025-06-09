@@ -6,7 +6,7 @@ import { RootState } from "@/store/store";
 import HamburgerMenu from "./HamburgerMenu";
 
 const Navbar = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth); // Assuming isAuthenticated in auth state
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   return (
     <nav

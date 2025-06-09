@@ -30,7 +30,7 @@ export default function ImageCarousel({ images }: Props) {
   return (
     <div className="w-full max-w-md mx-auto px-2">
       <div
-        className="p-1 rounded-xl mb-4"
+        className="p-10 rounded-xl mb-4"
         style={{
           border: "2px solid transparent",
           backgroundImage:
