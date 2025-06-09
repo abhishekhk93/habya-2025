@@ -12,6 +12,7 @@ import {
 import Navbar from "@/components/navbar/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import PaymentStatusModal from "@/components/cart/summary/PaymentStatusModal";
 
 export default function CartPage() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -19,6 +20,14 @@ export default function CartPage() {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [paymentStatus, setPaymentStatus] = useState<
+    null | "success" | "partial" | "fail"
+  >(null);
+
+  const handleModalClose = () => {
+    setPaymentStatus(null);
+    router.push("/");
+  };
 
   useEffect(() => {
     if (user?.id) {
@@ -44,7 +53,7 @@ export default function CartPage() {
       const res = await fetch("/api/payment/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: total }),
+        body: JSON.stringify({ amount: total * 100 }),
       });
 
       const data = await res.json();
@@ -66,9 +75,23 @@ export default function CartPage() {
           const verifyData = await verifyRes.json();
 
           if (verifyData.success) {
-            alert("✅ Payment successful");
+            const completeRes = await fetch("/api/payment/complete", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ items: cartItems }), // 👈 send cart items here
+            });
+
+            const completeData = await completeRes.json();
+
+            if (completeData.success) {
+              localStorage.removeItem(`cart-${user?.id}`);
+              setPaymentStatus("success");
+            } else {
+              setPaymentStatus("partial");
+            }
           } else {
-            alert("❌ Payment verification failed");
+            setPaymentStatus("fail");
+            setIsProcessing(false);
           }
           setIsProcessing(false); // ✅ Reset after success/failure
         },
@@ -90,6 +113,7 @@ export default function CartPage() {
       razor.open();
 
       razor.on("payment.failed", () => {
+        setPaymentStatus("fail");
         setIsProcessing(false);
       });
     } catch (error) {
@@ -117,7 +141,10 @@ export default function CartPage() {
         </h1>
 
         {cartItems.length === 0 ? (
-          <p className="text-center text-gray-400 text-lg italic">
+          <p
+            className="text-center text-white text-3xl"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
             🛒 Your cart is empty. Add items to proceed!
           </p>
         ) : (
@@ -179,14 +206,28 @@ export default function CartPage() {
                         </div>
                       )}
 
-                      <p
-                        className="text-lg text-white mt-1"
-                        style={{
-                          fontFamily: "'Alumni Sans Pinstripe', cursive",
-                        }}
-                      >
-                        ₹{item.price}
-                      </p>
+                      {item.type === "food" ? (
+                        <>
+                          <p
+                            className="text-xl text-white"
+                            style={{
+                              fontFamily: "'Alumni Sans Pinstripe', cursive",
+                            }}
+                          >
+                            Quantity: {item.quantity}, Total: ₹
+                            {item.quantity * item.price}
+                          </p>
+                        </>
+                      ) : (
+                        <p
+                          className="text-xl text-white mt-1"
+                          style={{
+                            fontFamily: "'Alumni Sans Pinstripe', cursive",
+                          }}
+                        >
+                          ₹{item.price}
+                        </p>
+                      )}
                     </div>
 
                     <button
@@ -240,6 +281,13 @@ export default function CartPage() {
                   {isProcessing ? "Processing..." : "Proceed to Payment"}
                 </span>
               </button>
+
+              {paymentStatus && (
+                <PaymentStatusModal
+                  status={paymentStatus}
+                  onClose={handleModalClose}
+                />
+              )}
             </div>
           </>
         )}

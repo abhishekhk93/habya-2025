@@ -122,11 +122,12 @@ export default function MyOrdersPage() {
               })}
             </div>
           ) : (
-            <div className="text-gray-300 italic text-lg px-2">
-              No registrations found for you yet.{" "}
-              <span className="not-italic text-white font-medium">
-                Please register for the interested events from the menu options.
-              </span>
+            <div
+              className="text-white text-2xl px-2"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              No registrations found for you yet. Please register for the
+              interested events from the menu options.
             </div>
           )}
         </div>
@@ -192,7 +193,10 @@ export default function MyOrdersPage() {
                   ))}
               </div>
             ) : (
-              <div className="text-gray-300 italic text-lg px-2">
+              <div
+                className="text-white text-2xl px-2"
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+              >
                 No active coupons found.
               </div>
             )}
@@ -218,20 +222,20 @@ export default function MyOrdersPage() {
                       className="p-2 transition bg-white/5 rounded-md flex items-start gap-4"
                       style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                     >
-
                       <div className="flex flex-col">
                         <span className="text-white text-2xl font-semibold">
-                        {idx + 1}. {c.meal.charAt(0).toUpperCase() + c.meal.slice(1)}{" "}
+                          {idx + 1}.{" "}
+                          {c.meal.charAt(0).toUpperCase() + c.meal.slice(1)}{" "}
                           coupon - {c.coupon_code}
                         </span>
 
                         <p className="text-lg text-gray-300 mt-1">
                           {c.type === "default"
-                            ? "Coupon assigned to you during registration"
-                            : "Coupon you bought"}
+                            ? "Coupon assigned to you during registration."
+                            : "Coupon you bought."}
                           {c.redeemed_at && (
                             <>
-                              {", redeemed on: "}
+                              <br/>{"redeemed on: "}
                               {new Date(c.redeemed_at).toLocaleString("en-GB", {
                                 day: "2-digit",
                                 month: "long",
@@ -248,8 +252,11 @@ export default function MyOrdersPage() {
                   ))}
               </div>
             ) : (
-              <div className="text-gray-300 italic text-lg px-2">
-                No redeemed coupons found.
+              <div
+                className="text-white text-2xl px-2"
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+              >
+                No coupon has been redeemed yet.
               </div>
             )}
           </div>
@@ -285,12 +292,6 @@ export default function MyOrdersPage() {
                   <div
                     key={i}
                     className="p-2 transition bg-white/5 rounded-md flex items-start gap-3"
-                    style={{
-                      borderBottom: isLast ? "none" : "2px solid",
-                      borderImage: isLast
-                        ? undefined
-                        : "linear-gradient(to right, #3b82f6, #06b6d4) 1",
-                    }}
                   >
                     <div>
                       <p
@@ -323,7 +324,7 @@ export default function MyOrdersPage() {
             className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-6"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
-            T-Shirts
+            Shirts
           </h2>
           {shirts && shirts.length > 0 ? (
             <div className="space-y-4">
@@ -334,7 +335,7 @@ export default function MyOrdersPage() {
                   style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                 >
                   <span className="text-white text-2xl font-semibold">
-                  {idx + 1}. {"Name: "}
+                    {idx + 1}. {"Name: "}
                     {shirt.name ? `${shirt.name}, ` : ""} {"Size: "}{" "}
                     {shirt.size}
                   </span>
@@ -342,11 +343,11 @@ export default function MyOrdersPage() {
               ))}
             </div>
           ) : (
-            <div className="text-gray-300 italic text-lg px-2">
-              No T-shirts found for you yet.{" "}
-              <span className="not-italic text-white font-medium">
-                Please check the merchandise section.
-              </span>
+            <div
+              className="text-white text-2xl px-2"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              No shirts found for you yet. Please check the merchandise section.
             </div>
           )}
         </div>
