@@ -1,16 +1,10 @@
 "use client";
-// TO-DO: Due to dependency on re-captcha verifier, this file is not split and migrated to utils as of now
-// Currently, it is a big file, re-structure it when needed
+
 import { useEffect, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 
 import { PhoneInput, OtpInput } from "@/components/sign-in";
-import { sendOtp } from "@/lib/firebase/otp-service/utils";
-import { mapFirebaseError } from "./utils/firebase-error-mapper";
-
-import { RecaptchaVerifier } from "firebase/auth";
-import { auth } from "@/lib/firebase/otp-service/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setPhone,
@@ -46,30 +40,6 @@ export default function SignIn() {
   const timer = useSelector((state: RootState) => state.auth.timer);
   const dispatch = useDispatch();
 
-  const confirmationResultRef = useRef<any>(null);
-
-  const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null);
-
-  useEffect(() => {
-    if (!recaptchaVerifierRef.current) {
-      recaptchaVerifierRef.current = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: () => {
-            console.log("reCAPTCHA verified");
-          },
-          "expired-callback": () => {
-            console.warn("reCAPTCHA expired");
-          },
-        }
-      );
-
-      recaptchaVerifierRef.current.render();
-    }
-  }, []);
-
   useEffect(() => {
     let interval: any;
     if (timer > 0) {
@@ -93,23 +63,27 @@ export default function SignIn() {
       );
       return;
     }
+
     dispatch(setLoading(true));
     dispatch(setPhoneError(""));
 
     try {
-      if (!recaptchaVerifierRef.current) {
-        throw new Error("reCAPTCHA not ready");
+      const res = await fetch("/api/auth/otp/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        dispatch(setStep("otp"));
+        dispatch(setTimer(30));
+      } else {
+        dispatch(setPhoneError(data.error || "Failed to send OTP"));
       }
-      const confirmationResult = await sendOtp(
-        phone,
-        recaptchaVerifierRef.current
-      );
-      confirmationResultRef.current = confirmationResult;
-      dispatch(setStep("otp"));
-      dispatch(setTimer(30));
-    } catch (err: any) {
-      console.log(err);
-      dispatch(setPhoneError(mapFirebaseError(err)));
+    } catch (err) {
+      dispatch(setPhoneError("Something went wrong. Try again."));
     } finally {
       dispatch(setLoading(false));
     }
@@ -131,33 +105,42 @@ export default function SignIn() {
       return;
     }
 
-    dispatch(setVerifyingOtp(true)); // ➡️ Start loading when user clicks verify
-    try {
-      if (!confirmationResultRef.current)
-        throw new Error("Confirmation result not available");
+    dispatch(setVerifyingOtp(true));
 
-      await confirmationResultRef.current.confirm(joined);
-      dispatch(setOtpError(""));
-      // Call backend API to set JWT cookie
-      const res = await fetch("/api/auth/login", {
+    try {
+      const res = await fetch("/api/auth/otp/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone }),
-        credentials: "include",
+        body: JSON.stringify({ phone, otp: joined }),
       });
 
-      // TO-DO: handle !res case
       const data = await res.json();
 
-      if (data.status === "logged-in") {
-        dispatch(setUser(data.user));
-        dispatch(setAuthenticated(true));
-        router.push("/");
-      } else if (data.status === "new-user") {
-        router.push("/profile-setup");
+      if (data.success) {
+        dispatch(setOtpError(""));
+
+        // Call backend API to set JWT cookie
+        const loginRes = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone }),
+          credentials: "include",
+        });
+
+        const loginData = await loginRes.json();
+
+        if (loginData.status === "logged-in") {
+          dispatch(setUser(loginData.user));
+          dispatch(setAuthenticated(true));
+          router.push("/");
+        } else if (loginData.status === "new-user") {
+          router.push("/profile-setup");
+        }
+      } else {
+        dispatch(setOtpError("Invalid OTP"));
       }
-    } catch (err: any) {
-      dispatch(setOtpError(mapFirebaseError(err)));
+    } catch (err) {
+      dispatch(setOtpError("Verification failed. Try again."));
     } finally {
       dispatch(setVerifyingOtp(false));
     }
@@ -166,18 +149,22 @@ export default function SignIn() {
   const handleResendOtp = async () => {
     dispatch(setResendingOtp(true));
     try {
-      if (!recaptchaVerifierRef.current) {
-        throw new Error("reCAPTCHA not ready");
+      const res = await fetch("/api/auth/otp/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        dispatch(setTimer(30));
+        dispatch(setOtpError(""));
+      } else {
+        dispatch(setOtpError(data.error || "Failed to resend OTP"));
       }
-      const confirmationResult = await sendOtp(
-        phone,
-        recaptchaVerifierRef.current
-      );
-      confirmationResultRef.current = confirmationResult;
-      dispatch(setTimer(30));
-      dispatch(setOtpError(""));
-    } catch (err: any) {
-      dispatch(setOtpError(mapFirebaseError(err)));
+    } catch (err) {
+      dispatch(setOtpError("Something went wrong. Try again."));
     } finally {
       dispatch(setResendingOtp(false));
     }
@@ -195,7 +182,7 @@ export default function SignIn() {
           style={{
             borderWidth: "2px",
             borderStyle: "solid",
-            borderRadius: "0.375rem", // Tailwind 'rounded-md' is 6px = 0.375rem
+            borderRadius: "0.375rem",
             borderImageSlice: 1,
             borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)", // teal to blue gradient
           }}
