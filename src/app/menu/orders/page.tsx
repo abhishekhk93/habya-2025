@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Coupon, Sponsorship, Registration, Shirt } from "@/types/Orders";
 import Navbar from "@/components/navbar/Navbar";
 import { motion } from "framer-motion";
+import { CouponAccordion } from "@/components/menu/orders/CouponAccordion";
 
 export default function MyOrdersPage() {
   const [data, setData] = useState<{
@@ -156,50 +157,14 @@ export default function MyOrdersPage() {
             >
               Active
             </h3>
-            {activeCoupons &&
-            activeCoupons.filter((c) => c.status === "active").length > 0 ? (
-              <div className="space-y-4">
-                {activeCoupons
-                  .filter((c) => c.status === "active")
-                  .map((c, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2 transition bg-white/5 rounded-md flex items-start gap-4"
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                    >
-                      <div
-                        key={idx}
-                        className=" transition rounded-md flex items-start gap-4"
-                        style={{
-                          fontFamily: "'Alumni Sans Pinstripe', cursive",
-                        }}
-                      >
-                        {/* Wrap spans and p in a flex-col div */}
-                        <div className="flex flex-col">
-                          <span className="text-white text-2xl font-semibold">
-                            {idx + 1}.{" "}
-                            {c.meal.charAt(0).toUpperCase() + c.meal.slice(1)}{" "}
-                            coupon - {c.coupon_code}
-                          </span>
-
-                          <p className="text-lg text-gray-300 mt-1">
-                            {c.type === "default"
-                              ? "Coupon assigned to you during registration"
-                              : "Coupon you bought"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            ) : (
-              <div
-                className="text-white text-2xl px-2"
-                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-              >
-                No active coupons found.
-              </div>
-            )}
+            <CouponAccordion
+              title="Lunch Coupons"
+              coupons={activeCoupons?.filter((c) => c.meal === "lunch") ?? []}
+            />
+            <CouponAccordion
+              title="Snack Coupons"
+              coupons={activeCoupons?.filter((c) => c.meal === "snack") ?? []}
+            />
           </div>
 
           {/* Redeemed Coupons */}
@@ -210,55 +175,14 @@ export default function MyOrdersPage() {
             >
               Redeemed
             </h3>
-            {redeemedCoupons &&
-            redeemedCoupons.filter((c) => c.status === "redeemed").length >
-              0 ? (
-              <div className="space-y-4">
-                {redeemedCoupons
-                  .filter((c) => c.status === "redeemed")
-                  .map((c, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2 transition bg-white/5 rounded-md flex items-start gap-4"
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                    >
-                      <div className="flex flex-col">
-                        <span className="text-white text-2xl font-semibold">
-                          {idx + 1}.{" "}
-                          {c.meal.charAt(0).toUpperCase() + c.meal.slice(1)}{" "}
-                          coupon - {c.coupon_code}
-                        </span>
-
-                        <p className="text-lg text-gray-300 mt-1">
-                          {c.type === "default"
-                            ? "Coupon assigned to you during registration."
-                            : "Coupon you bought."}
-                          {c.redeemed_at && (
-                            <>
-                              <br/>{"redeemed on: "}
-                              {new Date(c.redeemed_at).toLocaleString("en-GB", {
-                                day: "2-digit",
-                                month: "long",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                hour12: false,
-                              })}
-                            </>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            ) : (
-              <div
-                className="text-white text-2xl px-2"
-                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-              >
-                No coupon has been redeemed yet.
-              </div>
-            )}
+            <CouponAccordion
+              title="Lunch Coupons"
+              coupons={redeemedCoupons?.filter((c) => c.meal === "lunch") ?? []}
+            />
+            <CouponAccordion
+              title="Snack Coupons"
+              coupons={redeemedCoupons?.filter((c) => c.meal === "snack") ?? []}
+            />
           </div>
         </div>
 
