@@ -59,7 +59,6 @@ export default function CartPage() {
       });
 
       const data = await res.json();
-
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
         amount: data.amount,
@@ -81,7 +80,7 @@ export default function CartPage() {
             const completeRes = await fetch("/api/payment/complete", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ items: cartItems }), // 👈 send cart items here
+              body: JSON.stringify({ items: cartItems }),
             });
 
             const completeData = await completeRes.json();
@@ -89,6 +88,7 @@ export default function CartPage() {
 
             if (completeData.success) {
               localStorage.removeItem(`cart-${user?.id}`);
+              dispatch(setCart({ items: [] }));
               setPaymentStatus("success");
             } else {
               setPaymentStatus("partial");

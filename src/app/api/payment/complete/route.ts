@@ -52,8 +52,6 @@ export async function POST(req: NextRequest) {
       type: coupons_type;
       status: coupons_status;
     }[];
-
-    console.log("**** Default coupons: ****\n", defaultCoupons);
     const shirtData = shirts.flatMap(
       (item) =>
         item.shirtData?.map((shirt: any) => {
@@ -87,7 +85,7 @@ export async function POST(req: NextRequest) {
       ...(sponsorshipData.length > 0
         ? [prisma.sponsorship.createMany({ data: sponsorshipData })]
         : []),
-      ...(defaultCoupons.length > 0
+      ...(allCoupons.length > 0
         ? [prisma.coupons.createMany({ data: allCoupons })]
         : []),
     ]);
