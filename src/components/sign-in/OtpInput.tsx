@@ -46,54 +46,65 @@ export default function OtpInput({
 
       <div className="h-5">
         {otpError && (
-          <p className="text-red-400 text-sm text-center">{otpError}</p>
+          <p
+            className="text-red-400 text-xl text-center"
+            style={{
+              fontFamily: "'Alumni Sans Pinstripe', cursive",
+            }}
+          >
+            {otpError}
+          </p>
         )}
       </div>
+      <div className="flex justify-center">
+        <button
+          onClick={onVerifyOtp}
+          className="relative inline-flex items-center justify-center w-fit px-6 py-2 rounded-full transition-all duration-300 active:scale-105"
+          style={{
+            fontFamily: "'Alumni Sans Pinstripe', cursive",
+            borderWidth: "2px",
+            borderStyle: "solid",
+            borderImageSlice: 1,
+            borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+            color: "white",
+          }}
+        >
+          {verifyingOtp ? (
+            <div className="relative z-10 flex items-center space-x-2 text-white text-2xl sm:text-3xl font-extrabold">
+              <span>Verifying OTP</span>
 
-      <button
-        onClick={onVerifyOtp}
-        className="relative inline-flex items-center justify-center w-full px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
-        style={{
-          fontFamily: "'Alumni Sans Pinstripe', cursive",
-          borderWidth: "2px",
-          borderStyle: "solid",
-          borderImageSlice: 1,
-          borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
-          color: "white",
-        }}
-      >
-        {verifyingOtp ? (
-          <div className="relative z-10 flex items-center space-x-2 text-white text-2xl sm:text-3xl font-extrabold">
-            <span>Verifying OTP</span>
-
-            <div className="flex space-x-1">
-              <span
-                className="block w-2 h-2 bg-white rounded-full animate-bounce"
-                style={{ animationDelay: "0s" }}
-              />
-              <span
-                className="block w-2 h-2 bg-white rounded-full animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              />
-              <span
-                className="block w-2 h-2 bg-white rounded-full animate-bounce"
-                style={{ animationDelay: "0.4s" }}
-              />
+              <div className="flex space-x-1">
+                <span
+                  className="block w-2 h-2 bg-white rounded-full animate-bounce"
+                  style={{ animationDelay: "0s" }}
+                />
+                <span
+                  className="block w-2 h-2 bg-white rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                />
+                <span
+                  className="block w-2 h-2 bg-white rounded-full animate-bounce"
+                  style={{ animationDelay: "0.4s" }}
+                />
+              </div>
             </div>
-          </div>
-        ) : (
-          <span
-            className="relative z-10 text-white text-2xl sm:text-3xl font-extrabold"
-            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-          >
-            Verify OTP
-          </span>
-        )}
-      </button>
+          ) : (
+            <span
+              className="relative z-10 text-white text-2xl sm:text-3xl font-extrabold"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              Verify OTP
+            </span>
+          )}
+        </button>
+      </div>
 
-      <div className="h-5 flex items-center justify-center mt-2">
+      <div
+        className="h-5 flex items-center justify-center mt-2 text-xl"
+        style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+      >
         {timer > 0 ? (
-          <span className="text-gray-500">Resend OTP in {timer}s</span>
+          <span className="text-gray-500 ">Resend OTP in {timer}s</span>
         ) : (
           <button
             onClick={onResendOtp}

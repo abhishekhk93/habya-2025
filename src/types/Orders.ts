@@ -22,7 +22,7 @@ export type Coupon = {
   meal: string;
   type: "default" | "bought";
   status: "active" | "redeemed";
-  redeemed_at: string | null;
+  redeemed_at: Date | null;
 };
 
 export type Sponsorship = {

@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const genderToLower = gender.lower
     const user = await prisma.users.create({
       data: { phone, name, gender , dob: new Date(dob) },
     });

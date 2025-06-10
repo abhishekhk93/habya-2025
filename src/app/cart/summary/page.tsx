@@ -13,6 +13,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import PaymentStatusModal from "@/components/cart/summary/PaymentStatusModal";
+import CompletingModal from "@/components/cart/summary/CompletingModal";
 
 export default function CartPage() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -23,6 +24,7 @@ export default function CartPage() {
   const [paymentStatus, setPaymentStatus] = useState<
     null | "success" | "partial" | "fail"
   >(null);
+  const [isCompleting, setIsCompleting] = useState(false);
 
   const handleModalClose = () => {
     setPaymentStatus(null);
@@ -75,6 +77,7 @@ export default function CartPage() {
           const verifyData = await verifyRes.json();
 
           if (verifyData.success) {
+            setIsCompleting(true);
             const completeRes = await fetch("/api/payment/complete", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -82,6 +85,7 @@ export default function CartPage() {
             });
 
             const completeData = await completeRes.json();
+            setIsCompleting(false);
 
             if (completeData.success) {
               localStorage.removeItem(`cart-${user?.id}`);
@@ -175,7 +179,7 @@ export default function CartPage() {
                           fontFamily: "'Alumni Sans Pinstripe', cursive",
                         }}
                       >
-                        {item.name}
+                        {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                       </h2>
 
                       {item.partner && (
@@ -281,6 +285,14 @@ export default function CartPage() {
                   {isProcessing ? "Processing..." : "Proceed to Payment"}
                 </span>
               </button>
+
+              {isCompleting && <CompletingModal />}
+              {paymentStatus && (
+                <PaymentStatusModal
+                  status={paymentStatus}
+                  onClose={handleModalClose}
+                />
+              )}
 
               {paymentStatus && (
                 <PaymentStatusModal

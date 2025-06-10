@@ -107,7 +107,7 @@ export default function BuyShirtPage() {
         </h1>
 
         <p
-          className="text-center text-2xl text-white mb-10"
+          className="text-center text-3xl text-white mb-10"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Get your official{" "}

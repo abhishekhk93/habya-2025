@@ -70,8 +70,8 @@ const authSlice = createSlice({
     setProfileCreated(state, action: PayloadAction<boolean>) {
       state.isProfileCreated = action.payload;
     },
-    resetAuthState() {
-      return initialState;
+    resetAuthState(state) {
+      Object.assign(state, initialState);
     },
   },
 });
