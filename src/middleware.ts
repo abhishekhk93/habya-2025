@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose"; // ✅ Edge-compatible
+import { isPublicRoute } from "@/lib/path-utils/isPublicRoute";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const encoder = new TextEncoder();
@@ -13,22 +14,7 @@ export async function middleware(req: NextRequest) {
   console.log("📍 Pathname:", pathname);
   console.log("🔐 Token present:", !!token);
 
-  const publicPaths = [
-    "/",
-    "/sign-in",
-    "/api/auth/login",
-    "/api/auth/create-user",
-    "/api/auth/verify-token",
-    "/api/user/events-eligible",
-    "/redirect",
-  ];
-
-  const isPublic =
-    pathname === "/" ||
-    publicPaths
-      .filter((p) => p !== "/")
-      .some((path) => pathname.startsWith(path)) ||
-    pathname.startsWith("/_next/");
+  const isPublic = isPublicRoute(pathname);
 
   console.log("🌐 Is public route:", isPublic);
 

@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma/prisma";
 import { CartItem } from "@/store/slices/cartSlice";
 import { getDefaultCouponsDataFromRegistrations } from "./utils/getDefaultCoupons";
 import { getBoughtCouponsFromCart } from "./utils/getBoughtCoupons";
+import { coupons_meal, coupons_status, coupons_type, isValidShirtSize } from "./utils/typechecks";
+import { shirts_size } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   const JWT_SECRET = process.env.JWT_SECRET!;
@@ -44,16 +46,24 @@ export async function POST(req: NextRequest) {
       registrationData
     );
     const boughtCoupons = getBoughtCouponsFromCart(cartItems, userId);
-    const allCoupons = [...defaultCoupons, ...boughtCoupons];
+    const allCoupons = [...defaultCoupons, ...boughtCoupons] as {
+      user_id: number;
+      meal: coupons_meal;
+      type: coupons_type;
+      status: coupons_status;
+    }[];
 
     console.log("**** Default coupons: ****\n", defaultCoupons);
     const shirtData = shirts.flatMap(
       (item) =>
         item.shirtData?.map((shirt: any) => {
-          const data: { user_id: number; size: string; name?: string } = {
+          const data: { user_id: number; size?: shirts_size; name?: string } = {
             user_id: userId,
-            size: shirt.size,
           };
+
+          if (isValidShirtSize(shirt.size)) {
+            data.size = shirt.size;
+          }
           if (shirt.name) {
             data.name = shirt.name;
           }

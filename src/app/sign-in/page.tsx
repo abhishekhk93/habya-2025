@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 
@@ -10,35 +10,37 @@ import {
   setPhone,
   setOtp,
   setStep,
-  setPhoneError,
-  setOtpError,
-  setLoading,
-  setVerifyingOtp,
-  setResendingOtp,
   setTimer,
   decrementTimer,
   setAuthenticated,
+  resetAuthState,
 } from "@/store/slices/authSlice";
 import type { RootState } from "@/store/store";
 import { setUser } from "@/store/slices/userSlice";
+import { resetProfileForm } from "@/store/slices/profileSlice";
 
 export default function SignIn() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
+  // Redux states
   const phone = useSelector((state: RootState) => state.auth.phone);
   const otp = useSelector((state: RootState) => state.auth.otp);
   const step = useSelector((state: RootState) => state.auth.step);
-  const phoneError = useSelector((state: RootState) => state.auth.phoneError);
-  const otpError = useSelector((state: RootState) => state.auth.otpError);
-  const loading = useSelector((state: RootState) => state.auth.loading);
-  const verifyingOtp = useSelector(
-    (state: RootState) => state.auth.verifyingOtp
-  );
-  const resendingOtp = useSelector(
-    (state: RootState) => state.auth.resendingOtp
-  );
   const timer = useSelector((state: RootState) => state.auth.timer);
-  const dispatch = useDispatch();
+
+  // Local states
+  const [phoneError, setPhoneError] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
+  const [resendingOtp, setResendingOtp] = useState(false);
+
+  // Reset auth state on mount
+  useEffect(() => {
+    dispatch(resetAuthState());
+    dispatch(resetProfileForm());
+  }, [dispatch]);
 
   useEffect(() => {
     let interval: any;
@@ -48,24 +50,22 @@ export default function SignIn() {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [timer]);
+  }, [timer, dispatch]);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
     dispatch(setPhone(value));
-    dispatch(setPhoneError(""));
+    setPhoneError("");
   };
 
   const validatePhoneAndSendOtp = async () => {
     if (!/^[0-9]\d{9}$/.test(phone)) {
-      dispatch(
-        setPhoneError("Enter a valid 10-digit number starting with 6-9")
-      );
+      setPhoneError("Enter a valid 10-digit number starting with 6-9");
       return;
     }
 
-    dispatch(setLoading(true));
-    dispatch(setPhoneError(""));
+    setLoading(true);
+    setPhoneError("");
 
     try {
       const res = await fetch("/api/auth/otp/send-otp", {
@@ -80,12 +80,12 @@ export default function SignIn() {
         dispatch(setStep("otp"));
         dispatch(setTimer(30));
       } else {
-        dispatch(setPhoneError(data.error || "Failed to send OTP"));
+        setPhoneError(data.error || "Failed to send OTP");
       }
     } catch (err) {
-      dispatch(setPhoneError("Something went wrong. Try again."));
+      setPhoneError("Something went wrong. Try again.");
     } finally {
-      dispatch(setLoading(false));
+      setLoading(false);
     }
   };
 
@@ -101,11 +101,11 @@ export default function SignIn() {
   const validateOtp = async () => {
     const joined = otp.join("");
     if (!/^\d{6}$/.test(joined)) {
-      dispatch(setOtpError("Enter a valid 6-digit OTP"));
+      setOtpError("Enter a valid 6-digit OTP");
       return;
     }
 
-    dispatch(setVerifyingOtp(true));
+    setVerifyingOtp(true);
 
     try {
       const res = await fetch("/api/auth/otp/verify-otp", {
@@ -117,9 +117,8 @@ export default function SignIn() {
       const data = await res.json();
 
       if (data.success) {
-        dispatch(setOtpError(""));
+        setOtpError("");
 
-        // Call backend API to set JWT cookie
         const loginRes = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -137,17 +136,17 @@ export default function SignIn() {
           router.push("/profile-setup");
         }
       } else {
-        dispatch(setOtpError("Invalid OTP"));
+        setOtpError("Invalid OTP");
       }
     } catch (err) {
-      dispatch(setOtpError("Verification failed. Try again."));
+      setOtpError("Verification failed. Try again.");
     } finally {
-      dispatch(setVerifyingOtp(false));
+      setVerifyingOtp(false);
     }
   };
 
   const handleResendOtp = async () => {
-    dispatch(setResendingOtp(true));
+    setResendingOtp(true);
     try {
       const res = await fetch("/api/auth/otp/send-otp", {
         method: "POST",
@@ -159,14 +158,14 @@ export default function SignIn() {
 
       if (data.success) {
         dispatch(setTimer(30));
-        dispatch(setOtpError(""));
+        setOtpError("");
       } else {
-        dispatch(setOtpError(data.error || "Failed to resend OTP"));
+        setOtpError(data.error || "Failed to resend OTP");
       }
     } catch (err) {
-      dispatch(setOtpError("Something went wrong. Try again."));
+      setOtpError("Something went wrong. Try again.");
     } finally {
-      dispatch(setResendingOtp(false));
+      setResendingOtp(false);
     }
   };
 
@@ -184,11 +183,11 @@ export default function SignIn() {
             borderStyle: "solid",
             borderRadius: "0.375rem",
             borderImageSlice: 1,
-            borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)", // teal to blue gradient
+            borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
           }}
         >
           <h1
-            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            className="text-4xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
             Sign up

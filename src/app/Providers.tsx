@@ -7,6 +7,7 @@ import { store } from "@/store/store";
 import { setUser } from "@/store/slices/userSlice";
 import { setAuthenticated } from "@/store/slices/authSlice";
 import { setStep } from "@/store/slices/authSlice"; // assuming you have this
+import { isPublicRoute } from "@/lib/path-utils/isPublicRoute";
 
 // Internal component to handle loading user data
 function InternalProvider({ children }: { children: ReactNode }) {
@@ -29,8 +30,8 @@ function InternalProvider({ children }: { children: ReactNode }) {
           dispatch(setUser(null));
           dispatch(setAuthenticated(false));
           dispatch(setStep("phone"));
-          // Only redirect if not already on home
-          if (pathname !== "/") {
+          // Only redirect if not already on a public path
+          if (!isPublicRoute(pathname)) {
             router.replace("/redirect?to=sign-in");
           }
         }
@@ -39,8 +40,8 @@ function InternalProvider({ children }: { children: ReactNode }) {
         dispatch(setUser(null));
         dispatch(setAuthenticated(false));
         dispatch(setStep("phone"));
-        // Only redirect if not already on home
-        if (pathname !== "/") {
+        // Only redirect if not already on a public path
+        if (!isPublicRoute(pathname)) {
           router.replace("/redirect?to=sign-in");
         }
       }

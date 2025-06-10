@@ -1,3 +1,4 @@
+// src/components/profile-setup/ProfileForm.tsx
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -7,7 +8,6 @@ import {
   setDob,
   setErrors,
   setSubmitting,
-  setProfileSaved,
 } from "@/store/slices/profileSlice";
 import { useRouter } from "next/navigation";
 import NameInput from "./NameInput";
@@ -18,12 +18,11 @@ import {
   validateGender,
   validateDob,
 } from "@/components/profile-setup/utils/utils";
-import { useEffect, useState } from "react";
 import { setAuthenticated, setProfileCreated } from "@/store/slices/authSlice";
 import { setUser } from "@/store/slices/userSlice";
 
 export default function ProfileForm() {
-  const { name, gender, errors, submitting, profileSaved } = useSelector(
+  const { name, gender, errors, submitting } = useSelector(
     (state: RootState) => state.profile
   );
   const dobString = useSelector((state: RootState) => state.profile.dob);
@@ -60,79 +59,88 @@ export default function ProfileForm() {
       dispatch(setUser(data.user));
       dispatch(setAuthenticated(true));
       dispatch(setProfileCreated(true));
-      dispatch(setProfileSaved(true));
+      // Remove setProfileSaved - no need now
+      // dispatch(setProfileSaved(true));
+
+      // Directly redirect here after success
       router.push("/");
     } catch (err) {
-      console.error(
-        "Profile save failed, There was an error saving your profile",
-        err
-      );
+      console.error("Profile save failed", err);
       router.push("/sign-in");
     } finally {
       dispatch(setSubmitting(false));
     }
   };
 
-  if (profileSaved) {
-    return <ProfileSavedSuccess />;
-  }
+  // Remove this block:
+  // if (profileSaved) {
+  //   return <ProfileSavedSuccess />;
+  // }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <NameInput
-        value={name}
-        onChange={(v) => dispatch(setName(v))}
-        error={errors.name}
-      />
-      <GenderSelect
-        value={gender}
-        onChange={(v) => dispatch(setGender(v))}
-        error={errors.gender}
-      />
-      <DobPicker
-        value={dob}
-        onChange={(d) => dispatch(setDob(d?.toISOString() || null))}
-        error={errors.dob}
-      />
-      <button
-        type="submit"
-        disabled={submitting}
-        className="w-full relative inline-flex justify-center items-center px-5 py-2.5 overflow-hidden font-medium text-teal-800 transition duration-300 ease-out border border-teal-300 rounded-full shadow-md group hover:shadow-lg hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className=" flex items-center justify-center text-white transition-all duration-1000 ease-in-out">
+      <form
+        onSubmit={handleSubmit}
+        className="rounded-lg p-6 max-w-md w-full shadow-lg border-2 border-transparent bg-gradient-to-r from-gray-900 via-black to-gray-900 transition-all duration-300 ease-in-out"
+        style={{
+          borderImageSlice: 1,
+          borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+        }}
       >
-        <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-100 to-white opacity-50 group-hover:opacity-80 rounded-full blur-sm" />
-        <span className="relative z-10">
-          {submitting ? "Saving..." : "Complete Setup"}
-        </span>
-      </button>
-    </form>
-  );
-}
-
-// Inline small component
-function ProfileSavedSuccess() {
-  const router = useRouter();
-  const [counter, setCounter] = useState(5);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCounter((prev) => prev - 1);
-    }, 1000);
-
-    if (counter === 0) {
-      clearInterval(timer);
-      router.push("/");
-    }
-
-    return () => clearInterval(timer);
-  }, [counter, router]);
-
-  return (
-    <div className="flex flex-col items-center justify-center text-center space-y-6">
-      <div className="animate-bounce text-6xl text-green-500">🎉</div>
-      <h2 className="text-3xl font-bold text-teal-600">
-        Profile Added Successfully!
-      </h2>
-      <p className="text-gray-700">Redirecting to Home page in {counter}...</p>
+        <NameInput
+          value={name}
+          onChange={(v) => dispatch(setName(v))}
+          error={errors.name}
+        />
+        <GenderSelect
+          value={gender}
+          onChange={(v) => dispatch(setGender(v))}
+          error={errors.gender}
+        />
+        <DobPicker
+          value={dob}
+          onChange={(d) => dispatch(setDob(d?.toISOString() || null))}
+          error={errors.dob}
+        />
+        <button
+          type="submit"
+          disabled={submitting}
+          className="
+    mt-6
+    block
+    mx-auto
+    px-8 py-3
+    text-2xl sm:text-3xl
+    font-medium
+    rounded-full
+    border
+    border-transparent
+    shadow-md
+    transition-transform duration-300 ease-in-out
+    active:scale-95
+    disabled:opacity-50 disabled:cursor-not-allowed
+    bg-transparent
+  "
+          style={{
+            fontFamily: "'Alumni Sans Pinstripe', cursive",
+            borderImageSlice: 1,
+            borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
+            color: undefined, // override any other color style
+          }}
+        >
+          <span
+            className="relative z-10"
+            style={{
+              background: "linear-gradient(to right, #4ade80, #2563eb)", // teal-400 to blue-600
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              display: "inline-block",
+            }}
+          >
+            {submitting ? "Saving..." : "Complete Setup"}
+          </span>
+        </button>
+      </form>
     </div>
   );
 }

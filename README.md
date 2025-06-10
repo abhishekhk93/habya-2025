@@ -49,7 +49,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 1. Log payment
 2. Webhooks
-3. Login re-implement
+3. Login re-implement// Done
 4. Dashboard
 5. Buy coupons // Done
 6. Insert to DB - including handling all cases // Done
@@ -61,4 +61,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 11. Clear cart after payment // Done
 12. Use phone number to fetch coupons of a user
 13. Custom amount for sponsorship
-14. Add size chart for shirt
+14. Add size chart for shirt, custom options
+15. Post payment, show correct message instead of processing
+16. OTP input box - on clearing, it should go to the previous box
+17. Keep JWT secrets in secure place
+18. Add profile form redesign, Profile saved form redesign // Done
+19. Remove redirect page display for a public path.  // Done
+20. "Edit-profile" component. 
+21. Validate OTP sending failed. 
+22. Cascade schema of Users (and all apllicable tables) to delete and update
