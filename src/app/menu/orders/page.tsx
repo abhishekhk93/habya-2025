@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import type { Coupon, Sponsorship, Registration, Shirt } from "@/types/Orders";
 import Navbar from "@/components/navbar/Navbar";
-import { motion } from "framer-motion";
 import { CouponAccordion } from "@/components/menu/orders/CouponAccordion";
 import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
@@ -212,7 +211,6 @@ export default function MyOrdersPage() {
 
             <div className="space-y-4">
               {sponsorships.map((s, i) => {
-                const isLast = i === sponsorships.length - 1;
                 return (
                   <div
                     key={i}
@@ -279,35 +277,4 @@ export default function MyOrdersPage() {
       </div>
     </div>
   );
-}
-
-function Section({
-  heading,
-  color,
-  children,
-}: {
-  heading: string;
-  color: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.section
-      className="mb-10"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h2
-        className={`text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${color} mb-4`}
-        style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-      >
-        {heading}
-      </h2>
-      {children}
-    </motion.section>
-  );
-}
-
-function EmptyState({ message }: { message: string }) {
-  return <p className="italic text-gray-400">{message}</p>;
 }

@@ -83,6 +83,7 @@ export default function SignIn() {
         setPhoneError(data.error || "Failed to send OTP");
       }
     } catch (err) {
+      console.log("Error: ", err);
       setPhoneError("Something went wrong. Try again.");
     } finally {
       setLoading(false);
@@ -139,6 +140,7 @@ export default function SignIn() {
         setOtpError("Invalid OTP");
       }
     } catch (err) {
+      console.log("Error: ", err);
       setOtpError("Verification failed. Try again.");
     } finally {
       setVerifyingOtp(false);
@@ -163,6 +165,7 @@ export default function SignIn() {
         setOtpError(data.error || "Failed to resend OTP");
       }
     } catch (err) {
+      console.log("Error: ", err);
       setOtpError("Something went wrong. Try again.");
     } finally {
       setResendingOtp(false);

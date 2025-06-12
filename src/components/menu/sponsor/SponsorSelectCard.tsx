@@ -21,9 +21,6 @@ export default function SponsorSelectCard({
   showError,
   onToggle,
 }: Props) {
-  const isCustomValid =
-    !isCustom || (!!customAmount && Number(customAmount) > 0);
-
   return (
     <div
       className="px-2 py-4 transition-transform duration-200"

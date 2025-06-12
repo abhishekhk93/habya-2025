@@ -22,18 +22,13 @@ import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 const shirtImages = ["/shirts/shirt1-bg.png", "/shirts/shirt2-bg.png"];
 
-type ShirtInfo = {
-  name?: string;
-  size: string;
-};
-
 export default function BuyShirtPage() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   // Modal control: index of toggle that triggered modal (null means closed)
-  const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const [, setModalIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   // Load cart from localStorage on user.id load
