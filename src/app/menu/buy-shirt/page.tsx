@@ -18,6 +18,7 @@ import ShirtModal from "@/components/menu/buy-shirt/ShirtModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
+import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 const shirtImages = ["/shirts/shirt1-bg.png", "/shirts/shirt2-bg.png"];
 
@@ -74,6 +75,7 @@ export default function BuyShirtPage() {
     name?: string;
     number?: string;
     size: string;
+    type: string;
   }) => {
     const newShirtItem: CartItem = {
       id: uuidv4(),
@@ -81,7 +83,7 @@ export default function BuyShirtPage() {
       name: "Shirt",
       price: 500,
       quantity: 1,
-      shirtData: [{ name: data.name, size: data.size }],
+      shirtData: [{ name: data.name, size: data.size, type: data.type }],
     };
 
     dispatch(addItem(newShirtItem));
@@ -110,8 +112,8 @@ export default function BuyShirtPage() {
           className="text-center text-3xl text-white mb-10"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Get your official{" "}
-          <span className="text-teal-400">Habya 2025</span> shirt for ₹500.
+          Get your official <span className="text-teal-400">Habya 2025</span>{" "}
+          shirt for ₹500.
           <br />
           <span
             className="bg-clip-text text-white"
@@ -154,19 +156,22 @@ export default function BuyShirtPage() {
                 onToggle={(checked) => handleToggle(index, checked)}
               />
               <p
-                className="text-lg text-white mx-2"
+                className="text-xl text-white mx-2"
                 style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
                 Shirt is added to cart.
               </p>
               <p
-                className="text-lg text-white mx-2"
+                className="text-xl text-white mx-2"
                 style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
                 {item.shirtData?.[0]?.name
                   ? `Name: ${item.shirtData[0].name}, `
                   : ""}
-                Size: {item.shirtData?.[0]?.size}
+                Size: {item.shirtData?.[0]?.size},
+                {item.shirtData?.[0]?.type
+                  ? `Type: ${shirtTypeLabels[item.shirtData?.[0]?.type]}`
+                  : ""}
               </p>
             </motion.div>
           ))}
@@ -179,7 +184,7 @@ export default function BuyShirtPage() {
             onToggle={(checked) => handleToggle(shirtCartItems.length, checked)}
           />
           <p
-            className="text-lg text-white mx-2"
+            className="text-xl text-white mx-2"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
             Add a new shirt
@@ -188,7 +193,10 @@ export default function BuyShirtPage() {
 
         {/* Modal for adding/editing shirt */}
         {showModal && (
-          <ShirtModal onCancel={handleModalCancel} onSubmit={handleModalSubmit} />
+          <ShirtModal
+            onCancel={handleModalCancel}
+            onSubmit={handleModalSubmit}
+          />
         )}
         <div className="text-center mt-12">
           <Link
