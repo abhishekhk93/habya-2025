@@ -5,6 +5,7 @@ import { User } from "@/store/slices/userSlice";
 import { type Gender } from "@/lib/events-utils/eventRules/types";
 import { eventRules } from "@/lib/events-utils/eventRules";
 import { jwtVerify } from "jose";
+import { EligibleEvent } from "@/types/Event";
 
 interface TokenPayload {
   id: number;
