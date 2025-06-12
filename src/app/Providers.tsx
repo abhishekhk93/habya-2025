@@ -47,7 +47,7 @@ function InternalProvider({ children }: { children: ReactNode }) {
     }
 
     loadUser();
-  }, [dispatch, router]);
+  }, [dispatch, router, pathname]);
 
   return <>{children}</>;
 }

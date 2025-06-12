@@ -109,10 +109,10 @@ export async function POST(req: NextRequest) {
     ]);
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    console.error(err);
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error("Unknown error");
     return NextResponse.json(
-      { success: false, error: "DB insert failed" },
+      { success: false, error: `DB insert failed:${error}` },
       { status: 500 }
     );
   }

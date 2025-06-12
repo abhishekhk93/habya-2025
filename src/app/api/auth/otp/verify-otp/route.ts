@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
   const { phone, otp } = await req.json();
 
   try {
-    const verificationCheck = await client.verify
-      .v2.services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+    const verificationCheck = await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
       .verificationChecks.create({
         to: `+91${phone}`,
         code: otp,
@@ -24,7 +24,12 @@ export async function POST(req: NextRequest) {
     } else {
       return NextResponse.json({ success: false, message: "Invalid OTP" });
     }
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error("Unknown error");
+
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
