@@ -24,6 +24,7 @@ const menuItems = [
   { label: "Buy Shirt", href: "/menu/buy-shirt" },
   { label: "My orders", href: "/menu/orders" },
   { label: "My Cart", href: "/cart/summary" },
+  { label: "Edit My Profile", href: "/menu/edit-profile" },
 ];
 
 const HamburgerMenu = () => {

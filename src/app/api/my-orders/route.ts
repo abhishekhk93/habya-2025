@@ -78,6 +78,7 @@ export async function GET(req: NextRequest) {
         id: true,
         name: true,
         size: true,
+        type: true,
       },
     });
 

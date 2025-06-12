@@ -42,7 +42,7 @@ export default function ImageCarousel({ images }: Props) {
       >
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-lg"
+          className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-lg pb-8"
           style={{ scrollSnapType: "x mandatory" }}
         >
           {images.map((src, index) => (

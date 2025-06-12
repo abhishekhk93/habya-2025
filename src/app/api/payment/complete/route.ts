@@ -4,8 +4,14 @@ import prisma from "@/lib/prisma/prisma";
 import { CartItem } from "@/store/slices/cartSlice";
 import { getDefaultCouponsDataFromRegistrations } from "./utils/getDefaultCoupons";
 import { getBoughtCouponsFromCart } from "./utils/getBoughtCoupons";
-import { coupons_meal, coupons_status, coupons_type, isValidShirtSize } from "./utils/typechecks";
-import { shirts_size } from "@prisma/client";
+import {
+  coupons_meal,
+  coupons_status,
+  coupons_type,
+  isValidShirtSize,
+  shirts_size,
+  shirts_type,
+} from "./utils/typechecks";
 
 export async function POST(req: NextRequest) {
   const JWT_SECRET = process.env.JWT_SECRET!;
@@ -55,7 +61,12 @@ export async function POST(req: NextRequest) {
     const shirtData = shirts.flatMap(
       (item) =>
         item.shirtData?.map((shirt: any) => {
-          const data: { user_id: number; size?: shirts_size; name?: string } = {
+          const data: {
+            user_id: number;
+            size?: shirts_size;
+            name?: string;
+            type?: shirts_type;
+          } = {
             user_id: userId,
           };
 
@@ -64,6 +75,13 @@ export async function POST(req: NextRequest) {
           }
           if (shirt.name) {
             data.name = shirt.name;
+          }
+          if (
+            shirt.type === "ROUND_HALF" ||
+            shirt.type === "ROUND_SLEEVELESS" ||
+            shirt.type === "COLLAR_HALF"
+          ) {
+            data.type = shirt.type;
           }
           return data;
         }) || []

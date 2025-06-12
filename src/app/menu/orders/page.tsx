@@ -5,6 +5,7 @@ import type { Coupon, Sponsorship, Registration, Shirt } from "@/types/Orders";
 import Navbar from "@/components/navbar/Navbar";
 import { motion } from "framer-motion";
 import { CouponAccordion } from "@/components/menu/orders/CouponAccordion";
+import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 export default function MyOrdersPage() {
   const [data, setData] = useState<{
@@ -261,7 +262,7 @@ export default function MyOrdersPage() {
                   <span className="text-white text-2xl font-semibold">
                     {idx + 1}. {"Name: "}
                     {shirt.name ? `${shirt.name}, ` : ""} {"Size: "}{" "}
-                    {shirt.size}
+                    {shirt.size}, {"Size: "}{shirtTypeLabels[shirt?.type]} 
                   </span>
                 </div>
               ))}
