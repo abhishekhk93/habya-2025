@@ -26,7 +26,6 @@ export async function GET(req: NextRequest) {
     }
 
     const { payload } = await jwtVerify(token, encoder.encode(JWT_SECRET))  as { payload: TokenPayload };
-    console.log("✅ Token verified in API route:", payload);
 
     const userId = payload.id;
     const dob = new Date(payload.dob);

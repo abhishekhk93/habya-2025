@@ -29,13 +29,11 @@ export function parseEnvDate(key: string): Date {
   
   export function isAgedBelow16(dob: Date): boolean {
     const age = calculateAgeOn(dob, TOURNAMENT_DAY2);
-    console.log(`Age on ${TOURNAMENT_DAY2.toDateString()}: ${age}`);
     return age < 16;
   }
   
   export function isAgedAtLeast(dob: Date, minAge: number): boolean {
     const age = calculateAgeOn(dob, TOURNAMENT_DAY1);
-    console.log(`Age on ${TOURNAMENT_DAY1.toDateString()}: ${age}`);
     return age >= minAge;
   }
   

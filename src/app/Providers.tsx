@@ -18,7 +18,6 @@ function InternalProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function loadUser() {
       try {
-        console.log("Auth verify token from providers");
         const res = await fetch("/api/auth/verify-token", { credentials: "include" });
 
         if (res.ok) {

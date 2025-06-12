@@ -38,35 +38,33 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## TODOs
 
-1. Additional calls happening in Home page due to useEffect in providers - triggering /sign-in followed by /api/verify-token
-
-2. Reaching profile-setup after logging in or even edit profile enablement
-
-3. After clearing cookie or logout, we need to set the redux state to null as well. It is easily done in client side. Do it in server side as well. Otherwise, upon redirection, it directly goes to OTP input page. 
-
-
-
-
 1. Log payment
 2. Webhooks
-3. Login re-implement// Done
 4. Dashboard
+9. Enable limit to the event restrictions
+20. "Edit-profile" component. 
+22. Cascade schema of Users (and all apllicable tables) to delete and update
+
+13. Custom amount for sponsorship
+14. Add size chart for shirt, custom options
+16. OTP input box - on clearing, it should go to the previous box
+
+3. Login re-implement// Done
+
 5. Buy coupons // Done
 6. Insert to DB - including handling all cases // Done
    6.a. - Test each DB query rigorously - very important. both when data exists, and doesn't
 7. Deploy and test
 8. Payment calculation verification in backend
-9. Enable limit to the event restrictions
-10. Redeem coupons
+
+10. Redeem coupons (make sure time is IST)
 11. Clear cart after payment // Done
 12. Use phone number to fetch coupons of a user
-13. Custom amount for sponsorship
-14. Add size chart for shirt, custom options
-15. Post payment, show correct message instead of processing
-16. OTP input box - on clearing, it should go to the previous box
+
+15. Post payment, show correct message instead of processing // Done
+
 17. Keep JWT secrets in secure place
 18. Add profile form redesign, Profile saved form redesign // Done
 19. Remove redirect page display for a public path.  // Done
-20. "Edit-profile" component. 
+
 21. Validate OTP sending failed. 
-22. Cascade schema of Users (and all apllicable tables) to delete and update
