@@ -14,6 +14,7 @@ export type CartItem = {
   shirtData?: {
     name?: string;
     size: string;
+    type: string;
   }[];
 };
 

@@ -35,7 +35,7 @@ const profileSlice = createSlice({
     },
     setDob(state, action: PayloadAction<string | null>) {
       state.dob = action.payload;
-    },
+    },    
     setErrors(state, action: PayloadAction<ProfileState["errors"]>) {
       state.errors = action.payload;
     },
