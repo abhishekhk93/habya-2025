@@ -7,7 +7,6 @@ export const sendOTP = (phoneNumber: string,
   return new Promise((resolve, reject) => {
     signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
       .then((confirmationResult) => {
-        console.log("OTP sent to phone number:", phoneNumber);
         resolve(confirmationResult);  // Return the confirmationResult for later OTP verification
       })
       .catch((error) => {

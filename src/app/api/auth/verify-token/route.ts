@@ -13,9 +13,7 @@ export async function GET(req: Request & { cookies: { get: (key: string) => { va
   }
 
   try {
-    console.log("Decoding in verify token: ");
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
-    console.log("Post: Decoding in verify token: ", decoded);
     // TO-DO: Check what happens if token fails. What happens to 'decoded'
     const user = await prisma.users.findUnique({
       where: { id: Number(decoded.id) },
@@ -37,7 +35,6 @@ export async function GET(req: Request & { cookies: { get: (key: string) => { va
 
     return response;
   } catch (err) {
-    console.log("Failed in verify token: ");
     return NextResponse.json(
       { error: "Invalid or expired token" },
       { status: 401 }

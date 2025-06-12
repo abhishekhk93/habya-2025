@@ -27,6 +27,8 @@ export default function CartPage() {
   const [isCompleting, setIsCompleting] = useState(false);
 
   const handleModalClose = () => {
+    localStorage.removeItem(`cart-${user?.id}`);
+    dispatch(setCart({ items: [] }));
     setPaymentStatus(null);
     router.push("/");
   };
@@ -87,8 +89,6 @@ export default function CartPage() {
             setIsCompleting(false);
 
             if (completeData.success) {
-              localStorage.removeItem(`cart-${user?.id}`);
-              dispatch(setCart({ items: [] }));
               setPaymentStatus("success");
             } else {
               setPaymentStatus("partial");

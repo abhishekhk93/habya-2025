@@ -19,6 +19,7 @@ const SPONSOR_OPTIONS = [
   { label: "Gold", price: 7500 },
   { label: "Silver", price: 5000 },
   { label: "Bronze", price: 2500 },
+  { label: "Custom", price: 0 },
 ];
 
 export default function SponsorPage() {
@@ -28,6 +29,7 @@ export default function SponsorPage() {
 
   const [selectedTier, setSelectedTier] = useState("");
   const [customAmount, setCustomAmount] = useState("");
+  const [showCustomError, setShowCustomError] = useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -120,13 +122,29 @@ export default function SponsorPage() {
                 isCustom={option.label === "Custom"}
                 customAmount={customAmount}
                 onAmountChange={(val: string) => setCustomAmount(val)}
+                showError={option.label === "Custom" && showCustomError}
                 onToggle={(checked: boolean) => {
                   if (checked) {
-                    setSelectedTier(option.label);
-                    addSponsorToCart(option.label);
+                    if (option.label === "Custom") {
+                      const amt = Number(customAmount);
+                      if (!isNaN(amt) && amt > 0) {
+                        setSelectedTier("Custom");
+                        addSponsorToCart("Custom");
+                        setShowCustomError(false);
+                      } else {
+                        setShowCustomError(true);
+                      }
+                    } else {
+                      setSelectedTier(option.label);
+                      setCustomAmount("");
+                      setShowCustomError(false);
+                      addSponsorToCart(option.label);
+                    }
                   } else {
                     setSelectedTier("");
                     removeSponsorFromCart();
+                    setShowCustomError(false);
+                    if (option.label === "Custom") setCustomAmount("");
                   }
                 }}
               />

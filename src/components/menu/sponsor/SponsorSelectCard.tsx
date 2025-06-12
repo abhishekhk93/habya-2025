@@ -6,6 +6,7 @@ type Props = {
   selected: boolean;
   isCustom?: boolean;
   customAmount?: string;
+  showError?: boolean;
   onAmountChange?: (val: string) => void;
   onToggle: (checked: boolean) => void;
 };
@@ -17,8 +18,12 @@ export default function SponsorSelectCard({
   isCustom = false,
   customAmount = "",
   onAmountChange,
+  showError,
   onToggle,
 }: Props) {
+  const isCustomValid =
+    !isCustom || (!!customAmount && Number(customAmount) > 0);
+
   return (
     <div
       className="px-2 py-4 transition-transform duration-200"
@@ -73,6 +78,20 @@ export default function SponsorSelectCard({
       >
         Sponsorship added to cart
       </p>
+      {typeof showError !== "undefined" && (
+        <p
+          className="text-xl text-red-400 mt-2 transition-all duration-700 ease-in-out"
+          style={{
+            fontFamily: "'Alumni Sans Pinstripe', cursive",
+            opacity: showError ? 1 : 0,
+            maxHeight: showError ? "100px" : "0px",
+            overflow: "hidden",
+            pointerEvents: showError ? "auto" : "none",
+          }}
+        >
+          Please enter a valid amount to toggle the switch
+        </p>
+      )}
     </div>
   );
 }
