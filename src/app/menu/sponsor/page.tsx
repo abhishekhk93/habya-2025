@@ -130,21 +130,21 @@ export default function SponsorPage() {
                       if (!isNaN(amt) && amt > 0) {
                         setSelectedTier("Custom");
                         addSponsorToCart("Custom");
-                        setShowCustomError(false); // (See below for this)
+                        setShowCustomError(false);
                       } else {
-                        setShowCustomError(true); // show error if invalid
+                        setShowCustomError(true);
                       }
                     } else {
                       setSelectedTier(option.label);
-                      setCustomAmount(""); // 🧹 clear custom input when switching
-                      setShowCustomError(false); // 🧹 clear custom error
+                      setCustomAmount("");
+                      setShowCustomError(false);
                       addSponsorToCart(option.label);
                     }
                   } else {
                     setSelectedTier("");
                     removeSponsorFromCart();
-                    setShowCustomError(false); // 🧹 clear error on unchecking
-                    if (option.label === "Custom") setCustomAmount(""); // optional double safety
+                    setShowCustomError(false);
+                    if (option.label === "Custom") setCustomAmount("");
                   }
                 }}
               />
