@@ -42,29 +42,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 2. Webhooks
 4. Dashboard
 9. Enable limit to the event restrictions
-20. "Edit-profile" component. 
+10. Redeem coupons (make sure time is IST)
+12. Use phone number to fetch coupons of a user
 22. Cascade schema of Users (and all apllicable tables) to delete and update
+7. Deploy and test
+8. Payment calculation verification in backend
+17. Keep JWT secrets in secure place
+21. Validate OTP sending failed. 
 
-13. Custom amount for sponsorship
-14. Add size chart for shirt, custom options
-16. OTP input box - on clearing, it should go to the previous box
 
+
+18. Add profile form redesign, Profile saved form redesign // Done
+19. Remove redirect page display for a public path.  // Done
+11. Clear cart after payment // Done
+15. Post payment, show correct message instead of processing // Done
+13. Custom amount for sponsorship // Done
+20. "Edit-profile" component. // Done
+14. Add size chart for shirt, custom options // Done
+16. OTP input box - on clearing, it should go to the previous box // Done
 3. Login re-implement// Done
-
 5. Buy coupons // Done
 6. Insert to DB - including handling all cases // Done
    6.a. - Test each DB query rigorously - very important. both when data exists, and doesn't
-7. Deploy and test
-8. Payment calculation verification in backend
-
-10. Redeem coupons (make sure time is IST)
-11. Clear cart after payment // Done
-12. Use phone number to fetch coupons of a user
-
-15. Post payment, show correct message instead of processing // Done
-
-17. Keep JWT secrets in secure place
-18. Add profile form redesign, Profile saved form redesign // Done
-19. Remove redirect page display for a public path.  // Done
-
-21. Validate OTP sending failed. 
