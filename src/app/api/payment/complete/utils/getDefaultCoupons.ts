@@ -1,10 +1,12 @@
 // lib/utils/getDefaultCoupons.ts
 import prisma from "@/lib/prisma/prisma";
 
-export async function getDefaultCouponsDataFromRegistrations(registrationData: {
-  player1_id: number;
-  player2_id: number | null;
-}[]) {
+export async function getDefaultCouponsDataFromRegistrations(
+  registrationData: {
+    player1_id: number;
+    player2_id: number | null;
+  }[]
+) {
   // Step 1: Extract unique user IDs from registrations
   const allUserIds = new Set<number>();
   registrationData.forEach((reg) => {
@@ -25,7 +27,9 @@ export async function getDefaultCouponsDataFromRegistrations(registrationData: {
     distinct: ["user_id"],
   });
 
-  const userIdsWithDefaults = new Set(usersWithDefaults.map((u: any) => u.user_id));
+  const userIdsWithDefaults = new Set(
+    usersWithDefaults.map((u: { user_id: number }) => u.user_id)
+  );
 
   // Step 3: Determine users needing default coupons
   const usersNeedingDefaults = userIds.filter(

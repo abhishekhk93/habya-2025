@@ -65,6 +65,6 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (err) {
-    return NextResponse.json({ error: "Internal error - user creation failed" }, { status: 500 });
+    return NextResponse.json({ error: "Internal error - user creation failed: ", err }, { status: 500 });
   }
 }

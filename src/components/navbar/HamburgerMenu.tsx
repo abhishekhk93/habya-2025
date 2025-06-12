@@ -9,13 +9,6 @@ import { useDispatch } from "react-redux";
 import { setAuthenticated, setStep } from "@/store/slices/authSlice";
 import { setUser } from "@/store/slices/userSlice";
 
-const BORDER_GRADIENT_STYLE = {
-  borderBottomWidth: "2px",
-  borderBottomStyle: "solid",
-  borderImageSlice: 1,
-  borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
-};
-
 const menuItems = [
   { label: "Home", href: "/" },
   { label: "Register", href: "/menu/register" },
@@ -87,9 +80,7 @@ const HamburgerMenu = () => {
 
               {/* Menu items */}
               <ul className="flex flex-col text-base font-medium">
-                {menuItems.map(({ label, href }, idx) => {
-                  // Add gradient border to all but last item
-                  const style = BORDER_GRADIENT_STYLE;
+                {menuItems.map(({ label, href }) => {
 
                   return (
                     <li

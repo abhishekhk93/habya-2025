@@ -10,7 +10,9 @@ export const sendOtp = async (
   try {
     // Attempt to send OTP
     return await signInWithPhoneNumber(auth, fullPhone, recaptchaVerifier);
-  } catch (err: any) {
-    throw err;
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error("Unknown error");
+
+    throw error;
   }
 };

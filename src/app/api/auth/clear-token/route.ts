@@ -1,7 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
-export async function POST(req: Request) {
+export async function POST() {
     const response = new Response(JSON.stringify({ message: "Token cleared" }), {
       status: 200,
       headers: {

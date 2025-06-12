@@ -1,4 +1,4 @@
-type EligibleEvent = {
+export type EligibleEvent = {
     id: number;
     name: string;
     isRegistered: boolean;

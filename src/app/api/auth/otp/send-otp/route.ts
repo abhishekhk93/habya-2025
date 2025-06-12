@@ -11,15 +11,20 @@ export async function POST(req: NextRequest) {
   const { phone } = await req.json();
 
   try {
-    const verification = await client.verify
-      .v2.services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+    const verification = await client.verify.v2
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
       .verifications.create({
         to: `+91${phone}`,
         channel: "sms",
       });
 
     return NextResponse.json({ success: true, sid: verification.sid });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error("Unknown error");
+
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }

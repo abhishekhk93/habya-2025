@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 import EventToggleCard from "@/components/menu/register/EventCard";
 import Navbar from "@/components/navbar/Navbar";
 import {
@@ -13,6 +13,7 @@ import {
   setCart,
   saveCartToLocalStorage,
   loadCartFromLocalStorage,
+  CartItem,
 } from "@/store/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -77,7 +78,7 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: CartItem) => {
     dispatch(addItem(item));
     if (user?.id) {
       saveCartToLocalStorage(user.id, { items: [...cartItems, item] });
@@ -92,9 +93,9 @@ export default function EventsPage() {
     }
   };
 
-  /** 
-   * Invoked when “Proceed to Cart” is clicked. 
-   * If cart is empty, show the “empty cart” modal. 
+  /**
+   * Invoked when “Proceed to Cart” is clicked.
+   * If cart is empty, show the “empty cart” modal.
    * Otherwise, navigate to /cart/summary.
    */
   const onProceedToCart = () => {

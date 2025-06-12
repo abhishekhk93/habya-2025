@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma/prisma';
-import { isPlayerEligible } from '@/lib/events-utils/eligibilityUtils';
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma/prisma";
+import { isPlayerEligible } from "@/lib/events-utils/eligibilityUtils";
 import { User } from "@/store/slices/userSlice";
-import { type Gender } from '@/lib/events-utils/eventRules/types';
-import { eventRules } from '@/lib/events-utils/eventRules';
-import { jwtVerify } from 'jose';
+import { type Gender } from "@/lib/events-utils/eventRules/types";
+import { eventRules } from "@/lib/events-utils/eventRules";
+import { jwtVerify } from "jose";
+import { EligibleEvent } from "@/types/Event";
 
 interface TokenPayload {
   id: number;
@@ -14,6 +15,12 @@ interface TokenPayload {
   name?: string;
 }
 
+type eligibleEvent = {
+  id: number;
+  name: string;
+};
+
+
 const JWT_SECRET = process.env.JWT_SECRET!;
 const encoder = new TextEncoder();
 
@@ -22,10 +29,16 @@ export async function GET(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
 
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized: No token' }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized: No token" },
+        { status: 401 }
+      );
     }
 
-    const { payload } = await jwtVerify(token, encoder.encode(JWT_SECRET))  as { payload: TokenPayload };
+    const { payload } = (await jwtVerify(
+      token,
+      encoder.encode(JWT_SECRET)
+    )) as { payload: TokenPayload };
 
     const userId = payload.id;
     const dob = new Date(payload.dob);
@@ -33,8 +46,15 @@ export async function GET(req: NextRequest) {
     const phone = String(payload.phone);
     const name = String(payload.name);
 
-    if (isNaN(userId) || isNaN(dob.getTime()) || !['male', 'female'].includes(gender)) {
-      return NextResponse.json({ error: 'Invalid user info in token' }, { status: 400 });
+    if (
+      isNaN(userId) ||
+      isNaN(dob.getTime()) ||
+      !["male", "female"].includes(gender)
+    ) {
+      return NextResponse.json(
+        { error: "Invalid user info in token" },
+        { status: 400 }
+      );
     }
 
     const player: User = {
@@ -42,7 +62,7 @@ export async function GET(req: NextRequest) {
       dob,
       name,
       gender: gender as Gender,
-      phone 
+      phone,
     };
 
     // --- Get all events from DB ---
@@ -62,18 +82,22 @@ export async function GET(req: NextRequest) {
     );
 
     // --- Filter eligible events ---
-    const eligibleEvents = allEvents.map((event: EligibleEvent) => ({
-      id: event.id,
-      name: event.name,
-      isRegistered: registeredEventIds.has(event.id),
-      type: eventRules[event.id - 1].type,
-      eligible: isPlayerEligible(player, eventRules[event.id - 1]) === null,
-
-    })).filter((e: EligibleEvent) => e.eligible);
+    const eligibleEvents: EligibleEvent[] = allEvents
+      .map((event: eligibleEvent) => ({
+        id: event.id,
+        name: event.name,
+        isRegistered: registeredEventIds.has(event.id),
+        type: eventRules[event.id - 1].type,
+        eligible: isPlayerEligible(player, eventRules[event.id - 1]) === null,
+      }))
+      .filter((e: EligibleEvent) => e.eligible);
 
     return NextResponse.json({ eligibleEvents });
   } catch (error) {
-    console.error('❌ Error in /api/user/events-eligible:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error("❌ Error in /api/user/events-eligible:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

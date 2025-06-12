@@ -36,7 +36,7 @@ export async function GET(req: Request & { cookies: { get: (key: string) => { va
     return response;
   } catch (err) {
     return NextResponse.json(
-      { error: "Invalid or expired token" },
+      { error: "Invalid or expired token: ", err },
       { status: 401 }
     );
   }

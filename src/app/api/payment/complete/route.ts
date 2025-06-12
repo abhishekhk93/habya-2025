@@ -5,6 +5,7 @@ import { CartItem } from "@/store/slices/cartSlice";
 import { getDefaultCouponsDataFromRegistrations } from "./utils/getDefaultCoupons";
 import { getBoughtCouponsFromCart } from "./utils/getBoughtCoupons";
 import {
+  RawShirtInput,
   coupons_meal,
   coupons_status,
   coupons_type,
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
     }[];
     const shirtData = shirts.flatMap(
       (item) =>
-        item.shirtData?.map((shirt: any) => {
+        item.shirtData?.map((shirt: RawShirtInput) => {
           const data: {
             user_id: number;
             size?: shirts_size;
@@ -109,10 +110,10 @@ export async function POST(req: NextRequest) {
     ]);
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    console.error(err);
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error("Unknown error");
     return NextResponse.json(
-      { success: false, error: "DB insert failed" },
+      { success: false, error: `DB insert failed:${error}` },
       { status: 500 }
     );
   }

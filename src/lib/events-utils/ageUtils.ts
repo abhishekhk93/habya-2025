@@ -20,7 +20,7 @@ export function parseEnvDate(key: string): Date {
    */
   export function calculateAgeOn(dateOfBirth: Date, onDate: Date): number {
     const dob = new Date(dateOfBirth);
-    let age = onDate.getFullYear() - dob.getFullYear();
+    const age = onDate.getFullYear() - dob.getFullYear();
     const birthdayPassed =
       onDate.getMonth() > dob.getMonth() ||
       (onDate.getMonth() === dob.getMonth() && onDate.getDate() >= dob.getDate());

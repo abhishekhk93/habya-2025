@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, order_id } = body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
       return NextResponse.json(
