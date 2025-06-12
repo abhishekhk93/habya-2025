@@ -50,16 +50,17 @@ export function CouponAccordion({
                   {idx + 1}. {c.meal.charAt(0).toUpperCase() + c.meal.slice(1)}{" "}
                   coupon - {c.coupon_code}
                 </span>
-                <p className="text-md text-gray-300 mt-1">
+                <p className="text-xl text-gray-300 mt-1">
                   {c.type === "default"
                     ? "Coupon assigned to you during registration"
                     : "Coupon you bought"}
                   {c.status === "redeemed" && c.redeemed_at && (
                     <>
                       <br />
-                      <span className="text-sm">
+                      <span className="text-xl">
                         Redeemed on:{" "}
                         {new Date(c.redeemed_at).toLocaleString("en-GB", {
+                          timeZone: "Asia/Kolkata",
                           day: "2-digit",
                           month: "long",
                           year: "numeric",

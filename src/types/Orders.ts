@@ -35,6 +35,7 @@ export type Shirt = {
   id: number;
   name: string;
   size: string;
+  type: string;
 };
 
 export type OrdersResponse = {

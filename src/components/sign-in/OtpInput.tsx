@@ -37,7 +37,22 @@ export default function OtpInput({
             id={`otp-${index}`}
             type="text"
             value={digit}
-            onChange={(e) => onOtpChange(index, e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (/^[0-9]$/.test(val) || val === "") {
+                onOtpChange(index, val);
+                if (val && index < otp.length - 1) {
+                  const nextInput = document.getElementById(`otp-${index + 1}`);
+                  nextInput?.focus();
+                }
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Backspace" && !otp[index] && index > 0) {
+                const prevInput = document.getElementById(`otp-${index - 1}`);
+                prevInput?.focus();
+              }
+            }}
             maxLength={1}
             className="w-10 h-10 text-center text-xl border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />

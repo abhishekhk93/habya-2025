@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import PaymentStatusModal from "@/components/cart/summary/PaymentStatusModal";
 import CompletingModal from "@/components/cart/summary/CompletingModal";
+import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 export default function CartPage() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -204,7 +205,10 @@ export default function CartPage() {
                           {item.shirtData.map((shirt, idx) => (
                             <p key={idx} className="text-2xl">
                               {shirt.name ? `Name: ${shirt.name}, ` : ""}
-                              Size: {shirt.size}
+                              Size: {shirt.size},{" "}
+                              {shirt?.type
+                                ? `Type: ${shirtTypeLabels[shirt?.type]} `
+                                : ""}
                             </p>
                           ))}
                         </div>
