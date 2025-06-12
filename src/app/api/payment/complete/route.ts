@@ -5,6 +5,7 @@ import { CartItem } from "@/store/slices/cartSlice";
 import { getDefaultCouponsDataFromRegistrations } from "./utils/getDefaultCoupons";
 import { getBoughtCouponsFromCart } from "./utils/getBoughtCoupons";
 import {
+  RawShirtInput,
   coupons_meal,
   coupons_status,
   coupons_type,
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
     }[];
     const shirtData = shirts.flatMap(
       (item) =>
-        item.shirtData?.map((shirt: any) => {
+        item.shirtData?.map((shirt: RawShirtInput) => {
           const data: {
             user_id: number;
             size?: shirts_size;

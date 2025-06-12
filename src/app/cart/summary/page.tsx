@@ -69,7 +69,7 @@ export default function CartPage() {
         name: "Habya Registration",
         description: "Event Registration",
         order_id: data.id,
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayHandlerResponse) {
           const verifyRes = await fetch("/api/payment/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -114,7 +114,7 @@ export default function CartPage() {
         },
       };
 
-      const razor = new (window as any).Razorpay(options);
+      const razor = new window.Razorpay(options);
       razor.open();
 
       razor.on("payment.failed", () => {

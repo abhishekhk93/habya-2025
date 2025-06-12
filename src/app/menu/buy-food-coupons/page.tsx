@@ -97,7 +97,7 @@ export default function FoodCouponPage() {
           className="text-center text-3xl text-gray-300 mb-4"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Select the number of ( Lunch + Snack ) coupons you'd like to purchase.
+          Select the number of ( Lunch + Snack ) coupons you&rsquo;d like to purchase.
         </p>
 
         <div
@@ -110,7 +110,7 @@ export default function FoodCouponPage() {
             order.
           </p>
           <p>
-            Please purchase only if you're certain of attending the event —{" "}
+            Please purchase only if you&rsquo;re certain of attending the event —{" "}
             <em>no refunds</em> will be issued for unused coupons.
           </p>
         </div>

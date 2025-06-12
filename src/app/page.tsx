@@ -41,7 +41,7 @@ export default function Home() {
 
         <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
           With 8 editions of fierce competition and unforgettable moments behind
-          us, this year's tournament is set to get even better! Are you ready to
+          us, this year&rsquo;s tournament is set to get even better! Are you ready to
           join the action?
         </p>
       </div>

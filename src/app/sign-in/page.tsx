@@ -43,7 +43,7 @@ export default function SignIn() {
   }, [dispatch]);
 
   useEffect(() => {
-    let interval: any;
+    let interval: ReturnType<typeof setInterval>;
     if (timer > 0) {
       interval = setInterval(() => {
         dispatch(decrementTimer());
