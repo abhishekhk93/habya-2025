@@ -127,12 +127,16 @@ export default function OtpInput({
               resendingOtp ? "zoom-in-out" : ""
             }`}
           >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-100 to-white opacity-0 group-hover:opacity-20 rounded-full blur-sm"></span>
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-500 to-blue-600 opacity-0 group-hover:opacity-20 rounded-full blur-sm"></span>
 
             {resendingOtp ? (
-              <span className="relative z-10">Resending OTP</span>
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-br from-teal-500 to-blue-600">
+                Resending OTP
+              </span>
             ) : (
-              <span className="relative z-10">Resend OTP</span>
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-br from-teal-500 to-blue-600">
+                Resend OTP
+              </span>
             )}
           </button>
         )}

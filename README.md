@@ -39,7 +39,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## TODOs
 
 1. Log payment
-2. Webhooks
+2. Webhooks - payment successful, but DB query failed
 4. Dashboard
 9. Enable limit to the event restrictions
 10. Redeem coupons (make sure time is IST)
@@ -52,11 +52,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 Bugs:
-1. Fix send OTP for other numbers
-2. Fix send OTP layout
+1. Fix send OTP for other numbers // Done
+2. Fix send OTP layout // Done
 3. Fix edit-profile saving changes (profile state showing old data)
-4. DB actions are slow
-5. Event 21 validation failed. User id 1020 and 1006, 1002, 1008
+4. DB actions are slow // No action required
+5. Event 21 validation failed. User id 1020 and 1006, 1002, 1008 // Done
 6. Clickable links to be extended on  Hamburger menu
 7. Brackets for lunch + snack descriptions. also "will appear as separate entries in your order post payment completion"
 8. Add time stamps for all coupons

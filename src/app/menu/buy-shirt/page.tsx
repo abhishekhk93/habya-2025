@@ -104,10 +104,13 @@ export default function BuyShirtPage() {
         </h1>
 
         <p
-          className="text-center text-3xl text-white mb-10"
+          className="text-center text-2xl text-white mb-10"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Get your official <span className="text-teal-400">Habya 2025</span>{" "}
+          Get your official{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-6">
+            Habya 2025
+          </span>{" "}
           shirt.
           <br />
           <span

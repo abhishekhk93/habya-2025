@@ -14,6 +14,7 @@ model coupons {
   type        coupons_type   @default(default)
   status      coupons_status @default(active)
   redeemed_at DateTime?      @db.Timestamp(0)
+  assigned_at DateTime?      @db.Timestamp(0)
   users       users          @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "coupons_ibfk_1")
 
   @@index([user_id], map: "user_id")

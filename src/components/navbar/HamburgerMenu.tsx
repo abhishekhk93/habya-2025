@@ -1,6 +1,3 @@
-"use client";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -39,7 +36,6 @@ const HamburgerMenu = () => {
 
   return (
     <div className="relative z-50">
-      {/* Hamburger Icon */}
       <button
         onClick={() => setOpen(true)}
         className="p-2 rounded-full hover:bg-gray-100"
@@ -47,11 +43,9 @@ const HamburgerMenu = () => {
         <Menu className="w-6 h-6 text-teal-600" />
       </button>
 
-      {/* Drawer & Overlay */}
       <AnimatePresence>
         {open && (
           <>
-            {/* Dark background overlay */}
             <motion.div
               key="overlay"
               initial={{ opacity: 0 }}
@@ -62,7 +56,6 @@ const HamburgerMenu = () => {
               onClick={() => setOpen(false)}
             />
 
-            {/* Right drawer */}
             <motion.div
               key="drawer"
               initial={{ x: "100%" }}
@@ -71,72 +64,50 @@ const HamburgerMenu = () => {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed top-0 right-0 h-full w-72 bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-xl z-50 p-6 flex flex-col text-white"
             >
-              {/* Close icon */}
               <div className="flex justify-end mb-4">
                 <button onClick={() => setOpen(false)} className="text-white">
                   <X className="w-6 h-6" />
                 </button>
               </div>
 
-              {/* Menu items */}
               <ul className="flex flex-col text-base font-medium">
-                {menuItems.map(({ label, href }) => {
-
-                  return (
-                    <li
-                      key={label}
-                      className="py-3"
-                      style={
-                        {
-                          borderBottomWidth: "2px",
-                          borderBottomStyle: "solid",
-                          borderImageSlice: 1,
-                          borderImageSource:
-                            "linear-gradient(to right, #14b8a6, #3b82f6)",
-                        } as React.CSSProperties
-                      }
-                    >
-                      <Link href={href} onClick={() => setOpen(false)}>
-                        <span
-                          style={{
-                            fontFamily: "'Alumni Sans Pinstripe', cursive",
-                          }}
-                          className="text-2xl"
-                        >
-                          {label}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-
-                {/* Logout button */}
-                <li
-                  className="py-3"
-                  style={
-                    {
+                {menuItems.map(({ label, href }) => (
+                  <li
+                    key={label}
+                    onClick={() => {
+                      router.push(href);
+                      setOpen(false);
+                    }}
+                    className="py-3 px-2 cursor-pointer hover:bg-gray-800 rounded transition-all"
+                    style={{
                       borderBottomWidth: "2px",
                       borderBottomStyle: "solid",
                       borderImageSlice: 1,
                       borderImageSource:
                         "linear-gradient(to right, #14b8a6, #3b82f6)",
-                    } as React.CSSProperties
-                  }
-                >
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setOpen(false);
+                      fontFamily: "'Alumni Sans Pinstripe', cursive",
                     }}
-                    className="text-left text-red-400 hover:underline w-full"
                   >
-                    <span
-                      style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                      className="text-2xl"
-                    >
-                      Logout
-                    </span>
-                  </button>
+                    <span className="text-2xl">{label}</span>
+                  </li>
+                ))}
+
+                <li
+                  className="py-3 px-2 cursor-pointer hover:bg-gray-800 rounded transition-all"
+                  onClick={() => {
+                    handleLogout();
+                    setOpen(false);
+                  }}
+                  style={{
+                    borderBottomWidth: "2px",
+                    borderBottomStyle: "solid",
+                    borderImageSlice: 1,
+                    borderImageSource:
+                      "linear-gradient(to right, #14b8a6, #3b82f6)",
+                    fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  }}
+                >
+                  <span className="text-2xl text-red-400">Logout</span>
                 </li>
               </ul>
             </motion.div>

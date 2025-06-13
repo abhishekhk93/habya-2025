@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
       meal: coupons_meal;
       type: coupons_type;
       status: coupons_status;
+      assigned_at: Date;
     }[];
     const shirtData = shirts.flatMap(
       (item) =>
