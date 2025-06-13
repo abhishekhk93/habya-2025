@@ -42,8 +42,10 @@ export async function getDefaultCouponsDataFromRegistrations(
     meal: "lunch" | "snack";
     type: "default";
     status: "active";
+    assigned_at: Date;
   }[] = [];
 
+  const assignedAt = new Date();
   for (const user_id of usersNeedingDefaults) {
     for (let i = 0; i < 4; i++) {
       defaultCoupons.push({
@@ -51,12 +53,14 @@ export async function getDefaultCouponsDataFromRegistrations(
         meal: "lunch",
         type: "default",
         status: "active",
+        assigned_at: assignedAt,
       });
       defaultCoupons.push({
         user_id,
         meal: "snack",
         type: "default",
         status: "active",
+        assigned_at: assignedAt,
       });
     }
   }

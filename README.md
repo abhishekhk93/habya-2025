@@ -39,7 +39,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## TODOs
 
 1. Log payment
-2. Webhooks
+2. Webhooks - payment successful, but DB query failed
 4. Dashboard
 9. Enable limit to the event restrictions
 10. Redeem coupons (make sure time is IST)

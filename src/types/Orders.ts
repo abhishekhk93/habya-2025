@@ -23,6 +23,7 @@ export type Coupon = {
   type: "default" | "bought";
   status: "active" | "redeemed";
   redeemed_at: Date | null;
+  assigned_at: Date | null
 };
 
 export type Sponsorship = {

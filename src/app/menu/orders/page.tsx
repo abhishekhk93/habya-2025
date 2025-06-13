@@ -37,11 +37,11 @@ export default function MyOrdersPage() {
     return (
       <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white flex items-center justify-center">
         <p
-            className="text-center text-3xl text-gray-300 animate-pulse"
-            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-          >
-            Loading your orders.. 
-          </p>
+          className="text-center text-3xl text-gray-300 animate-pulse"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+        >
+          Loading your orders..
+        </p>
       </div>
     );
   }
@@ -223,7 +223,7 @@ export default function MyOrdersPage() {
                   >
                     <div>
                       <p
-                        className="text-2xl text-white font-semibold"
+                        className="text-xl text-white font-semibold"
                         style={{
                           fontFamily: "'Alumni Sans Pinstripe', cursive",
                         }}
@@ -262,10 +262,11 @@ export default function MyOrdersPage() {
                   className="p-2 transition bg-white/5 rounded-md flex items-start gap-4"
                   style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                 >
-                  <span className="text-white text-2xl font-semibold">
+                  <span className="text-white text-xl font-semibold">
                     {idx + 1}. {"Name: "}
-                    {shirt.name ? `${shirt.name}, ` : ""} {"Size: "}{" "}
-                    {shirt.size}, {"Size: "}
+                    {shirt.name ? `${shirt.name} ` : ""}
+                    <br /> {"Size: "} {shirt.size}
+                    <br /> {"Type: "}
                     {shirtTypeLabels[shirt?.type]}
                   </span>
                 </div>

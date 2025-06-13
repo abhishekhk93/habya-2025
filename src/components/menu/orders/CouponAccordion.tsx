@@ -52,23 +52,37 @@ export function CouponAccordion({
                 </span>
                 <p className="text-xl text-gray-300 mt-1">
                   {c.type === "default"
-                    ? "Coupon assigned to you during registration"
-                    : "Coupon you bought"}
+                    ? "Coupon assigned during registration"
+                    : "Bought"}
+
+                  {c.type === "bought" && c.assigned_at && (
+                    <>
+                      {" on "}
+                      {new Date(c.assigned_at).toLocaleString("en-GB", {
+                        timeZone: "Asia/Kolkata",
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
+                    </>
+                  )}
+
                   {c.status === "redeemed" && c.redeemed_at && (
                     <>
                       <br />
-                      <span className="text-xl">
-                        Redeemed on:{" "}
-                        {new Date(c.redeemed_at).toLocaleString("en-GB", {
-                          timeZone: "Asia/Kolkata",
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: false,
-                        })}
-                      </span>
+                      {"Redeemed on "}
+                      {new Date(c.redeemed_at).toLocaleString("en-GB", {
+                        timeZone: "Asia/Kolkata",
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
                     </>
                   )}
                 </p>
