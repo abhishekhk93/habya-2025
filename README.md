@@ -50,11 +50,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 17. Keep JWT secrets in secure place
 21. Validate OTP sending failed. 
 
+
 Bugs:
 1. Fix send OTP for other numbers
 2. Fix send OTP layout
 3. Fix edit-profile saving changes (profile state showing old data)
 4. DB actions are slow
+5. Event 21 validation failed. User id 1020 and 1006, 1002, 1008
+6. Clickable links to be extended on  Hamburger menu
+7. Brackets for lunch + snack descriptions. also "will appear as separate entries in your order post payment completion"
+8. Add time stamps for all coupons
+9. Decrement button to have left margin for coupons
+10. T shirt price and description. Fetch price from outside. 
 
 18. Add profile form redesign, Profile saved form redesign // Done
 19. Remove redirect page display for a public path.  // Done

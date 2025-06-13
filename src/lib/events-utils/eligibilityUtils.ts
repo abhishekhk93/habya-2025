@@ -20,11 +20,14 @@ export function isPlayerEligible(
 
   if (event.minAge) {
     const age = calculateAgeOn(player.dob, event.minAge.onDate);
-    const formattedDate = new Date(event.minAge.onDate).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    const formattedDate = new Date(event.minAge.onDate).toLocaleDateString(
+      "en-GB",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }
+    );
     if (age < event.minAge.value) {
       return `${player.name} is not eligible: must be at least ${event.minAge.value} years old as on ${formattedDate}.`;
     }
@@ -32,11 +35,14 @@ export function isPlayerEligible(
 
   if (event.maxAge) {
     const age = calculateAgeOn(player.dob, event.maxAge.onDate);
-    const formattedDate = new Date(event.maxAge.onDate).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    const formattedDate = new Date(event.maxAge.onDate).toLocaleDateString(
+      "en-GB",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }
+    );
     if (age >= event.maxAge.value) {
       return `${player.name} is not eligible: must be younger than ${event.maxAge.value} years on ${formattedDate}.`;
     }
@@ -62,7 +68,7 @@ export function isTeamEligible(
     return "This event is not for teams.";
   }
 
-  if(Number(p1.id) === Number(p2.id)){
+  if (Number(p1.id) === Number(p2.id)) {
     return `Come on! You can not partner with yourself! Enter a correct profile ID`;
   }
 
@@ -79,15 +85,17 @@ export function isTeamEligible(
   const p1Eligibility = isPlayerEligible(p1, event);
   const p2Eligibility = isPlayerEligible(p2, event);
 
-  if (p1Eligibility)
-    return `${p1Eligibility}`;
-  if (p2Eligibility)
-    return `${p2Eligibility}`;
+  if (p1Eligibility) return `${p1Eligibility}`;
+  if (p2Eligibility) return `${p2Eligibility}`;
 
   if (event.partnerRule) {
     const { requireOneFemale, requireOneAboveAge } = event.partnerRule;
 
-    if (requireOneFemale && p1.gender !== "female" && p2.gender !== "female") {
+    if (
+      requireOneFemale &&
+      p1.gender.toLowerCase() !== "female" &&
+      p2.gender.toLowerCase() !== "female"
+    ) {
       return "At least one player must be female.";
     }
 
