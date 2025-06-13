@@ -25,9 +25,10 @@ export default function PhoneInput({
           Phone number
         </span>
 
-        <div className="flex items-center space-x-2 pt-6">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-6">
+          {/* Country Code */}
           <span
-            className="px-1 pr-3 py-3 text-white text-3xl"
+            className="px-3 py-2 text-white text-xl sm:text-2xl w-fit"
             style={{
               fontFamily: "'Alumni Sans Pinstripe', cursive",
               background: "transparent",
@@ -42,13 +43,14 @@ export default function PhoneInput({
             +91
           </span>
 
+          {/* Phone Input */}
           <input
             type="text"
             value={phone}
             onChange={onChange}
             maxLength={10}
             placeholder="Enter 10-digit number"
-            className="flex-1 px-5 py-3 text-white text-3xl placeholder-gray-400 focus:outline-none"
+            className="flex-1 min-w-0 w-full px-4 py-2 text-white text-xl sm:text-2xl placeholder-gray-400 focus:outline-none"
             style={{
               fontFamily: "'Alumni Sans Pinstripe', cursive",
               background: "transparent",
