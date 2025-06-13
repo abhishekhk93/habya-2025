@@ -108,7 +108,7 @@ export default function BuyShirtPage() {
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Get your official <span className="text-teal-400">Habya 2025</span>{" "}
-          shirt for ₹500.
+          shirt.
           <br />
           <span
             className="bg-clip-text text-white"
