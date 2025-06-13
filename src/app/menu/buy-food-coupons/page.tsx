@@ -94,10 +94,11 @@ export default function FoodCouponPage() {
         </h1>
 
         <p
-          className="text-center text-3xl text-gray-300 mb-4"
+          className="text-center text-2xl text-gray-300 mb-4"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Select the number of ( Lunch + Snack ) coupons you&rsquo;d like to purchase.
+          Select the number of (Lunch + Snack) coupons you&rsquo;d like to
+          purchase.
         </p>
 
         <div
@@ -107,11 +108,11 @@ export default function FoodCouponPage() {
           <p>
             <strong>Note:</strong> Each quantity includes <em>one Lunch</em> and{" "}
             <em>one Snack</em>, and will appear as separate entries in your
-            order.
+            &rsquo;My orders&rsquo; section post payment.
           </p>
           <p>
-            Please purchase only if you&rsquo;re certain of attending the event —{" "}
-            <em>no refunds</em> will be issued for unused coupons.
+            Please purchase only if you&rsquo;re certain of attending the event
+            — <em>no refunds</em> will be issued for unused coupons.
           </p>
         </div>
 

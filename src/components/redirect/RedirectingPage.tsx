@@ -28,20 +28,28 @@ export default function ClientRedirectingPage() {
           borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
         }}
       >
-        <h2 className="text-3xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
+        <h2
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          className="text-3xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"
+        >
           Authentication Required
         </h2>
 
-        <p className="text-2xl text-white text-center">
+        <p
+          className="text-2xl text-white text-center"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+        >
           You are not logged in to access this page.
         </p>
 
-        <p className="text-2xl text-white text-center">
+        <p
+          className="text-2xl text-white text-center"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+        >
           Redirecting to{" "}
-          <span className="font-medium text-teal-400">
+          <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
             {to === "sign-in" ? "Sign In / Sign Up" : to}
           </span>
-          ...
         </p>
 
         <div className="pt-6 flex space-x-1 justify-center">

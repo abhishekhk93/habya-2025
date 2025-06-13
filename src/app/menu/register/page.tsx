@@ -165,8 +165,11 @@ export default function EventsPage() {
         </h1>
 
         {loading && (
-          <p className="text-center text-lg italic text-gray-300 animate-pulse">
-            Loading events...
+          <p
+            className="text-center text-3xl text-gray-300 animate-pulse"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            Loading events.. 
           </p>
         )}
 

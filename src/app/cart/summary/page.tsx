@@ -147,7 +147,7 @@ export default function CartPage() {
 
         {cartItems.length === 0 ? (
           <p
-            className="text-center text-white text-3xl"
+            className="text-center text-white text-2xl"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
             🛒 Your cart is empty. Add items to proceed!

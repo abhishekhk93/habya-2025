@@ -36,7 +36,12 @@ export default function MyOrdersPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white flex items-center justify-center">
-        <p className="text-lg italic">Loading your orders...</p>
+        <p
+            className="text-center text-3xl text-gray-300 animate-pulse"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            Loading your orders.. 
+          </p>
       </div>
     );
   }
@@ -260,7 +265,8 @@ export default function MyOrdersPage() {
                   <span className="text-white text-2xl font-semibold">
                     {idx + 1}. {"Name: "}
                     {shirt.name ? `${shirt.name}, ` : ""} {"Size: "}{" "}
-                    {shirt.size}, {"Size: "}{shirtTypeLabels[shirt?.type]} 
+                    {shirt.size}, {"Size: "}
+                    {shirtTypeLabels[shirt?.type]}
                   </span>
                 </div>
               ))}
