@@ -50,7 +50,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 17. Keep JWT secrets in secure place
 21. Validate OTP sending failed. 
 
-
+Bugs:
+1. Fix send OTP for other numbers
+2. Fix send OTP layout
+3. Fix edit-profile saving changes (profile state showing old data)
+4. DB actions are slow
 
 18. Add profile form redesign, Profile saved form redesign // Done
 19. Remove redirect page display for a public path.  // Done

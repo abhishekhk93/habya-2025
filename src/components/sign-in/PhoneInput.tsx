@@ -17,7 +17,7 @@ export default function PhoneInput({
 }: PhoneInputProps) {
   return (
     <>
-      <div>
+      <div className="w-full max-w-md mx-auto px-4">
         <span
           className="bg-clip-text text-white text-3xl font-extrabold pb-8"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
@@ -62,7 +62,7 @@ export default function PhoneInput({
           />
         </div>
 
-        <div className="h-5 py-4">
+        <div className="py-4 min-h-[1.5rem]">
           {phoneError && (
             <p
               className="text-red-400 text-xl text-center"
