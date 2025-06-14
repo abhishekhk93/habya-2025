@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     if (payload.event === "payment.captured") {
       const payment = payload.payload.payment.entity;
-      const { id: paymentId, order_id: orderId, email, contact } = payment;
+      const { id: paymentId, order_id: orderId } = payment;
 
       // 🔍 Fetch order to get attached notes (cart + userId)
       const order = await razorpay.orders.fetch(orderId);
