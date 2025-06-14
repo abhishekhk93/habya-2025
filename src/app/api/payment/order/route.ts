@@ -3,7 +3,7 @@ import Razorpay from "razorpay";
 
 export async function POST(request: Request) {
   try {
-    const { amount } = await request.json();
+    const { amount, cartItems, userId } = await request.json();
 
     if (!amount || typeof amount !== "number") {
       return NextResponse.json(
@@ -22,7 +22,11 @@ export async function POST(request: Request) {
       amount, // amount in paise (e.g. 50000 paise = ₹500)
       currency: "INR",
       receipt: `receipt_order_${Date.now()}`,
-      payment_capture: 1, // auto capture payment
+      payment_capture: 1,
+      notes: {
+        userId: String(userId),
+        cart: JSON.stringify(cartItems),
+      },
     };
 
     // Create order on Razorpay

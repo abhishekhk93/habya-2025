@@ -58,7 +58,11 @@ export default function CartPage() {
       const res = await fetch("/api/payment/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: total * 100 }),
+        body: JSON.stringify({
+          amount: total * 100,
+          cartItems,
+          userId: user?.id,
+        }),
       });
 
       const data = await res.json();

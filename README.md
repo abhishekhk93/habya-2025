@@ -49,6 +49,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 8. Payment calculation verification in backend
 17. Keep JWT secrets in secure place
 21. Validate OTP sending failed. 
+22. Add table for counter_coupons and handle the logic to redeem
 
 
 Bugs:

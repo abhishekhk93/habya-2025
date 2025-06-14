@@ -20,7 +20,10 @@ import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
-const shirtImages = ["/shirts/shirt1-bg.png", "/shirts/shirt2-bg.png"];
+const shirtImages = [
+  "/shirts/Habya-2025-shirt-front.png",
+  "/shirts/Habya-2025-shirt-back.png",
+];
 
 export default function BuyShirtPage() {
   const dispatch = useDispatch();
