@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       const order = await razorpay.orders.fetch(orderId);
       const notes = order.notes || {};
 
-      const userId = typeof notes.userId === "string" ? notes.userId : "";
+      const userId = Number(notes.userId);
       const parsedCart =
         typeof notes.cart === "string" ? JSON.parse(notes.cart) : [];
 
@@ -55,11 +55,7 @@ export async function POST(req: NextRequest) {
         razorpayOrderId: orderId,
         razorpayPaymentId: paymentId,
         cart: parsedCart,
-        userId: String(userId),
-        email,
-        contact,
-        status: "captured",
-        source: "webhook",
+        userId,
       });
 
       console.log("✅ Payment captured and logged:", orderId);
