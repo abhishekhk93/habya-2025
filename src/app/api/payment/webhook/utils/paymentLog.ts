@@ -1,10 +1,11 @@
 // /api/payment/webhook/utils/paymentLog.ts
 
 import prisma from "@/lib/prisma/prisma";
+import { CartItem } from "@/store/slices/cartSlice";
 interface PaymentLogInput {
   razorpayOrderId: string;
   razorpayPaymentId: string;
-  cart: any;
+  cart: CartItem[];
   userId: number;
 }
 
