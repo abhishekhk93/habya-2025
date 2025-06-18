@@ -202,3 +202,8 @@ export const eventRules: EventRule[] = [
     price: 1000,
   },
 ];
+
+export const eventIdToName = Object.fromEntries(
+  eventRules.map((event) => [event.id, event.name])
+);
+

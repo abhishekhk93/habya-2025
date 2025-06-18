@@ -50,11 +50,11 @@ export default function RedeemCouponPage() {
       // ✅ Success
       setMessage(
         `✅ Coupon redeemed successfully.\n\n` +
-          `User: ${data.user_id}\n` +
-          `Coupon: ${data.coupon_code}\n` +
-          `Type: ${data.type}\n` +
-          `Meal: ${data.meal}\n` +
-          `Assigned: ${new Date(data.assigned_at).toLocaleString("en-GB", {
+          `USER: ${data.user_id}, ` +
+          `COUPON: ${data.coupon_code}\n` +
+          `TYPE: ${data.type}, ` +
+          `MEAL: ${data.meal}\n` +
+          `ASSIGNED: ${new Date(data.assigned_at).toLocaleString("en-GB", {
             timeZone: "Asia/Kolkata",
             day: "2-digit",
             month: "long",
@@ -63,7 +63,7 @@ export default function RedeemCouponPage() {
             minute: "2-digit",
             hour12: false,
           })}\n` +
-          `Redeemed: ${new Date(data.redeemed_at).toLocaleString("en-GB", {
+          `REDEEMED: ${new Date(data.redeemed_at).toLocaleString("en-GB", {
             timeZone: "Asia/Kolkata",
             day: "2-digit",
             month: "long",
@@ -87,8 +87,8 @@ export default function RedeemCouponPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
       <Navbar />
       <div className="flex items-center justify-center mt-20 px-4">
-        <div className="p-[2px] rounded-lg bg-gradient-to-r from-teal-400 to-blue-600 transition-all duration-300 shadow-lg mx-8 sm:mx-8 md:mx-12 lg:mx-auto w-full max-w-md">
-          <div className="p-6 rounded-lg bg-gray-900">
+        <div className="p-[2px]  bg-gradient-to-r from-teal-400 to-blue-600 transition-all duration-300 shadow-lg mx-8 sm:mx-8 md:mx-12 lg:mx-auto w-full max-w-md">
+          <div className="p-6 bg-gray-900">
             <h1
               className="text-4xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}

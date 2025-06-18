@@ -9,63 +9,57 @@ export default function AdminDashboard() {
   const user = useSelector((state: RootState) => state.user.user);
   const isAdmin = user?.role === "admin";
 
+  const adminLinks = [
+    { label: "Redeem Coupons", href: "/menu/admin/redeem-coupon" },
+    { label: "Registrations", href: "/menu/admin/registrations" },
+    { label: "Coupons", href: "/menu/admin/coupons" },
+    { label: "Shirts", href: "/menu/admin/shirts" },
+    { label: "Sponsorships", href: "/menu/admin/sponsors" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-r from-gray-800 via-black to-gray-800 text-white">
       <Navbar />
-      <div className="flex items-center justify-center min-h-[80vh] px-4">
-        <div className="w-full max-w-xl mx-auto p-6 rounded-lg shadow-lg border-2 border-transparent transition-all duration-300">
+      <div className="flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-3xl mx-auto p-6 rounded-lg shadow-lg border-2 border-transparent transition-all duration-300">
           <h1
-            className="text-4xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            className="text-4xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-12"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
             Admin Dashboard
           </h1>
 
           {isAdmin ? (
-            <div className="flex flex-col space-y-6 items-center justify-center">
-              <Link
-                href="/menu/admin/redeem-coupon"
-                className="text-2xl px-6 py-2 border border-transparent bg-transparent transition-transform duration-300 ease-in-out active:scale-95"
-                style={{
-                  fontFamily: "'Alumni Sans Pinstripe', cursive",
-                  borderImageSlice: 1,
-                  borderImageSource:
-                    "linear-gradient(to right, #2dd4bf, #2563eb)",
-                }}
-              >
-                <span
-                  className="bg-gradient-to-r from-teal-400 to-blue-600 bg-clip-text text-transparent"
+            <div className="flex flex-col items-center space-y-6">
+              {adminLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="w-full max-w-3xs text-center py-2 border border-transparent rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg"
                   style={{
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    display: "inline-block",
+                    fontFamily: "'Alumni Sans Pinstripe', cursive",
+                    borderImageSlice: 1,
+                    borderImageSource:
+                      "linear-gradient(to right, #2dd4bf, #2563eb)",
                   }}
                 >
-                  Go to Redeem Coupons
-                </span>
-              </Link>
+                  <span className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 to-blue-600 bg-clip-text text-transparent text-center px-4">
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
             </div>
           ) : (
             <div className="text-center mt-10">
               <div
                 className="text-2xl font-semibold text-red-400"
-                style={{
-                  fontFamily: "'Alumni Sans Pinstripe', cursive",
-                  borderImageSlice: 1,
-                  borderImageSource:
-                    "linear-gradient(to right, #2dd4bf, #2563eb)",
-                }}
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
                 🚫 You do not have access to this page.
               </div>
               <p
                 className="text-gray-500 text-2xl mt-2"
-                style={{
-                  fontFamily: "'Alumni Sans Pinstripe', cursive",
-                  borderImageSlice: 1,
-                  borderImageSource:
-                    "linear-gradient(to right, #2dd4bf, #2563eb)",
-                }}
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
                 Please contact an administrator.
               </p>
