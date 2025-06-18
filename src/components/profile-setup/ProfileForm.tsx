@@ -49,7 +49,7 @@ export default function ProfileForm() {
       const res = await fetch("/api/auth/create-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, name, gender, dob }),
+        body: JSON.stringify({ phone, name, gender, dob, role: "user" }),
         credentials: "include",
       });
 

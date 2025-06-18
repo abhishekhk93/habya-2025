@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
         phone: updatedUser.phone,
         gender: updatedUser.gender,
         dob: updatedUser.dob,
+        role: updatedUser.role,
       },
       JWT_SECRET,
       { expiresIn: "7d" }
@@ -51,6 +52,7 @@ export async function POST(req: NextRequest) {
         phone: updatedUser.phone,
         gender: updatedUser.gender,
         dob: updatedUser.dob,
+        role: updatedUser.role,
       },
     });
 

@@ -23,6 +23,7 @@ export async function GET(req: Request & { cookies: { get: (key: string) => { va
         phone: true,
         gender: true,
         dob: true,
+        role: true,
       },
     });
 

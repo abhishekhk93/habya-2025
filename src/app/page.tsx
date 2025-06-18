@@ -27,7 +27,10 @@ export default function Home() {
               className="pt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
-              Your profile ID is: {user.id}
+              Your profile ID is:
+              <span className="text-5xl sm:text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-2">
+                {user.id}
+              </span>
             </p>
           </>
         ) : (
@@ -41,8 +44,8 @@ export default function Home() {
 
         <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
           With 8 editions of fierce competition and unforgettable moments behind
-          us, this year&rsquo;s tournament is set to get even better! Are you ready to
-          join the action?
+          us, this year&rsquo;s tournament is set to get even better! Are you
+          ready to join the action?
         </p>
       </div>
     </div>

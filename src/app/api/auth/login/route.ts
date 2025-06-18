@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
           phone: user.phone,
           dob: user.dob,
           gender: user.gender,
+          role: user.role,
         },
         JWT_SECRET,
         {

@@ -34,7 +34,7 @@ export default function ImageCarousel({ images }: Props) {
         style={{
           border: "2px solid transparent",
           backgroundImage:
-            "linear-gradient(to right, #2a344a, #1a1a1a, #2a344a), linear-gradient(to right, #14b8a6, #3b82f6)",
+            "linear-gradient(to right, #4d5a76, #3a3a3a, #4d5a76), linear-gradient(to right, #14b8a6, #3b82f6)",
 
           backgroundOrigin: "border-box",
           backgroundClip: "padding-box, border-box",

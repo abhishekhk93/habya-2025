@@ -13,6 +13,7 @@ interface TokenPayload {
   gender: string;
   phone?: string;
   name?: string;
+  role?: string;
 }
 
 type eligibleEvent = {
@@ -45,6 +46,7 @@ export async function GET(req: NextRequest) {
     const gender = String(payload.gender).toLowerCase();
     const phone = String(payload.phone);
     const name = String(payload.name);
+    const role = String(payload.role);
 
     if (
       isNaN(userId) ||
@@ -63,6 +65,7 @@ export async function GET(req: NextRequest) {
       name,
       gender: gender as Gender,
       phone,
+      role,
     };
 
     // --- Get all events from DB ---
