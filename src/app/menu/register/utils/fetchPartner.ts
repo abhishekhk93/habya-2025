@@ -6,6 +6,7 @@ export interface PartnerResponse {
     dob: Date;
     gender: Gender;
     phone: string;
+    role: string;
     registrations: number[];
   }
 

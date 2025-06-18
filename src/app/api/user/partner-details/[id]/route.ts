@@ -40,6 +40,7 @@ export async function GET(
       dob: user.dob,
       gender,
       phone: user.phone,
+      role: user.role,
       registrations: registrations.map((r: { event_id: number }) => r.event_id),
     };
 

@@ -8,7 +8,7 @@ const JWT_SECRET = "habya2025";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { phone, name, gender, dob } = body;
+  const { phone, name, gender, dob, role } = body;
 
   if (!phone || !name || !gender || !dob) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await prisma.users.create({
-      data: { phone, name, gender , dob: new Date(dob) },
+      data: { phone, name, gender , dob: new Date(dob), role },
     });
 
     const token = jwt.sign(
@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
         phone: user.phone,
         dob: user.dob,
         gender: user.gender,
+        role: "user"
       },
       JWT_SECRET,
       {
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
         phone: user.phone,
         dob: user.dob,
         gender: user.gender,
+        role: "user"
       },
     });
 

@@ -7,6 +7,7 @@ export interface User {
   phone: string;
   gender: Gender;
   dob: Date;
+  role: string;
 }
 
 interface UserState {

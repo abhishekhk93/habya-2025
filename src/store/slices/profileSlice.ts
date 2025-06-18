@@ -8,6 +8,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ProfileState {
   name: string;
   gender: string;
+  role: string;
   dob: string | null;
   errors: { name: string; gender: string; dob: string };
   submitting: boolean;
@@ -18,6 +19,7 @@ const initialState: ProfileState = {
   name: "",
   gender: "",
   dob: null as string | null,
+  role: "",
   errors: { name: "", gender: "", dob: "" },
   submitting: false,
   profileSaved: false,
@@ -35,6 +37,9 @@ const profileSlice = createSlice({
     },
     setDob(state, action: PayloadAction<string | null>) {
       state.dob = action.payload;
+    },
+    setRole(state, action: PayloadAction<string>) {
+      state.name = action.payload;
     },    
     setErrors(state, action: PayloadAction<ProfileState["errors"]>) {
       state.errors = action.payload;

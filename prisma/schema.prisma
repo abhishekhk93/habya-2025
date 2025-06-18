@@ -46,6 +46,7 @@ model users {
   dob                                           DateTime        @db.Date
   gender                                        users_gender
   phone                                         String          @db.VarChar(15)
+  role                                          users_role      @default(user)
   coupons                                       coupons[]
   payment_log                                   payment_log[]
   registrations_registrations_player1_idTousers registrations[] @relation("registrations_player1_idTousers")
@@ -119,4 +120,9 @@ enum shirts_type {
   ROUND_HALF
   ROUND_SLEEVELESS
   COLLAR_HALF
+}
+
+enum users_role {
+  user
+  admin
 }

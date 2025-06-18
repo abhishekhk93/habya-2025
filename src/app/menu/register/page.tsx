@@ -308,6 +308,7 @@ export default function EventsPage() {
               gender: partner.gender,
               phone: partner.phone,
               name: partner.name,
+              role: partner.role,
             };
             const errorMsg = validateTeamEligibility(
               user!,
