@@ -17,21 +17,17 @@ export default function CouponRedeemInput({ code, onChange, onRedeem }: Props) {
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       />
       <button
-        className="text-xl px-4 py-1 border border-transparent"
+        onClick={onRedeem}
+        className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-100 transform active:scale-95 active:shadow-lg"
         style={{
           fontFamily: "'Alumni Sans Pinstripe', cursive",
           borderImageSlice: 1,
-          borderImageSource: "linear-gradient(to right, #2dd4bf, #2563eb)",
+          borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
         }}
-        onClick={onRedeem}
       >
         <span
-          className="bg-gradient-to-r from-teal-400 to-blue-600 bg-clip-text text-transparent"
-          style={{
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            display: "inline-block",
-          }}
+          className="text-2xl sm:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-600"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Redeem
         </span>

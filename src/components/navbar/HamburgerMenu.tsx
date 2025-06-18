@@ -2,9 +2,10 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthenticated, setStep } from "@/store/slices/authSlice";
 import { setUser } from "@/store/slices/userSlice";
+import { RootState } from "@/store/store";
 
 const menuItems = [
   { label: "Home", href: "/" },
@@ -21,6 +22,7 @@ const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const user = useSelector((state: RootState) => state.user.user);
 
   const handleLogout = async () => {
     try {
@@ -91,6 +93,27 @@ const HamburgerMenu = () => {
                     <span className="text-2xl">{label}</span>
                   </li>
                 ))}
+
+                {/* ✅ Dashboard link only for admins */}
+                {user?.role === "admin" && (
+                  <li
+                    onClick={() => {
+                      router.push("/menu/admin");
+                      setOpen(false);
+                    }}
+                    className="py-3 px-2 cursor-pointer hover:bg-gray-800 rounded transition-all"
+                    style={{
+                      borderBottomWidth: "2px",
+                      borderBottomStyle: "solid",
+                      borderImageSlice: 1,
+                      borderImageSource:
+                        "linear-gradient(to right, #14b8a6, #3b82f6)",
+                      fontFamily: "'Alumni Sans Pinstripe', cursive",
+                    }}
+                  >
+                    <span className="text-2xl text-cyan-400">Admin Dashboard</span>
+                  </li>
+                )}
 
                 <li
                   className="py-3 px-2 cursor-pointer hover:bg-gray-800 rounded transition-all"
