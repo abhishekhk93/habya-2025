@@ -54,8 +54,9 @@ export default function RedeemCouponPage() {
         ).toLocaleString()} and data: ${data}`
       );
       setCode(""); // clear field
-    } catch (err: any) {
-      setMessage(`❌ ${err.message}`);
+    } catch (err: unknown) {
+      const error = err as { message: string };
+      setMessage(`❌ ${error.message}`);
     } finally {
       setLoading(false);
     }
