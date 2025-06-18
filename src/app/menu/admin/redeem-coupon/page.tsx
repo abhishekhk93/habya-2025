@@ -49,10 +49,31 @@ export default function RedeemCouponPage() {
 
       // ✅ Success
       setMessage(
-        `✅ Coupon redeemed successfully at ${new Date(
-          data.redeemed_at
-        ).toLocaleString()} and data: ${data}`
+        `✅ Coupon redeemed successfully.\n\n` +
+          `User: ${data.user_id}\n` +
+          `Coupon: ${data.coupon_code}\n` +
+          `Type: ${data.type}\n` +
+          `Meal: ${data.meal}\n` +
+          `Assigned: ${new Date(data.assigned_at).toLocaleString("en-GB", {
+            timeZone: "Asia/Kolkata",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}\n` +
+          `Redeemed: ${new Date(data.redeemed_at).toLocaleString("en-GB", {
+            timeZone: "Asia/Kolkata",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}.`
       );
+
       setCode(""); // clear field
     } catch (err: unknown) {
       const error = err as { message: string };
@@ -65,8 +86,8 @@ export default function RedeemCouponPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
       <Navbar />
-      <div className="flex items-center justify-center min-h-[80vh] px-4">
-        <div className="p-[2px] rounded-lg bg-gradient-to-r from-teal-400 to-blue-600 transition-all duration-300 shadow-lg w-full max-w-xl mx-auto">
+      <div className="flex items-center justify-center mt-20 px-4">
+        <div className="p-[2px] rounded-lg bg-gradient-to-r from-teal-400 to-blue-600 transition-all duration-300 shadow-lg mx-8 sm:mx-8 md:mx-12 lg:mx-auto w-full max-w-md">
           <div className="p-6 rounded-lg bg-gray-900">
             <h1
               className="text-4xl sm:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
@@ -86,22 +107,6 @@ export default function RedeemCouponPage() {
                   onChange={setCode}
                   onRedeem={handleRedeem}
                 />
-
-                {/* ✅ Status message */}
-                {message && (
-                  <div
-                    className={`text-lg text-center ${
-                      message.startsWith("✅")
-                        ? "text-green-400"
-                        : message.startsWith("❗")
-                        ? "text-yellow-400"
-                        : "text-red-400"
-                    }`}
-                    style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-                  >
-                    {loading ? "Processing..." : message}
-                  </div>
-                )}
               </div>
             ) : (
               <div className="text-center mt-10">
@@ -121,6 +126,23 @@ export default function RedeemCouponPage() {
             )}
           </div>
         </div>
+      </div>
+      {/* ✅ Status message */}
+      <div className="min-h-[5rem] w-full flex items-center justify-center">
+        {isAdmin && message && (
+          <pre
+            className={`text-xl mt-10 text-center max-w-md mx-auto px-4 ${
+              message.startsWith("✅")
+                ? "text-white"
+                : message.startsWith("❗")
+                ? "text-yellow-400"
+                : "text-red-400"
+            }`}
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            {loading ? "Processing..." : message}
+          </pre>
+        )}
       </div>
     </div>
   );

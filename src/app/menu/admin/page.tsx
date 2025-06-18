@@ -24,7 +24,7 @@ export default function AdminDashboard() {
           {isAdmin ? (
             <div className="flex flex-col space-y-6 items-center justify-center">
               <Link
-                href="/admin/redeem-coupon"
+                href="/menu/admin/redeem-coupon"
                 className="text-2xl px-6 py-2 border border-transparent bg-transparent transition-transform duration-300 ease-in-out active:scale-95"
                 style={{
                   fontFamily: "'Alumni Sans Pinstripe', cursive",
