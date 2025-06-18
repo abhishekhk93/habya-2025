@@ -27,7 +27,7 @@ export default function RegistrationsByEvent({ registrations }: Props) {
   return (
     <div>
       <h2
-        className="text-3xl text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600"
+        className="text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       >
         Registrations by Event
@@ -40,7 +40,7 @@ export default function RegistrationsByEvent({ registrations }: Props) {
         return (
           <div
             key={eventId}
-            className="mb-6 border-2 rounded-lg overflow-hidden transition-all"
+            className="mb-6 border-b rounded-lg overflow-hidden transition-all"
             style={{
               borderImage: "linear-gradient(to right, #2dd4bf, #3b82f6) 1",
             }}
@@ -66,11 +66,11 @@ export default function RegistrationsByEvent({ registrations }: Props) {
                 isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="p-4 space-y-3">
+              <div className="p-2 space-y-3">
                 {regs.map((reg, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded-md bg-gradient-to-r from-white/10 via-white/5 to-white/10"
+                    className="p-2 my-2 rounded-md bg-gradient-to-r from-white/10 via-white/5 to-white/10"
                     style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
                   >
                     <p className="text-2xl text-white">

@@ -6,7 +6,7 @@ export default function StatsTable({ stats }: { stats: Stats }) {
   return (
     <div>
       <h2
-        className="text-3xl text-center mt-10 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600"
+        className="text-3xl font-bold text-center mt-10 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       >
         Players with event count
@@ -19,7 +19,7 @@ export default function StatsTable({ stats }: { stats: Stats }) {
         three events and who are yet to register.
       </p>
       <div
-        className="mb-10 overflow-x-auto rounded-xl border-2"
+        className="mb-10 overflow-x-auto rounded-xl border-1"
         style={{
           borderImage: "linear-gradient(to right, #2dd4bf, #2563eb) 1",
           fontFamily: "'Alumni Sans Pinstripe', cursive",

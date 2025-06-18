@@ -1,44 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar/Navbar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import {
-  Registration,
-  Stats,
-} from "@/components/menu/admin/registrations/types";
-import RegistrationsByEvent from "@/components/menu/admin/registrations/RegistrationsByEvent";
-import StatsTable from "@/components/menu/admin/registrations/StatsTable";
+import Navbar from "@/components/navbar/Navbar";
 import Unauthorized from "@/components/menu/admin/Unauthorized";
-import RegistrationsSummary from "@/components/menu/admin/registrations/RegistrationsSummary";
+import CouponSummary from "@/components/menu/admin/coupons/CouponSummary";
+import { CouponSummaryResponse } from "@/components/menu/admin/coupons/types";
 
-interface ApiResponse {
-  registrations: Registration[];
-  stats: Stats;
-}
-
-export default function AdminRegistrations() {
+export default function AdminCouponsPage() {
   const user = useSelector((state: RootState) => state.user.user);
   const isAdmin = user?.role === "admin";
 
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [summary, setSummary] = useState<CouponSummaryResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSummary = async () => {
       try {
-        const res = await fetch("/api/admin/registrations");
-        const json = await res.json();
-        setData(json);
+        const res = await fetch("/api/admin/coupons");
+        const data = await res.json();
+        setSummary(data);
       } catch (error) {
-        console.error("Failed to fetch registrations", error);
+        console.error("Failed to fetch coupon summary", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (isAdmin) fetchData();
+    if (isAdmin) fetchSummary();
   }, [isAdmin]);
 
   return (
@@ -49,7 +39,7 @@ export default function AdminRegistrations() {
           className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600 mb-12"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Registrations Overview
+          Coupons Overview
         </h1>
 
         {!isAdmin ? (
@@ -58,18 +48,17 @@ export default function AdminRegistrations() {
           <div
             className="text-center text-3xl"
             style={{
-              borderImage: "linear-gradient(to right, #2dd4bf, #2563eb) 1",
               fontFamily: "'Alumni Sans Pinstripe', cursive",
             }}
           >
             Loading...
           </div>
+        ) : summary ? (
+          <CouponSummary summary={summary} />
         ) : (
-          <>
-            <RegistrationsSummary registrations={data!.registrations} />
-            <RegistrationsByEvent registrations={data!.registrations} />
-            <StatsTable stats={data!.stats} />
-          </>
+          <div className="text-center text-xl text-red-400">
+            Failed to load summary
+          </div>
         )}
       </div>
     </div>
