@@ -12,7 +12,7 @@ export default function CouponRedeemInput({ code, onChange, onRedeem }: Props) {
         type="text"
         value={code}
         onChange={(e) => onChange(e.target.value)}
-        className="text-xl px-3 py-1 bg-gray-800 text-white border border-gray-700 w-32 text-center"
+        className="text-2xl px-4 py-2 bg-gray-800 text-white border border-gray-700 w-32 text-center"
         placeholder="Enter code"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       />
