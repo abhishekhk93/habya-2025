@@ -31,6 +31,11 @@ type Event = {
   isRegistered: boolean;
 };
 
+type EventsResponse = {
+  eligibleEvents: Event[];
+  registrationsOpen: boolean;
+};
+
 export default function EventsPage() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -41,6 +46,7 @@ export default function EventsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [showCartEmptyModal, setShowCartEmptyModal] = useState(false);
+  const [registrationsOpen, setRegistrationsOpen] = useState(true);
 
   const [showPartnerModal, setShowPartnerModal] = useState(false);
   const [modalEvent, setModalEvent] = useState<Event | null>(null);
@@ -63,8 +69,9 @@ export default function EventsPage() {
         const res = await fetch("/api/user/events-eligible");
         if (!res.ok) throw new Error("Failed to fetch events");
 
-        const data = await res.json();
+        const data: EventsResponse = await res.json();
         setEvents(data?.eligibleEvents || []);
+        setRegistrationsOpen(data.registrationsOpen);
         setError(false);
       } catch (e) {
         console.error("Error fetching events:", e);
@@ -169,7 +176,7 @@ export default function EventsPage() {
             className="text-center text-3xl text-gray-300 animate-pulse"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
-            Loading events.. 
+            Loading events..
           </p>
         )}
 
@@ -179,13 +186,25 @@ export default function EventsPage() {
           </p>
         )}
 
-        {!loading && events && events.length === 0 && (
-          <p className="text-center text-gray-400 text-lg italic">
+        {!loading && !registrationsOpen && (
+          <p
+            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            🚧 Registrations are not being taken as of now. Please check back
+            later!
+          </p>
+        )}
+        {!loading && registrationsOpen && events && events.length === 0 && (
+          <p
+            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
             🎉 You are not eligible for any events at the moment. Stay tuned!
           </p>
         )}
 
-        {!loading && events && events.length > 0 && (
+        {!loading && registrationsOpen && events && events.length > 0 && (
           <div className="space-y-4">
             {events.map((event) => {
               const cartItem = cartItems.find(
