@@ -93,6 +93,22 @@ export async function GET(req: NextRequest) {
       allEventRegistrations.map(({ event_id, _count }) => [event_id, _count])
     );
 
+    // --- Calculate total registrations for all events ---
+    const totalRegistrations = allEventRegistrations.reduce(
+      (acc, cur) => acc + cur._count,
+      0
+    );
+
+    const REGISTRATION_LIMIT = parseInt(
+      process.env.REGISTRATION_LIMIT || "360",
+      10
+    );
+    const envFlag = process.env.REGISTRATIONS_OPEN?.toLowerCase() === "true";
+
+    // 🔧 Forcefully close if limit reached
+    const registrationsOpen =
+      totalRegistrations >= REGISTRATION_LIMIT ? false : envFlag;
+
     // --- Filter eligible events ---
     const eligibleEvents: EligibleEvent[] = allEvents
       .map((event: eligibleEvent) => {
@@ -118,7 +134,10 @@ export async function GET(req: NextRequest) {
       })
       .filter((e): e is EligibleEvent => !!e && e.eligible); // filter only eligible
 
-    return NextResponse.json({ eligibleEvents });
+    return NextResponse.json({
+      eligibleEvents,
+      registrationsOpen,
+    });
   } catch (error) {
     console.error("❌ Error in /api/user/events-eligible:", error);
     return NextResponse.json(
