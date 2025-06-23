@@ -58,7 +58,7 @@ export default function CouponSummary({
               key={idx}
               className={
                 idx % 2 === 0
-                  ? "bg-white/5 border-b border-white/10"
+                  ? "bg-white/8 border-b border-white/10"
                   : "bg-white/10 border-b border-white/10"
               }
             >
