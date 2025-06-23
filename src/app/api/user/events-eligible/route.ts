@@ -21,7 +21,6 @@ type eligibleEvent = {
   name: string;
 };
 
-
 const JWT_SECRET = process.env.JWT_SECRET!;
 const encoder = new TextEncoder();
 
@@ -84,16 +83,40 @@ export async function GET(req: NextRequest) {
       registrations.map((r: { event_id: number }) => r.event_id)
     );
 
+    // --- Count total registrations per event ---
+    const allEventRegistrations = await prisma.registrations.groupBy({
+      by: ["event_id"],
+      _count: true,
+    });
+
+    const eventIdToEntryCount = new Map<number, number>(
+      allEventRegistrations.map(({ event_id, _count }) => [event_id, _count])
+    );
+
     // --- Filter eligible events ---
     const eligibleEvents: EligibleEvent[] = allEvents
-      .map((event: eligibleEvent) => ({
-        id: event.id,
-        name: event.name,
-        isRegistered: registeredEventIds.has(event.id),
-        type: eventRules[event.id - 1].type,
-        eligible: isPlayerEligible(player, eventRules[event.id - 1]) === null,
-      }))
-      .filter((e: EligibleEvent) => e.eligible);
+      .map((event: eligibleEvent) => {
+        const rule = eventRules.find((r) => r.id === event.id);
+        if (!rule) return null;
+
+        const isRegistered = registeredEventIds.has(event.id);
+
+        const alreadyFull =
+          typeof rule.entryLimit === "number" &&
+          (eventIdToEntryCount.get(event.id) ?? 0) >= rule.entryLimit;
+
+        const eligible =
+          !alreadyFull && isPlayerEligible(player, rule) === null;
+
+        return {
+          id: event.id,
+          name: event.name,
+          type: rule.type,
+          isRegistered,
+          eligible,
+        };
+      })
+      .filter((e): e is EligibleEvent => !!e && e.eligible); // filter only eligible
 
     return NextResponse.json({ eligibleEvents });
   } catch (error) {

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
-import { countCoupons } from "./couponUtils";
-import { CouponSummaryResponse } from "./types";
+import { getTimeSlotSummaries } from "./utils/couponTimeUtils";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -25,18 +24,8 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const response: CouponSummaryResponse = {
-      lunchDefaultActive: await countCoupons("lunch", "default", "active"),
-      lunchBoughtActive: await countCoupons("lunch", "bought", "active"),
-      lunchDefaultRedeemed: await countCoupons("lunch", "default", "redeemed"),
-      lunchBoughtRedeemed: await countCoupons("lunch", "bought", "redeemed"),
-      snackDefaultActive: await countCoupons("snack", "default", "active"),
-      snackBoughtActive: await countCoupons("snack", "bought", "active"),
-      snackDefaultRedeemed: await countCoupons("snack", "default", "redeemed"),
-      snackBoughtRedeemed: await countCoupons("snack", "bought", "redeemed"),
-    };
-
-    return NextResponse.json(response);
+    const summary = await getTimeSlotSummaries();
+    return NextResponse.json({ summary });
   } catch (err: unknown) {
     const error = err instanceof Error ? err : new Error("Unknown error");
     return NextResponse.json(

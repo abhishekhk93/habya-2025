@@ -6,29 +6,50 @@ import { RootState } from "@/store/store";
 import Navbar from "@/components/navbar/Navbar";
 import Unauthorized from "@/components/menu/admin/Unauthorized";
 import CouponSummary from "@/components/menu/admin/coupons/CouponSummary";
-import { CouponSummaryResponse } from "@/components/menu/admin/coupons/types";
+import CouponTimeSlotSummary from "@/components/menu/admin/coupons/CouponTimeSlotSummary";
+import {
+  CouponSummaryResponse,
+  RedeemedTimeSlotSummarySimple, // ✅ updated type
+} from "@/components/menu/admin/coupons/types";
 
 export default function AdminCouponsPage() {
   const user = useSelector((state: RootState) => state.user.user);
   const isAdmin = user?.role === "admin";
 
   const [summary, setSummary] = useState<CouponSummaryResponse | null>(null);
+  const [timeSlotSummary, setTimeSlotSummary] = useState<
+    RedeemedTimeSlotSummarySimple[] | null
+  >(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSummary = async () => {
+    const fetchSummaries = async () => {
       try {
-        const res = await fetch("/api/admin/coupons");
-        const data = await res.json();
-        setSummary(data);
+        const [summaryRes, timeSlotRes] = await Promise.all([
+          fetch("/api/admin/coupons/coupon-count", { credentials: "include" }),
+          fetch("/api/admin/coupons/redemption-activity", {
+            credentials: "include",
+          }),
+        ]);
+
+        if (!summaryRes.ok || !timeSlotRes.ok) {
+          console.error("API error:", summaryRes.status, timeSlotRes.status);
+          throw new Error("One or both API calls failed.");
+        }
+
+        const summaryData = await summaryRes.json();
+        const timeSlotData = await timeSlotRes.json();
+
+        setSummary(summaryData);
+        setTimeSlotSummary(timeSlotData.summary);
       } catch (error) {
-        console.error("Failed to fetch coupon summary", error);
+        console.error("Failed to fetch coupon summaries", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (isAdmin) fetchSummary();
+    if (isAdmin) fetchSummaries();
   }, [isAdmin]);
 
   return (
@@ -47,14 +68,15 @@ export default function AdminCouponsPage() {
         ) : loading ? (
           <div
             className="text-center text-3xl"
-            style={{
-              fontFamily: "'Alumni Sans Pinstripe', cursive",
-            }}
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
             Loading...
           </div>
-        ) : summary ? (
-          <CouponSummary summary={summary} />
+        ) : summary && timeSlotSummary ? (
+          <>
+            <CouponTimeSlotSummary data={timeSlotSummary} />
+            <CouponSummary summary={summary} />
+          </>
         ) : (
           <div className="text-center text-xl text-red-400">
             Failed to load summary
