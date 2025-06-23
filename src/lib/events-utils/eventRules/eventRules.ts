@@ -16,6 +16,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     maxAge: below16OnDay2,
     price: 500,
+    entryLimit: 30,
   },
   // Under 16 kids - Girls singles
   {
@@ -25,6 +26,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     maxAge: below16OnDay2,
     price: 500,
+    entryLimit: 30,
   },
   // Under 16 kids - Mixed Doubles
   {
@@ -37,6 +39,7 @@ export const eventRules: EventRule[] = [
       requireOneFemale: true,
     },
     price: 1000,
+    entryLimit: 30,
   },
   // Open Men's singles
   {
@@ -45,6 +48,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     price: 500,
+    entryLimit: 45,
   },
   // Open Women's singles
   {
@@ -53,6 +57,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     price: 500,
+    entryLimit: 30,
   },
   // Open Men's doubles
   {
@@ -61,6 +66,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["male", "male"],
     price: 1000,
+    entryLimit: 60,
   },
   // Open Women's doubles
   {
@@ -69,6 +75,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["female", "female"],
     price: 1000,
+    entryLimit: 30,
   },
   // 35+ Men's singles
   {
@@ -78,6 +85,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast35OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 35+ Women's singles
   {
@@ -87,6 +95,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast35OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 35+ Men's doubles
   {
@@ -96,6 +105,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast35OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // 35+ Women's doubles
   {
@@ -105,6 +115,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast35OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // 50+ Men's singles
   {
@@ -114,6 +125,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast50OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 50+ Women's singles
   {
@@ -123,6 +135,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast50OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 50+ Men's doubles
   {
@@ -132,6 +145,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast50OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // 50+ Women's doubles
   {
@@ -141,6 +155,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast50OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // 60+ Men's singles
   {
@@ -150,6 +165,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast60OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 60+ Women's singles
   {
@@ -159,6 +175,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast60OnDay1,
     price: 500,
+    entryLimit: 30,
   },
   // 60+ Men's doubles
   {
@@ -168,6 +185,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast60OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // 60+ Women's doubles
   {
@@ -177,6 +195,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast60OnDay1,
     price: 1000,
+    entryLimit: 30,
   },
   // Mixed Age Men's doubles (at least one player 40+)
   {
@@ -188,6 +207,7 @@ export const eventRules: EventRule[] = [
       requireOneAboveAge: atLeast40OnDay1,
     },
     price: 1000,
+    entryLimit: 40,
   },
   // Mixed Age Mixed doubles (at least one player 40+)
   {
@@ -200,6 +220,7 @@ export const eventRules: EventRule[] = [
       requireOneAboveAge: atLeast40OnDay1,
     },
     price: 1000,
+    entryLimit: 25,
   },
 ];
 

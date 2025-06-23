@@ -1,7 +1,3 @@
-export type CouponMeal = "lunch" | "snack";
-export type CouponType = "default" | "bought";
-export type CouponStatus = "active" | "redeemed";
-
 export interface CouponSummaryResponse {
   lunchDefaultActive: number;
   lunchBoughtActive: number;
@@ -11,4 +7,12 @@ export interface CouponSummaryResponse {
   snackBoughtActive: number;
   snackDefaultRedeemed: number;
   snackBoughtRedeemed: number;
+}
+
+export type MealType = "lunch" | "snack";
+export type CouponType = "default" | "bought";
+
+export interface RedeemedTimeSlotSummarySimple {
+  label: string;
+  redeemed: number;
 }
