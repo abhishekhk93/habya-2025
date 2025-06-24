@@ -20,7 +20,7 @@ export default function CouponTimeSlotSummary({
         Redemption by Time Slot
       </h2>
 
-      <table className="min-w-full text-white text-center text-lg border border-white/10">
+      <table className="min-w-full text-white text-center text-xl border border-white/10">
         <thead>
           <tr className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-blue-600 text-2xl bg-white/8 border border-white/8">
             <th className="px-4 py-2">Time Slot</th>
