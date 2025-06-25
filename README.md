@@ -38,19 +38,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## TODOs
 
-1. Log payment
-2. Webhooks - payment successful, but DB query failed
-4. Dashboard
-9. Enable limit to the event restrictions
-10. Redeem coupons (make sure time is IST)
-12. Use phone number to fetch coupons of a user
-22. Cascade schema of Users (and all apllicable tables) to delete and update
-7. Deploy and test
+
+10. T shirt price and description. Fetch price from outside. Fix size chart 
 8. Payment calculation verification in backend
-17. Keep JWT secrets in secure place
 21. Validate OTP sending failed. 
+25. Stress test
+26. Restrict access to DB
+27. Snapshot of DB
 22. Add table for counter_coupons and handle the logic to redeem
 23. Dropdowns for t shirt details coming in white
+12. Use phone number to fetch coupons of a user
+22. Cascade schema of Users (and all apllicable tables) to delete and update
+4. Dashboard // In progress
+
+1. Log payment // Taken care as a part of webhooks
+2. Webhooks - payment successful, but DB query failed
+9. Enable limit to the event restrictions // Done
+10. Redeem coupons (make sure time is IST) // Done
+7. Deploy and test // Done
+17. Keep JWT secrets in secure place // Done
 
 
 Bugs:
@@ -59,11 +65,10 @@ Bugs:
 3. Fix edit-profile saving changes (profile state showing old data)
 4. DB actions are slow // No action required
 5. Event 21 validation failed. User id 1020 and 1006, 1002, 1008 // Done
-6. Clickable links to be extended on  Hamburger menu
-7. Brackets for lunch + snack descriptions. also "will appear as separate entries in your order post payment completion"
-8. Add time stamps for all coupons
-9. Decrement button to have left margin for coupons
-10. T shirt price and description. Fetch price from outside. 
+6. Clickable links to be extended on  Hamburger menu // Done
+7. Brackets for lunch + snack descriptions. also "will appear as separate entries in your order post payment completion" // Done
+8. Add time stamps for all coupons // Done
+9. Decrement button to have left margin for coupons // Done
 
 18. Add profile form redesign, Profile saved form redesign // Done
 19. Remove redirect page display for a public path.  // Done

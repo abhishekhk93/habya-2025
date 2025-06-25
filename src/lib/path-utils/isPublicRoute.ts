@@ -6,7 +6,9 @@ const publicPaths = [
     "/api/auth/verify-token",
     "/api/user/events-eligible",
     "/redirect",
-    "/profile-setup"
+    "/profile-setup",
+    "/footer/privacy-policy",
+    "/footer/terms-and-conditions",
   ];
   
   export function isPublicRoute(pathname: string): boolean {
