@@ -81,14 +81,15 @@ export default function TermsAndConditionsPage() {
             6. Contact Us
           </h2>
           <p className="mb-4">
-            We are reachable on:{" "}
+            We are located at 1015, The Magic Faraway Tree, 33/2, Kanakapura
+            Main Road, Talaghattapura Post, Bengaluru 560062, via email on:{" "}
             <a
               href="mailto:habyacoreteam@gmail.com"
               className="text-indigo-300"
             >
               habyacoreteam@gmail.com
-            </a>
-            {" "} and +91 97410-94297 with response time of 1-2 business days
+            </a>{" "}
+            and +91 97410-94297 with response time of 1-2 business days
           </p>
         </div>
       </div>
