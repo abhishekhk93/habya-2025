@@ -13,7 +13,7 @@ const Navbar = () => {
       className="w-full border-b-2 border-gray-300 pb-2 px-2 py-4"
       style={{ borderImage: "linear-gradient(to right, #00bfae, #1c7ed6) 1" }}
     >
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-6 py-1">
         <Link
           href="/"
           className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600"

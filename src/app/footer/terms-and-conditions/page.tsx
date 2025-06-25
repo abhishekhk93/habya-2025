@@ -4,12 +4,12 @@ import Navbar from "@/components/navbar/Navbar";
 
 export default function TermsAndConditionsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white px-6 sm:px-12 md:px-16 lg:px-24">
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white">
       <Navbar />
 
-      <div className="px-4 py-12 max-w-4xl mx-auto">
+      <div className="px-8 py-12 max-w-4xl mx-auto">
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight mb-8"
+          className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600 text-center leading-tight mb-8"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Terms & Conditions
@@ -24,7 +24,7 @@ export default function TermsAndConditionsPage() {
             carefully.
           </p>
 
-          <h2 className="text-2xl text-cyan-400 font-semibold mt-10 mb-2">
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
             1. Eligibility
           </h2>
           <p className="mb-4">
@@ -32,29 +32,29 @@ export default function TermsAndConditionsPage() {
             or misleading info can result in disqualification.
           </p>
 
-          <h2 className="text-2xl text-cyan-400 font-semibold mt-10 mb-2">
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
             2. Refund & Cancellation
           </h2>
-          <ul className="list-disc list-inside mb-4">
+          <ul className="list-inside mb-4">
             <li>
-              Cancellation and refunds are not processed on the portal. Contact
-              the admins if you seek cancellation of events.
+              1. Cancellation and refunds are not processed on the portal.
+              Contact the admins if you seek cancellation of events.
             </li>
             <li>
-              No refunds for events within 24 hours of tournament start date.
+              2. No refunds for events within 24 hours of tournament start date.
             </li>
             <li>
-              Email requests to{" "}
+              3. Email requests to{" "}
               <a
                 href="mailto:habyacoreteam@gmail.com"
-                className="underline text-indigo-400"
+                className="text-indigo-300"
               >
                 habyacoreteam@gmail.com
               </a>
             </li>
           </ul>
 
-          <h2 className="text-2xl text-cyan-400 font-semibold mt-10 mb-2">
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
             3. Shipping
           </h2>
           <p className="mb-4">
@@ -62,14 +62,14 @@ export default function TermsAndConditionsPage() {
             in-person event-based.
           </p>
 
-          <h2 className="text-2xl text-cyan-400 font-semibold mt-10 mb-2">
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
             4. Response Time
           </h2>
           <p className="mb-4">
             Support queries are answered within 1–2 business days.
           </p>
 
-          <h2 className="text-2xl text-cyan-400 font-semibold mt-10 mb-2">
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
             5. Updates
           </h2>
           <p className="mb-4">

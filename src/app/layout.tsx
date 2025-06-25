@@ -1,6 +1,7 @@
 import "./styles/globals.css";
 import "animate.css";
 import { Providers } from "./Providers";
+import Footer from "@/components/footer/Footer";
 
 export const metadata = {
   title: "Habya Registration App",
@@ -23,25 +24,7 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
         <Providers>
           <main className="flex-grow">{children}</main>
-
-          {/* Global Footer */}
-          <footer className="w-full bg-black bg-opacity-30 text-gray-400 py-4 text-center text-sm px-4">
-            © {new Date().getFullYear()} Habya. All rights reserved.{" "}
-            <span className="mx-2">|</span>
-            <a
-              href="/footer/privacy-policy"
-              className="hover:text-white underline transition duration-200"
-            >
-              Privacy Policy
-            </a>
-            <span className="mx-2">|</span>
-            <a
-              href="/footer/terms-and-conditions"
-              className="hover:text-white underline transition duration-200"
-            >
-              Terms & Conditions
-            </a>
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
