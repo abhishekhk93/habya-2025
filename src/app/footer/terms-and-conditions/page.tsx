@@ -76,6 +76,20 @@ export default function TermsAndConditionsPage() {
             We may revise these terms. Continued use means you agree to the
             latest version.
           </p>
+
+          <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
+            6. Contact Us
+          </h2>
+          <p className="mb-4">
+            We are reachable on:{" "}
+            <a
+              href="mailto:habyacoreteam@gmail.com"
+              className="text-indigo-300"
+            >
+              habyacoreteam@gmail.com
+            </a>
+            {" "} and +91 97410-94297 with response time of 1-2 business days
+          </p>
         </div>
       </div>
     </div>
