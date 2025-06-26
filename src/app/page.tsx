@@ -20,17 +20,7 @@ export default function Home() {
               className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
               style={{ fontFamily: "'Ephesis', cursive" }}
             >
-              Welcome to the Badminton Tournament on 19th and 20th July 2025.
-              Register for events, buy merchandise, contribute to the event and
-              more!! Location: Siliconcity Sports Academy, Anjanapura,
-              Bengaluru.
-            </h1>
-            <h1
-              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
-              style={{ fontFamily: "'Ephesis', cursive" }}
-            >
-              Dear {user.name.split(" ")[0]}, <br /> Welcome to Havyaka Habya
-              Badminton Association!
+              Dear {user.name.split(" ")[0]}, <br /> Welcome to Habya!
             </h1>
 
             <p
@@ -44,23 +34,12 @@ export default function Home() {
             </p>
           </>
         ) : (
-          <>
-            <h1
-              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
-              style={{ fontFamily: "'Ephesis', cursive" }}
-            >
-              Welcome to the Badminton Tournament on 19th and 20th July 2025.
-              Register for events, buy merchandise, contribute to the event and
-              more!! Location: Siliconcity Sports Academy, Anjanapura,
-              Bengaluru.
-            </h1>
-            <h1
-              className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
-              style={{ fontFamily: "'Ephesis', cursive" }}
-            >
-              Welcome to Havyaka Habya Badminton Association!
-            </h1>
-          </>
+          <h1
+            className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
+            style={{ fontFamily: "'Ephesis', cursive" }}
+          >
+            Welcome to Habya!
+          </h1>
         )}
 
         <p className="mt-4 italic text-lg sm:text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1.5s animate__slow">
