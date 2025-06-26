@@ -20,7 +20,8 @@ export default function Home() {
               className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
               style={{ fontFamily: "'Ephesis', cursive" }}
             >
-              Dear {user.name.split(" ")[0]}, <br /> Welcome to Habya!
+              Dear {user.name.split(" ")[0]}, <br /> Welcome to Havyaka Habya
+              Badminton Association!
             </h1>
 
             <p
@@ -38,7 +39,7 @@ export default function Home() {
             className="text-6xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-4 py-4"
             style={{ fontFamily: "'Ephesis', cursive" }}
           >
-            Welcome to Habya!
+            Welcome to Havyaka Habya Badminton Association!
           </h1>
         )}
 

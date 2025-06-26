@@ -20,8 +20,8 @@ export default function TermsAndConditionsPage() {
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           <p className="mb-6">
-            By using Habya, you agree to the following terms. Please read them
-            carefully.
+            By using Havyaka Habya Badminton Association portal, you agree to the
+            following terms. Please read them carefully.
           </p>
 
           <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
@@ -66,7 +66,7 @@ export default function TermsAndConditionsPage() {
             4. Response Time
           </h2>
           <p className="mb-4">
-            Support queries are answered within 1–2 business days.
+            Support queries sent to Havyaka Habya Badminton Association are answered within 1–2 business days.
           </p>
 
           <h2 className="text-2xl font-semibold mt-10 mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">

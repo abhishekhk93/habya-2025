@@ -20,7 +20,7 @@ export default function PrivacyPolicyPage() {
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           <p className="mb-6">
-            This Privacy Policy describes how Habya (&quot;we&quot;,
+            This Privacy Policy describes how Havyaka Habya Badminton Association (&quot;we&quot;,
             &quot;our&quot;, or &quot;us&quot;) collects, uses, and protects
             your information when you use our services.
           </p>
