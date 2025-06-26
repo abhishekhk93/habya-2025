@@ -116,7 +116,6 @@ export default function SignIn() {
       });
 
       const data = await res.json();
-      data.success = true;
       if (data.success) {
         setOtpError("");
 
