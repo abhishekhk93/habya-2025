@@ -22,7 +22,7 @@ const Navbar = () => {
             className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-center leading-tight"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
-            Habya
+            Habya 2025
           </h2>
         </Link>
 
