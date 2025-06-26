@@ -37,7 +37,6 @@ export default function BuyShirtPage() {
   // Modal control: index of toggle that triggered modal (null means closed)
   const [, setModalIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const shirtPrice = process.env.NEXT_PUBLIC_SHIRT_OFFER_PRICE || "250";
 
   // Load cart from localStorage on user.id load
   useEffect(() => {
