@@ -6,11 +6,11 @@ type Props = {
 
 export function SizeChartModal({ onClose }: Props) {
   const sizeChart = [
-    { size: "S", width: "38", length: "26", sleeve: "8.5", shoulder: "16" },
-    { size: "M", width: "40", length: "27", sleeve: "8.75", shoulder: "16.5" },
-    { size: "L", width: "42", length: "28", sleeve: "9", shoulder: "17.5" },
-    { size: "XL", width: "44", length: "29", sleeve: "9.25", shoulder: "18" },
-    { size: "XXL", width: "46", length: "30", sleeve: "9.5", shoulder: "18.5" },
+    { size: "S", width: "38", length: "27", sleeve: "8.5", shoulder: "16.5" },
+    { size: "M", width: "40", length: "28", sleeve: "8.75", shoulder: "17" },
+    { size: "L", width: "42", length: "29", sleeve: "9", shoulder: "18" },
+    { size: "XL", width: "44", length: "30", sleeve: "9.25", shoulder: "18.5"},
+    { size: "XXL", width: "46", length: "31", sleeve: "9.5", shoulder: "19" },
   ];
 
   return (

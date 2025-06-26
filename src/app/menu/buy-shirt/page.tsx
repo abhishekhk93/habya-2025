@@ -21,8 +21,12 @@ import Link from "next/link";
 import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 const shirtImages = [
-  "/shirts/Habya-2025-shirt-front.png",
-  "/shirts/Habya-2025-shirt-back.png",
+  "/shirts/collared-front.png",
+  "/shirts/collared-back.png",
+  "/shirts/round-half-front.png",
+  "/shirts/round-half-back.png",
+  "/shirts/sleeveless-front.png",
+  "/shirts/sleeveless-back.png",
 ];
 
 export default function BuyShirtPage() {
@@ -33,6 +37,7 @@ export default function BuyShirtPage() {
   // Modal control: index of toggle that triggered modal (null means closed)
   const [, setModalIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const shirtPrice = process.env.NEXT_PUBLIC_SHIRT_OFFER_PRICE || "250";
 
   // Load cart from localStorage on user.id load
   useEffect(() => {
@@ -75,11 +80,12 @@ export default function BuyShirtPage() {
     size: string;
     type: string;
   }) => {
+    const offerPrice = process.env.NEXT_PUBLIC_SHIRT_OFFER_PRICE || "250";
     const newShirtItem: CartItem = {
       id: uuidv4(),
       type: "shirt",
       name: "Shirt",
-      price: 500,
+      price: Number(offerPrice),
       quantity: 1,
       shirtData: [{ name: data.name, size: data.size, type: data.type }],
     };
@@ -107,7 +113,7 @@ export default function BuyShirtPage() {
         </h1>
 
         <p
-          className="text-center text-2xl text-white mb-10"
+          className="text-center text-xl sm:text-2xl text-white mb-10 leading-relaxed"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Get your official{" "}
@@ -122,7 +128,27 @@ export default function BuyShirtPage() {
           >
             Style it. Sport it. Celebrate the game your way.
           </span>
+          We’re thrilled to have{" "}
+          <span className="text-teal-400 font-semibold">co-sponsors</span>{" "}
+          onboard for our{" "}
+          <span className="text-blue-400 font-semibold">official shirt</span>,
+          who’ve come forward to{" "}
+          <span className="text-blue-300 font-semibold">
+            support Habya 2025
+          </span>
+          .
+          <br />
+          Thanks to their generosity, we’re able to offer the shirt at a{" "}
+          <span className="text-green-400 font-semibold">
+            special discounted price
+          </span>
+          .
         </p>
+
+        <p
+          className="text-center text-2xl text-white mb-10"
+          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+        ></p>
 
         <div className="mb-16">
           <ImageCarousel images={shirtImages} />
