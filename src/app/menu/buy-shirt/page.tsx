@@ -117,11 +117,11 @@ export default function BuyShirtPage() {
         >
           Get your official Habya 2025 shirt.
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
+          <span className="text-transparent text-2xl text-bold bg-clip-text bg-gradient-to-r from-teal-100 to-blue-600">
             Style it. Sport it. Celebrate the game your way.
           </span>
           <br />
-          We’re excited to have co-sponsors supporting our official shirt this
+          We’re excited to have several co-sponsors supporting our official shirt this
           year. Thanks to their generosity, we’re offering it at a special
           discounted price.
         </p>
