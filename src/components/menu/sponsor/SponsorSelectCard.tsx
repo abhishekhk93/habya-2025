@@ -1,3 +1,5 @@
+"use client";
+
 import { Switch } from "@/components/ui/switch";
 
 type Props = {
@@ -21,6 +23,8 @@ export default function SponsorSelectCard({
   showError,
   onToggle,
 }: Props) {
+  console.log(`[Render] ${label} card - ₹${price}`);
+
   return (
     <div
       className="px-2 py-4 transition-transform duration-200"
@@ -58,7 +62,6 @@ export default function SponsorSelectCard({
               ₹{price.toLocaleString()}
             </span>
           )}
-
           <Switch checked={selected} onCheckedChange={onToggle} />
         </div>
       </div>
@@ -75,6 +78,7 @@ export default function SponsorSelectCard({
       >
         Sponsorship added to cart
       </p>
+
       {typeof showError !== "undefined" && (
         <p
           className="text-xl text-red-400 mt-2 transition-all duration-700 ease-in-out"
