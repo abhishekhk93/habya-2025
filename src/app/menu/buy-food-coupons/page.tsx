@@ -16,13 +16,23 @@ export default function FoodCouponPage() {
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  // Single coupon label & price
+  const COUPON_ID = "23";
   const COUPON_LABEL = "(Lunch + Snack) Coupon";
 
-  const COUPON_PRICE = 50;
-  const COUPON_ID = "23";
-
   const [quantity, setQuantity] = useState(0);
+  const [couponPrice, setCouponPrice] = useState(50); // fallback default
+
+  // ✅ Get price from env (client-side only)
+  useEffect(() => {
+    const envPrice = Number(process.env.NEXT_PUBLIC_FOOD_COUPON_PRICE);
+    if (!isNaN(envPrice) && envPrice > 0) {
+      setCouponPrice(envPrice);
+    }
+    console.log(
+      "Coupon price from env:",
+      process.env.NEXT_PUBLIC_FOOD_COUPON_PRICE
+    );
+  }, []);
 
   useEffect(() => {
     if (user?.id) {
@@ -31,7 +41,6 @@ export default function FoodCouponPage() {
     }
   }, [user?.id, dispatch]);
 
-  // Initialize quantity from cart if present
   useEffect(() => {
     const couponItem = cartItems.find((item) => item.id === COUPON_ID);
     if (
@@ -52,20 +61,16 @@ export default function FoodCouponPage() {
     const filteredCart = cartItems.filter((item) => item.id !== COUPON_ID);
 
     if (quantity <= 0) {
-      // 👇 Just update cart by removing food coupon (if present)
       dispatch(setCart({ items: filteredCart }));
-      if (user?.id) {
-        saveCartToLocalStorage(user.id, { items: filteredCart });
-      }
+      if (user?.id) saveCartToLocalStorage(user.id, { items: filteredCart });
       return;
     }
 
-    // 👇 Else, add/update the food item
     const foodCartItem: CartItem = {
       id: COUPON_ID,
       type: "food",
       name: "food",
-      price: COUPON_PRICE,
+      price: couponPrice,
       quantity,
     };
 
@@ -136,7 +141,7 @@ export default function FoodCouponPage() {
               className="text-xl text-white mt-1"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
-              ₹{COUPON_PRICE.toLocaleString()}
+              ₹{couponPrice.toLocaleString()}
             </div>
           </div>
 
@@ -175,7 +180,6 @@ export default function FoodCouponPage() {
           </div>
         </div>
 
-        {/* Display current cart quantity for food coupon */}
         <p
           className="text-2xl text-white mt-6"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}

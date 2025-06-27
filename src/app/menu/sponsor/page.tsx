@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,23 +12,46 @@ import { RootState } from "@/store/store";
 import SponsorSelectCard from "@/components/menu/sponsor/SponsorSelectCard";
 import Link from "next/link";
 
-const SPONSOR_OPTIONS = [
-  { label: "Diamond", price: 15000 },
-  { label: "Platinum", price: 10000 },
-  { label: "Gold", price: 7500 },
-  { label: "Silver", price: 5000 },
-  { label: "Bronze", price: 2500 },
-  { label: "Custom", price: 0 },
-];
+type SponsorOption = {
+  label: string;
+  price: number;
+};
 
 export default function SponsorPage() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
+  const [sponsorOptions, setSponsorOptions] = useState<SponsorOption[]>([]);
   const [selectedTier, setSelectedTier] = useState("");
   const [customAmount, setCustomAmount] = useState("");
   const [showCustomError, setShowCustomError] = useState(false);
+
+  // ✅ Load env vars safely on client only
+  useEffect(() => {
+    const getPrice = (key: string, fallback: number): number => {
+      const raw = {
+        DIAMOND: process.env.NEXT_PUBLIC_SPONSOR_DIAMOND,
+        PLATINUM: process.env.NEXT_PUBLIC_SPONSOR_PLATINUM,
+        GOLD: process.env.NEXT_PUBLIC_SPONSOR_GOLD,
+        SILVER: process.env.NEXT_PUBLIC_SPONSOR_SILVER,
+        BRONZE: process.env.NEXT_PUBLIC_SPONSOR_BRONZE,
+      }[key];
+
+      console.log(`${key} price from env:`, raw);
+      const parsed = Number(raw);
+      return isNaN(parsed) || parsed <= 0 ? fallback : parsed;
+    };
+
+    setSponsorOptions([
+      { label: "Diamond", price: getPrice("DIAMOND", 15000) },
+      { label: "Platinum", price: getPrice("PLATINUM", 10000) },
+      { label: "Gold", price: getPrice("GOLD", 7500) },
+      { label: "Silver", price: getPrice("SILVER", 5000) },
+      { label: "Bronze", price: getPrice("BRONZE", 2500) },
+      { label: "Custom", price: 0 },
+    ]);
+  }, []);
 
   useEffect(() => {
     if (user?.id) {
@@ -41,8 +63,7 @@ export default function SponsorPage() {
   useEffect(() => {
     const sponsorItem = cartItems.find((item) => item.id === "22");
     if (sponsorItem) {
-      // Try to find which tier this matches (either predefined or custom)
-      const matchedTier = SPONSOR_OPTIONS.find(
+      const matchedTier = sponsorOptions.find(
         (opt) => opt.price === sponsorItem.price
       )?.label;
 
@@ -56,14 +77,14 @@ export default function SponsorPage() {
       setSelectedTier("");
       setCustomAmount("");
     }
-  }, [cartItems]);
+  }, [cartItems, sponsorOptions]);
 
   const getSelectedPrice = (tier: string): number => {
     if (tier === "Custom") {
       const num = Number(customAmount);
       return isNaN(num) || num <= 0 ? 0 : num;
     }
-    return SPONSOR_OPTIONS.find((opt) => opt.label === tier)?.price || 0;
+    return sponsorOptions.find((opt) => opt.label === tier)?.price || 0;
   };
 
   const addSponsorToCart = (tier: string) => {
@@ -111,45 +132,43 @@ export default function SponsorPage() {
           tier to contribute. Every bit of support makes a difference!
         </p>
 
-        <div className="overflow-x-auto">
-          <div className="space-y-4">
-            {SPONSOR_OPTIONS.map((option) => (
-              <SponsorSelectCard
-                key={option.label}
-                label={option.label}
-                price={option.price}
-                selected={selectedTier === option.label}
-                isCustom={option.label === "Custom"}
-                customAmount={customAmount}
-                onAmountChange={(val: string) => setCustomAmount(val)}
-                showError={option.label === "Custom" && showCustomError}
-                onToggle={(checked: boolean) => {
-                  if (checked) {
-                    if (option.label === "Custom") {
-                      const amt = Number(customAmount);
-                      if (!isNaN(amt) && amt > 0) {
-                        setSelectedTier("Custom");
-                        addSponsorToCart("Custom");
-                        setShowCustomError(false);
-                      } else {
-                        setShowCustomError(true);
-                      }
-                    } else {
-                      setSelectedTier(option.label);
-                      setCustomAmount("");
+        <div className="space-y-4">
+          {sponsorOptions.map((option) => (
+            <SponsorSelectCard
+              key={option.label}
+              label={option.label}
+              price={option.price}
+              selected={selectedTier === option.label}
+              isCustom={option.label === "Custom"}
+              customAmount={customAmount}
+              onAmountChange={(val: string) => setCustomAmount(val)}
+              showError={option.label === "Custom" && showCustomError}
+              onToggle={(checked: boolean) => {
+                if (checked) {
+                  if (option.label === "Custom") {
+                    const amt = Number(customAmount);
+                    if (!isNaN(amt) && amt > 0) {
+                      setSelectedTier("Custom");
+                      addSponsorToCart("Custom");
                       setShowCustomError(false);
-                      addSponsorToCart(option.label);
+                    } else {
+                      setShowCustomError(true);
                     }
                   } else {
-                    setSelectedTier("");
-                    removeSponsorFromCart();
+                    setSelectedTier(option.label);
+                    setCustomAmount("");
                     setShowCustomError(false);
-                    if (option.label === "Custom") setCustomAmount("");
+                    addSponsorToCart(option.label);
                   }
-                }}
-              />
-            ))}
-          </div>
+                } else {
+                  setSelectedTier("");
+                  removeSponsorFromCart();
+                  setShowCustomError(false);
+                  if (option.label === "Custom") setCustomAmount("");
+                }
+              }}
+            />
+          ))}
         </div>
 
         <div className="text-center mt-12">
