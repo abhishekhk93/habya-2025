@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const user = await prisma.users.findFirst({
       where: { phone },
     });
-
+    console.log(user);
     if (user) {
       const token = jwt.sign(
         {
@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: "new-user" });
     }
   } catch (err) {
+    console.error("Prisma error:", err);
     return NextResponse.json(
       { error: "Internal server error - Login failed: ", err },
       { status: 500 }

@@ -21,12 +21,12 @@ import Link from "next/link";
 import { shirtTypeLabels } from "@/app/api/payment/complete/utils/typechecks";
 
 const shirtImages = [
-  "/shirts/collared-front.png",
-  "/shirts/collared-back.png",
-  "/shirts/round-half-front.png",
-  "/shirts/round-half-back.png",
-  "/shirts/sleeveless-front.png",
-  "/shirts/sleeveless-back.png",
+  "/shirts/one-front.png",
+  "/shirts/one-back.png",
+  "/shirts/two-front.png",
+  "/shirts/two-back.png",
+  "/shirts/three-front.png",
+  "/shirts/three-back.png",
 ];
 
 export default function BuyShirtPage() {
@@ -115,39 +115,16 @@ export default function BuyShirtPage() {
           className="text-center text-xl sm:text-2xl text-white mb-10 leading-relaxed"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Get your official{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-6">
-            Habya 2025
-          </span>{" "}
-          shirt.
+          Get your official Habya 2025 shirt.
           <br />
-          <span
-            className="bg-clip-text text-white"
-            style={{ display: "inline-block" }}
-          >
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
             Style it. Sport it. Celebrate the game your way.
           </span>
-          We’re thrilled to have{" "}
-          <span className="text-teal-400 font-semibold">co-sponsors</span>{" "}
-          onboard for our{" "}
-          <span className="text-blue-400 font-semibold">official shirt</span>,
-          who’ve come forward to{" "}
-          <span className="text-blue-300 font-semibold">
-            support Habya 2025
-          </span>
-          .
           <br />
-          Thanks to their generosity, we’re able to offer the shirt at a{" "}
-          <span className="text-green-400 font-semibold">
-            special discounted price
-          </span>
-          .
+          We’re excited to have co-sponsors supporting our official shirt this
+          year. Thanks to their generosity, we’re offering it at a special
+          discounted price.
         </p>
-
-        <p
-          className="text-center text-2xl text-white mb-10"
-          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-        ></p>
 
         <div className="mb-16">
           <ImageCarousel images={shirtImages} />

@@ -30,7 +30,7 @@ export default function ImageCarousel({ images }: Props) {
   return (
     <div className="w-full max-w-md mx-auto px-2">
       <div
-        className="p-10 rounded-xl mb-4"
+        className="p-2 rounded-xl mb-4"
         style={{
           border: "2px solid transparent",
           backgroundImage:
@@ -42,7 +42,7 @@ export default function ImageCarousel({ images }: Props) {
       >
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-lg pb-8"
+          className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory rounded-lg pb-2"
           style={{ scrollSnapType: "x mandatory" }}
         >
           {images.map((src, index) => (
