@@ -42,8 +42,10 @@ export async function GET(req: NextRequest) {
     // ✅ Format registrations output
     const formatted: RegistrationResponse[] = registrations.map((reg) => ({
       event_id: reg.event_id,
-      player1_name: reg.users_registrations_player1_idTousers.name,
-      player2_name: reg.users_registrations_player2_idTousers?.name || null,
+      player1_name: `${reg.users_registrations_player1_idTousers.name} (${reg.users_registrations_player1_idTousers.id})`,
+      player2_name: reg.users_registrations_player2_idTousers
+        ? `${reg.users_registrations_player2_idTousers.name} (${reg.users_registrations_player2_idTousers.id})`
+        : null,
     }));
 
     // ✅ Count events per user

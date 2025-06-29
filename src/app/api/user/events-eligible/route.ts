@@ -122,7 +122,8 @@ export async function GET(req: NextRequest) {
           (eventIdToEntryCount.get(event.id) ?? 0) >= rule.entryLimit;
 
         const eligible =
-          !alreadyFull && isPlayerEligible(player, rule) === null;
+          isRegistered ||
+          (!alreadyFull && isPlayerEligible(player, rule) === null);
 
         return {
           id: event.id,

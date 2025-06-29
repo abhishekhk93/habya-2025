@@ -192,7 +192,7 @@ export default function MyOrdersPage() {
         </div>
 
         {/* Sponsorship Section */}
-        {sponsorships && sponsorships.length > 0 && (
+        {Array.isArray(sponsorships) && (
           <div
             className="p-6 rounded-2xl border mt-10 mb-10"
             style={{
@@ -201,40 +201,47 @@ export default function MyOrdersPage() {
             }}
           >
             <h2
-              className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500  mb-6"
+              className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-6"
               style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
             >
               Sponsorship
             </h2>
 
-            <p
-              className="text-2xl text-white mb-4"
-              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-            >
-              Thank you for your generous contributions!
-            </p>
+            {sponsorships.length > 0 ? (
+              <>
+                <p
+                  className="text-2xl text-white mb-4"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  Thank you for your generous contributions!
+                </p>
 
-            <div className="space-y-4">
-              {sponsorships.map((s, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="p-2 transition bg-white/5 rounded-md flex items-start gap-3"
-                  >
-                    <div>
+                <div className="space-y-4">
+                  {sponsorships.map((s, i) => (
+                    <div
+                      key={i}
+                      className="p-2 transition bg-white/5 rounded-md flex items-start gap-3"
+                    >
                       <p
                         className="text-xl text-white font-semibold"
                         style={{
                           fontFamily: "'Alumni Sans Pinstripe', cursive",
                         }}
                       >
-                        {`${i + 1}.  ₹ ${s.amount}`}
+                        {`${i + 1}. ₹ ${s.amount}`}
                       </p>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p
+                className="text-2xl text-white font-medium"
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+              >
+                No sponsorships displayed at the moment.
+              </p>
+            )}
           </div>
         )}
 
