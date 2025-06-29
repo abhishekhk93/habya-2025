@@ -105,7 +105,7 @@ export default function BuyShirtPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-12">
         <h1
-          className="text-4xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-6 leading-tight"
+          className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-6 leading-tight"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
           Buy Our Official Shirt
@@ -115,15 +115,13 @@ export default function BuyShirtPage() {
           className="text-center text-xl sm:text-2xl text-white mb-10 leading-relaxed"
           style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
         >
-          Get your official Habya 2025 shirt.
-          <br />
-          <span className="text-transparent text-2xl text-bold bg-clip-text bg-gradient-to-r from-teal-100 to-blue-600">
+          <span className="text-transparent text-2xl text-bold bg-clip-text bg-gradient-to-r from-teal-100 to-teal-400">
             Style it. Sport it. Celebrate the game your way.
           </span>
           <br />
-          We’re excited to have several co-sponsors supporting our official shirt this
-          year. Thanks to their generosity, we’re offering it at a special
-          discounted price.
+          We&rsquo;re excited to have several co-sponsors supporting our
+          official shirt this year. Thanks to their generosity, we&rsquo;re
+          offering it at a discounted price.
         </p>
 
         <div className="mb-16">

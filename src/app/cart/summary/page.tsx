@@ -227,7 +227,7 @@ export default function CartPage() {
                             }}
                           >
                             Quantity: {item.quantity}, Total: ₹
-                            {item.quantity * item.price}
+                            {Number((item.quantity * item.price).toFixed(2))}
                           </p>
                         </>
                       ) : (
@@ -260,7 +260,7 @@ export default function CartPage() {
                 className="text-2xl font-bold text-white"
                 style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
-                Total: ₹{total}
+                Total: ₹{total.toFixed(2)}
               </p>
             </div>
 

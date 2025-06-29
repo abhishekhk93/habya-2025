@@ -164,13 +164,14 @@ export default function EventsPage() {
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <h1
-          className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
-          style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-        >
-          Events you are eligible for:
-        </h1>
-
+        {registrationsOpen && (
+          <h1
+            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
+            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+          >
+            Events you are eligible for:
+          </h1>
+        )}
         {loading && (
           <p
             className="text-center text-3xl text-gray-300 animate-pulse"
@@ -179,22 +180,22 @@ export default function EventsPage() {
             Loading events..
           </p>
         )}
-
         {error && (
           <p className="text-center text-red-400 text-lg">
             Something went wrong while fetching events. Please try again later.
           </p>
         )}
-
         {!loading && !registrationsOpen && (
-          <p
-            className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
-            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-          >
-            🚧 Registrations are not being taken as of now. Please check back
-            later!
-          </p>
+          <div className="flex items-center justify-center min-h-[80vh]">
+            <p
+              className="text-2xl sm:text-6xl font-bold text-center text-gray-300 leading-tight"
+              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+            >
+              Sorry, registrations are not being taken as of now.
+            </p>
+          </div>
         )}
+
         {!loading && registrationsOpen && events && events.length === 0 && (
           <p
             className="text-3xl sm:text-6xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-10 leading-tight"
@@ -203,7 +204,6 @@ export default function EventsPage() {
             🎉 You are not eligible for any events at the moment. Stay tuned!
           </p>
         )}
-
         {!loading && registrationsOpen && events && events.length > 0 && (
           <div className="space-y-4">
             {events.map((event) => {

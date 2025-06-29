@@ -19,7 +19,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     maxAge: below16OnDay2,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(1, 35),
   },
   // Under 16 kids - Girls singles
   {
@@ -29,7 +29,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     maxAge: below16OnDay2,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(2, 35),
   },
   // Under 16 kids - Mixed Doubles
   {
@@ -42,7 +42,7 @@ export const eventRules: EventRule[] = [
       requireOneFemale: true,
     },
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(3, 35),
   },
   // Open Men's singles
   {
@@ -51,7 +51,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["male"],
     price: SINGLES_PRICE,
-    entryLimit: 45,
+    entryLimit: getEntryLimit(4, 60),
   },
   // Open Women's singles
   {
@@ -60,7 +60,7 @@ export const eventRules: EventRule[] = [
     type: "singles",
     allowedGenders: ["female"],
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(5, 30),
   },
   // Open Men's doubles
   {
@@ -69,7 +69,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["male", "male"],
     price: DOUBLES_PRICE,
-    entryLimit: 60,
+    entryLimit: getEntryLimit(6, 80),
   },
   // Open Women's doubles
   {
@@ -78,7 +78,7 @@ export const eventRules: EventRule[] = [
     type: "doubles",
     allowedGenders: ["female", "female"],
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(7, 30),
   },
   // 35+ Men's singles
   {
@@ -88,7 +88,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast35OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(8, 40),
   },
   // 35+ Women's singles
   {
@@ -98,7 +98,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast35OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(9, 30),
   },
   // 35+ Men's doubles
   {
@@ -108,7 +108,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast35OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(10, 40),
   },
   // 35+ Women's doubles
   {
@@ -118,7 +118,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast35OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(11, 35),
   },
   // 50+ Men's singles
   {
@@ -128,7 +128,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast50OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(12, 30),
   },
   // 50+ Women's singles
   {
@@ -138,7 +138,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast50OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(13, 30),
   },
   // 50+ Men's doubles
   {
@@ -148,7 +148,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast50OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(14, 30),
   },
   // 50+ Women's doubles
   {
@@ -158,7 +158,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast50OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(15, 30),
   },
   // 60+ Men's singles
   {
@@ -168,7 +168,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male"],
     minAge: atLeast60OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(16, 30),
   },
   // 60+ Women's singles
   {
@@ -178,7 +178,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female"],
     minAge: atLeast60OnDay1,
     price: SINGLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(17, 30),
   },
   // 60+ Men's doubles
   {
@@ -188,7 +188,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["male", "male"],
     minAge: atLeast60OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(18, 30),
   },
   // 60+ Women's doubles
   {
@@ -198,7 +198,7 @@ export const eventRules: EventRule[] = [
     allowedGenders: ["female", "female"],
     minAge: atLeast60OnDay1,
     price: DOUBLES_PRICE,
-    entryLimit: 30,
+    entryLimit: getEntryLimit(19, 30),
   },
   // Mixed Age Men's doubles (at least one player 40+)
   {
@@ -210,7 +210,7 @@ export const eventRules: EventRule[] = [
       requireOneAboveAge: atLeast40OnDay1,
     },
     price: DOUBLES_PRICE,
-    entryLimit: 40,
+    entryLimit: getEntryLimit(20, 50),
   },
   // Mixed Age Mixed doubles (at least one player 40+)
   {
@@ -223,7 +223,7 @@ export const eventRules: EventRule[] = [
       requireOneAboveAge: atLeast40OnDay1,
     },
     price: DOUBLES_PRICE,
-    entryLimit: 25,
+    entryLimit: getEntryLimit(21, 35),
   },
 ];
 
@@ -231,3 +231,11 @@ export const eventIdToName = Object.fromEntries(
   eventRules.map((event) => [event.id, event.name])
 );
 
+export function getEntryLimit(eventId: number, fallback: number): number {
+  const envKey = `EVENT_LIMIT_${eventId}`;
+  const value = process.env[envKey];
+
+  const parsed = value ? parseInt(value, 10) : NaN;
+
+  return !isNaN(parsed) ? parsed : fallback;
+}
