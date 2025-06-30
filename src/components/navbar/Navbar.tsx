@@ -27,10 +27,24 @@ const Navbar = () => {
         </Link>
 
         {!isAuthenticated ? (
-          <span
-            className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-2xl sm:text-4xl font-extrabold"
-            style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-          ></span>
+          <Link href="/sign-in/v2">
+            <button
+              className="relative inline-flex items-center justify-center px-4 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+              style={{
+                fontFamily: "'Alumni Sans Pinstripe', cursive",
+                borderImageSlice: 1,
+                borderImageSource:
+                  "linear-gradient(to right, #14b8a6, #3b82f6)",
+              }}
+            >
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 text-2xl sm:text-4xl font-extrabold"
+                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+              >
+                Login
+              </span>
+            </button>
+          </Link>
         ) : (
           <HamburgerMenu />
         )}
