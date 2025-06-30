@@ -42,6 +42,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 10. T shirt price and description. Fetch price from outside. Fix size chart 
 8. Payment calculation verification in backend
 21. Validate OTP sending failed. 
+28. Payment log - frontend pages to view cart. 
+29. Transaction ID of UPI map to payment ID of razorpay
+30. Add enough credits to Twilio, Vercel. 
 25. Stress test
 26. Restrict access to DB
 27. Snapshot of DB

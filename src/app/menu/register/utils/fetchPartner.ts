@@ -23,7 +23,7 @@ export interface PartnerResponse {
     const data = await res.json();
     return data || null;
   } catch (error) {
-    console.log("Error: ", error);
+    console.log("Error: ", error)
     return null;
   }
 }
