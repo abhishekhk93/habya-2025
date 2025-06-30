@@ -30,7 +30,7 @@ export default function RegistrationsByEvent({ registrations }: Props) {
         className="text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       >
-        Registrations by Event ({registrations?.length || 0})
+        Registrations by Event ({registrations?.length ?? 0})
       </h2>
 
       {Object.entries(groupedByEvent).map(([eventIdStr, regs]) => {
