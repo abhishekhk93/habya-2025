@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
 
   if (!token) {
     console.warn("🚫 No token found, redirecting to /sign-in");
-    return NextResponse.redirect(new URL("/redirect?to=sign-in", req.url));
+    return NextResponse.redirect(new URL("/redirect?to=sign-in/v2", req.url));
   }
 
   try {
@@ -49,7 +49,7 @@ export async function middleware(req: NextRequest) {
     return response;
   } catch (error) {
     console.log("❌ Invalid token: caught in middleware", error);
-    const response = NextResponse.redirect(new URL("/redirect?to=sign-in", req.url));
+    const response = NextResponse.redirect(new URL("/redirect?to=sign-in/v2", req.url));
 
     console.log("🧹 Clearing token cookie");
     response.cookies.set("token", "", {
