@@ -28,10 +28,6 @@ export default function FoodCouponPage() {
     if (!isNaN(envPrice) && envPrice > 0) {
       setCouponPrice(envPrice);
     }
-    console.log(
-      "Coupon price from env:",
-      process.env.NEXT_PUBLIC_FOOD_COUPON_PRICE
-    );
   }, []);
 
   useEffect(() => {

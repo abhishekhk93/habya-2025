@@ -2,10 +2,12 @@ import "./styles/globals.css";
 import "animate.css";
 import { Providers } from "./Providers";
 import Footer from "@/components/footer/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Habya 2025",
-  description: "One app. All the fun — events, shirts, food, sponsors & more! 🎉📲",
+  description:
+    "One app. All the fun — events, shirts, food, sponsors & more! 🎉📲",
 };
 
 export default function RootLayout({
@@ -26,6 +28,7 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

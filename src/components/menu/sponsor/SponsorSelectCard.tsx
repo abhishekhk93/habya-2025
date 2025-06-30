@@ -23,7 +23,6 @@ export default function SponsorSelectCard({
   showError,
   onToggle,
 }: Props) {
-  console.log(`[Render] ${label} card - ₹${price}`);
 
   return (
     <div
