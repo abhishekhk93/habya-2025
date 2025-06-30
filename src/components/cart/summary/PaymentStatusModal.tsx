@@ -8,16 +8,16 @@ type Props = {
 
 const statusMessages: Record<Props["status"], { title: string; body: string }> = {
   success: {
-    title: "Payment & Registration Successful",
-    body: "You’ve successfully registered for the events. We look forward to seeing you!",
+    title: "Payment & Transaction Successful",
+    body: "You’ve successfully completed the transaction. We look forward to seeing you!",
   },
   partial: {
-    title: "Payment Successful, Registration Failed",
-    body: "Your payment was processed, but registration failed. Please contact the admins.",
+    title: "Payment Successful, Orders Failed",
+    body: "Your payment was processed, but processing of orders failed. Please contact the admins.",
   },
   fail: {
     title: "Payment Verification Failed",
-    body: "We couldn’t verify your payment. Please try again or contact support.",
+    body: "We couldn’t verify your payment. Please try again or contact admins.",
   },
 };
 
