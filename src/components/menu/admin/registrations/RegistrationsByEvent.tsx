@@ -6,7 +6,7 @@ import { Registration } from "./types";
 import { eventIdToName } from "@/lib/events-utils/eventRules";
 
 interface Props {
-  registrations: Registration[];
+  registrations?: Registration[];
 }
 
 export default function RegistrationsByEvent({ registrations = [] }: Props) {
