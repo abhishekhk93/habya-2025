@@ -1,6 +1,7 @@
 const publicPaths = [
     "/",
     "/sign-in",
+    "/sign-in/v2",
     "/api/auth/login",
     "/api/auth/create-user",
     "/api/auth/verify-token",
