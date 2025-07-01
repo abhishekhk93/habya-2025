@@ -60,8 +60,7 @@ export default function NewUserForm() {
         className="text-lg text-gray-200 text-center mb-4 space-y-1 leading-snug"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       >
-        <p>You are trusted to enter your correct phone number.</p>
-        <p>All event-related communication will be sent here.</p>
+        <p>This number will be used for any communication.</p>
         <p>Please double-check before proceeding.</p>
       </div>
 
