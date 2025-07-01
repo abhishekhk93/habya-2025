@@ -31,7 +31,7 @@ function InternalProvider({ children }: { children: ReactNode }) {
           dispatch(setStep("phone"));
           // Only redirect if not already on a public path
           if (!isPublicRoute(pathname)) {
-            router.replace("/redirect?to=sign-in");
+            router.replace("/redirect?to=sign-in/v2");
           }
         }
       } catch (error) {
@@ -41,7 +41,7 @@ function InternalProvider({ children }: { children: ReactNode }) {
         dispatch(setStep("phone"));
         // Only redirect if not already on a public path
         if (!isPublicRoute(pathname)) {
-          router.replace("/redirect?to=sign-in");
+          router.replace("/redirect?to=sign-in/v2");
         }
       }
     }
