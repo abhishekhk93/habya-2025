@@ -1,3 +1,15 @@
+import { NextResponse } from "next/server";
+
+export async function POST() {
+  return NextResponse.json(
+    { error: "This endpoint is temporarily disabled." },
+    { status: 403 }
+  );
+}
+
+// Disable edit user
+
+/*
 import prisma from "@/lib/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
@@ -73,3 +85,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+*/
