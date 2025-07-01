@@ -31,6 +31,10 @@ export default function Home() {
               <span className="text-5xl sm:text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-center leading-tight animate__animated animate__fadeIn animate__delay-1s px-2">
                 {user.id}
               </span>
+              <span className="block text-lg sm:text-xl mt-4 text-white font-semibold animate__animated animate__fadeIn animate__delay-2s">
+                Please note this Profile ID carefully. It is required to log in
+                next time.
+              </span>
             </p>
           </>
         ) : (

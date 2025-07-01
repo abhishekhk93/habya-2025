@@ -55,9 +55,9 @@ export default function RegisteredUserForm() {
     >
       {/* Info Placeholder */}
       <div className="text-lg text-gray-200 text-center mb-4 space-y-1 leading-snug">
-        <p>Password is a combination of Date of Birth and User ID.</p>
-        <p>Ex: 16-11-1965 with user ID 1097 = 161119651097.</p>
-        <p>Keep your User ID confidential.</p>
+        <p>Password is a combination of Date of Birth and Profile ID.</p>
+        <p>Ex: 16-11-1965 with Profile ID 1097 = 161119651097.</p>
+        <p>Keep your Profile ID confidential.</p>
       </div>
 
       <input

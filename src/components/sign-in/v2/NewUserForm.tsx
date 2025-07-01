@@ -60,7 +60,7 @@ export default function NewUserForm() {
         className="text-lg text-gray-200 text-center mb-4 space-y-1 leading-snug"
         style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
       >
-        <p>This number will be used for any communication.</p>
+        <p>This phone number will be used for any communication.</p>
         <p>Please double-check before proceeding.</p>
       </div>
 
