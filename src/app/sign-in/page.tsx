@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+/*import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 
@@ -18,8 +18,17 @@ import {
 import type { RootState } from "@/store/store";
 import { setUser } from "@/store/slices/userSlice";
 import { resetProfileForm } from "@/store/slices/profileSlice";
+*/
+
+
+// app/sign-in/page.tsx
+import { redirect } from "next/navigation";
 
 export default function SignIn() {
+  redirect("/sign-in/v2");
+}
+
+/*export function SignInOld() {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -221,4 +230,4 @@ export default function SignIn() {
       </div>
     </>
   );
-}
+}*/

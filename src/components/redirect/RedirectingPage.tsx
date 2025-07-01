@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function ClientRedirectingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const to = searchParams.get("to") || "sign-in";
+  const to = searchParams.get("to") || "sign-in/v2";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,7 +48,7 @@ export default function ClientRedirectingPage() {
         >
           Redirecting to{" "}
           <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
-            {to === "sign-in" ? "Sign In / Sign Up" : to}
+            {to === "sign-in/v2" ? "Sign In / Sign Up" : to}
           </span>
         </p>
 

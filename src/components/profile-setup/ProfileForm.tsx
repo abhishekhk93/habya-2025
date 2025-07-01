@@ -66,7 +66,7 @@ export default function ProfileForm() {
       router.push("/");
     } catch (err) {
       console.error("Profile save failed", err);
-      router.push("/sign-in");
+      router.push("/sign-in/v2");
     } finally {
       dispatch(setSubmitting(false));
     }
