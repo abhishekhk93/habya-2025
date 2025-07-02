@@ -8,7 +8,7 @@ const JWT_SECRET = "habya2025";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { phone, name, gender, dob, role } = body;
+  const { phone, name, gender, dob } = body;
 
   if (!phone || !name || !gender || !dob) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
