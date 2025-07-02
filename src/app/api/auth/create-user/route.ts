@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await prisma.users.create({
-      data: { phone, name, gender , dob: new Date(dob), role },
+      data: { phone, name, gender, dob: new Date(dob), role: "user" },
     });
 
     const token = jwt.sign(
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         phone: user.phone,
         dob: user.dob,
         gender: user.gender,
-        role: "user"
+        role: "user",
       },
       JWT_SECRET,
       {
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         phone: user.phone,
         dob: user.dob,
         gender: user.gender,
-        role: "user"
+        role: "user",
       },
     });
 
@@ -67,6 +67,9 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (err) {
-    return NextResponse.json({ error: "Internal error - user creation failed: ", err }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal error - user creation failed: ", err },
+      { status: 500 }
+    );
   }
 }
