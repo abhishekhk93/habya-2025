@@ -33,6 +33,7 @@ export default function BuyShirtPage() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const bookingsOpen = process.env.NEXT_PUBLIC_SHIRT_BOOKINGS_OPEN === "true";
 
   // Modal control: index of toggle that triggered modal (null means closed)
   const [, setModalIndex] = useState<number | null>(null);
@@ -127,96 +128,109 @@ export default function BuyShirtPage() {
         <div className="mb-16">
           <ImageCarousel images={shirtImages} />
         </div>
+        {bookingsOpen ? (
+          <>
+            {/* Render one ShirtSelectCard per existing shirt (toggled ON) */}
+            <AnimatePresence>
+              {shirtCartItems.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95, height: 0 }}
+                  animate={{ opacity: 1, scale: 1, height: "auto" }}
+                  exit={{ opacity: 0, scale: 0.9, height: 0 }}
+                  transition={{
+                    opacity: { duration: 0.05 },
+                    height: { duration: 0.05 },
+                    scale: { duration: 0.05 },
+                    ease: "easeInOut",
+                  }}
+                  className="mb-4 py-4 overflow-hidden"
+                  style={{
+                    borderBottomWidth: "2px",
+                    borderBottomStyle: "solid",
+                    borderImageSlice: 1,
+                    borderImageSource:
+                      "linear-gradient(to right, #14b8a6, #3b82f6)",
+                  }}
+                >
+                  <ShirtSelectCard
+                    selected={true}
+                    onToggle={(checked) => handleToggle(index, checked)}
+                  />
+                  <p
+                    className="text-xl text-white mx-2"
+                    style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                  >
+                    Shirt is added to cart.
+                  </p>
+                  <p
+                    className="text-xl text-white mx-2"
+                    style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                  >
+                    {item.shirtData?.[0]?.name
+                      ? `Name: ${item.shirtData[0].name}, `
+                      : ""}
+                    Size: {item.shirtData?.[0]?.size},
+                    {item.shirtData?.[0]?.type
+                      ? `Type: ${shirtTypeLabels[item.shirtData?.[0]?.type]}`
+                      : ""}
+                  </p>
+                </motion.div>
+              ))}
+            </AnimatePresence>
 
-        {/* Render one ShirtSelectCard per existing shirt (toggled ON) */}
-        <AnimatePresence>
-          {shirtCartItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              layout
-              initial={{ opacity: 0, scale: 0.95, height: 0 }}
-              animate={{ opacity: 1, scale: 1, height: "auto" }}
-              exit={{ opacity: 0, scale: 0.9, height: 0 }}
-              transition={{
-                opacity: { duration: 0.05 },
-                height: { duration: 0.05 },
-                scale: { duration: 0.05 },
-                ease: "easeInOut",
-              }}
-              className="mb-4 py-4 overflow-hidden"
-              style={{
-                borderBottomWidth: "2px",
-                borderBottomStyle: "solid",
-                borderImageSlice: 1,
-                borderImageSource:
-                  "linear-gradient(to right, #14b8a6, #3b82f6)",
-              }}
-            >
+            {/* Always show one more ShirtSelectCard toggled OFF for adding new shirt */}
+            <div className="mb-2">
               <ShirtSelectCard
-                selected={true}
-                onToggle={(checked) => handleToggle(index, checked)}
+                selected={false}
+                onToggle={(checked) =>
+                  handleToggle(shirtCartItems.length, checked)
+                }
               />
               <p
                 className="text-xl text-white mx-2"
                 style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
               >
-                Shirt is added to cart.
+                Add a new shirt
               </p>
-              <p
-                className="text-xl text-white mx-2"
-                style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-              >
-                {item.shirtData?.[0]?.name
-                  ? `Name: ${item.shirtData[0].name}, `
-                  : ""}
-                Size: {item.shirtData?.[0]?.size},
-                {item.shirtData?.[0]?.type
-                  ? `Type: ${shirtTypeLabels[item.shirtData?.[0]?.type]}`
-                  : ""}
-              </p>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+            </div>
 
-        {/* Always show one more ShirtSelectCard toggled OFF for adding new shirt */}
-        <div className="mb-2">
-          <ShirtSelectCard
-            selected={false}
-            onToggle={(checked) => handleToggle(shirtCartItems.length, checked)}
-          />
+            {/* Modal for adding/editing shirt */}
+            {showModal && (
+              <ShirtModal
+                onCancel={handleModalCancel}
+                onSubmit={handleModalSubmit}
+              />
+            )}
+            <div className="text-center mt-12">
+              <Link
+                href="/cart/summary"
+                className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
+                style={{
+                  fontFamily: "'Alumni Sans Pinstripe', cursive",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(to right, #14b8a6, #3b82f6)",
+                }}
+              >
+                <span
+                  className="text-white text-2xl sm:text-3xl font-extrabold"
+                  style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
+                >
+                  Proceed to Cart
+                </span>
+              </Link>
+            </div>
+          </>
+        ) : (
           <p
-            className="text-xl text-white mx-2"
+            className="text-center text-2xl sm:text-4xl mt-8 text-gray-100"
             style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
           >
-            Add a new shirt
+            Sorry, we are not taking orders for shirts at this moment.
           </p>
-        </div>
-
-        {/* Modal for adding/editing shirt */}
-        {showModal && (
-          <ShirtModal
-            onCancel={handleModalCancel}
-            onSubmit={handleModalSubmit}
-          />
         )}
-        <div className="text-center mt-12">
-          <Link
-            href="/cart/summary"
-            className="relative inline-flex items-center justify-center px-6 py-2 border-1 border-transparent rounded-full transition-all duration-300 hover:scale-105"
-            style={{
-              fontFamily: "'Alumni Sans Pinstripe', cursive",
-              borderImageSlice: 1,
-              borderImageSource: "linear-gradient(to right, #14b8a6, #3b82f6)",
-            }}
-          >
-            <span
-              className="text-white text-2xl sm:text-3xl font-extrabold"
-              style={{ fontFamily: "'Alumni Sans Pinstripe', cursive" }}
-            >
-              Proceed to Cart
-            </span>
-          </Link>
-        </div>
       </div>
     </div>
   );
