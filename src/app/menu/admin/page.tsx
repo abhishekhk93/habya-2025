@@ -13,8 +13,8 @@ export default function AdminDashboard() {
     { label: "Redeem Coupons", href: "/menu/admin/redeem-coupon" },
     { label: "Registrations", href: "/menu/admin/registrations" },
     { label: "Coupons", href: "/menu/admin/coupons" },
-    { label: "Shirts", href: "/menu/admin/shirts" },
-    { label: "Sponsorships", href: "/menu/admin/sponsors" },
+    { label: "Shirts by Phone Number", href: "/menu/admin/shirts-by-number" },
+    { label: "Coupons by Phone Number", href: "/menu/admin/coupons-by-number" },
   ];
 
   return (

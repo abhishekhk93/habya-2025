@@ -32,32 +32,58 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 🔍 Find the coupon first
+    const now = new Date();
+
+    // 1. Try to find in main coupons table
     const coupon = await prisma.coupons.findFirst({
       where: {
         coupon_code: couponCodeInt,
-        meal,
         status: "active",
       },
     });
 
-    if (!coupon) {
-      return NextResponse.json(
-        { message: "Coupon not found or already redeemed." },
-        { status: 404 }
-      );
+    if (coupon) {
+      const updated = await prisma.coupons.update({
+        where: { coupon_code: couponCodeInt },
+        data: {
+          status: "redeemed",
+          redeemed_at: now,
+        },
+      });
+
+      return NextResponse.json(updated);
     }
 
-    // ✅ Redeem the coupon
-    const updated = await prisma.coupons.update({
-      where: { coupon_code: couponCodeInt },
-      data: {
-        status: "redeemed",
-        redeemed_at: new Date(),
+    // 2. Try in offline_coupons table
+    const offlineCoupon = await prisma.offline_coupons.findFirst({
+      where: {
+        coupon_code: couponCodeInt,
+        status: "active",
       },
     });
 
-    return NextResponse.json(updated);
+    if (offlineCoupon) {
+      const updated = await prisma.offline_coupons.update({
+        where: { coupon_code: couponCodeInt },
+        data: {
+          status: "redeemed",
+          redeemed_at: now,
+        },
+      });
+
+      return NextResponse.json({
+        user: "GUEST",
+        coupon: updated.coupon_code,
+        type: "Bought at the counter",
+        assigned: now,
+        redeemed: now,
+      });
+    }
+
+    return NextResponse.json(
+      { message: "Coupon not found or already redeemed." },
+      { status: 404 }
+    );
   } catch (err: unknown) {
     const error = err instanceof Error ? err : new Error("Unknown error");
     return NextResponse.json(

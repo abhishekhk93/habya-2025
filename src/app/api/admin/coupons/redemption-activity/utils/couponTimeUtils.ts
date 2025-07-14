@@ -13,16 +13,30 @@ export function toUTC(dateString: string, hour: number, minute = 0): Date {
 }
 
 // Fetch count of redeemed coupons in a time range
+// Fetch count of redeemed coupons in a time range (both tables)
 export async function getRedeemedCount(from: Date, to: Date): Promise<number> {
-  return prisma.coupons.count({
-    where: {
-      status: "redeemed",
-      redeemed_at: {
-        gte: from,
-        lt: to,
+  const [countCoupons, countOffline] = await Promise.all([
+    prisma.coupons.count({
+      where: {
+        status: "redeemed",
+        redeemed_at: {
+          gte: from,
+          lt: to,
+        },
       },
-    },
-  });
+    }),
+    prisma.offline_coupons.count({
+      where: {
+        status: "redeemed",
+        redeemed_at: {
+          gte: from,
+          lt: to,
+        },
+      },
+    }),
+  ]);
+
+  return countCoupons + countOffline;
 }
 
 // Fetch all time slots from env and compute results

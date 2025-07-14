@@ -19,6 +19,9 @@ export default function CouponTimeSlotSummary({
       <h2 className="text-3xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
         Redemption by Time Slot
       </h2>
+      <h3 className="text-2xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
+        Includes both online and offline coupons
+      </h3>
 
       <table className="min-w-full text-white text-center text-xl border border-white/10">
         <thead>
