@@ -87,6 +87,13 @@ model payment_log {
   @@index([user_id], map: "user_id")
 }
 
+model offline_coupons {
+  coupon_code Int                    @id
+  type        offline_coupons_type   @default(counter)
+  status      offline_coupons_status @default(active)
+  redeemed_at DateTime?              @db.Timestamp(0)
+}
+
 enum users_gender {
   Male
   Female
@@ -125,4 +132,13 @@ enum shirts_type {
 enum users_role {
   user
   admin
+}
+
+enum offline_coupons_type {
+  counter
+}
+
+enum offline_coupons_status {
+  active
+  redeemed
 }

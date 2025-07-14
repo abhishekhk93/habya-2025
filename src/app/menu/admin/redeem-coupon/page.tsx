@@ -53,7 +53,6 @@ export default function RedeemCouponPage() {
           `USER: ${data.user_id}, ` +
           `COUPON: ${data.coupon_code}\n` +
           `TYPE: ${data.type}, ` +
-          `MEAL: ${data.meal}\n` +
           `ASSIGNED: ${new Date(data.assigned_at).toLocaleString("en-GB", {
             timeZone: "Asia/Kolkata",
             day: "2-digit",

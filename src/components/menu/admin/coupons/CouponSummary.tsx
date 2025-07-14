@@ -42,6 +42,9 @@ export default function CouponSummary({
       <h2 className="text-3xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
         Coupon Summary
       </h2>
+      <h3 className="text-2xl font-bold text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-600">
+        Assigned via habya.in
+      </h3>
 
       <table className="min-w-full text-white text-center text-xl">
         <thead>
